@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Servicios Técnicos - Escuela Superior Vocacional Pablo Colón Berdecia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .school-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .department-name {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e1e5e9;
+        }
+
+        .form-title {
+            color: #2c5282;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #2c5282, #4299e1);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: #374151;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1d4ed8;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.1);
+            transform: translateY(-1px);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #9ca3af;
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            color: white;
+            padding: 1.25rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(29, 78, 216, 0.3);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-loading {
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+            animation: slideInUp 0.5s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+            animation: slideInUp 0.5s ease;
+        }
+
+        .required {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            color: #6b7280;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 0.75rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .priority-low {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .priority-medium {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .priority-high {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .priority-critical {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+        }
+
+        .character-counter {
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-align: right;
+            margin-top: 0.5rem;
+        }
+
+        .character-counter.warning {
+            color: #f59e0b;
+        }
+
+        .character-counter.error {
+            color: #ef4444;
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .school-name {
+                font-size: 1.8rem;
+            }
+            
+            .department-name {
+                font-size: 1.1rem;
+            }
+            
+            .container {
+                margin: 2rem auto;
+                padding: 0 1rem;
+            }
+            
+            .card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .form-title {
+                font-size: 1.7rem;
+            }
+            
+            .btn {
+                padding: 1.1rem 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 2rem 0;
+            }
+            
+            .school-name {
+                font-size: 1.5rem;
+            }
+            
+            .department-name {
+                font-size: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem 1rem;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible {
+            outline: 2px solid #1d4ed8;
+            outline-offset: 2px;
+        }
+
+        /* Technician login button styles */
+        .tech-login-btn {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tech-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        /* .hamburger-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .hamburger-menu:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .hamburger-icon {
+            width: 24px;
+            height: 18px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hamburger-line {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-menu.open .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger-menu.open .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.open .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        } */
+
+        .menu-dropdown {
+            position: absolute;
+            top: 3rem;
+            right: 1rem;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        .login-buttons {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .menu-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            background: transparent;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            text-align: left;
+            border-radius: 0;
+            margin: 0;
+            transition: background-color 0.2s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            background: #f9fafb;
+            color: #1f2937;
+        }
+
+        .menu-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        /* Login modal styles */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .login-modal.active {
+            display: flex;
+        }
+
+        .login-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-title {
+            color: #2c5282;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #1d4ed8;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .toggle-password:hover {
+            color: #1d4ed8;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .login-error {
+            color: #ef4444;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #1d4ed8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Facebook button styles */
+        .facebook-btn {
+            position: absolute;
+            top: 1rem;
+            right: 5rem;
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .facebook-btn:hover {
+            background: #166fe5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .facebook-btn {
+                right: 4rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="school-name">Escuela Superior Vocacional Pablo Colon Berdecia</div>
+        <div class="department-name">Departamento de Tecnología - COMPUTEC</div>
+
+       
+
+            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menú de navegación">
+                <div class="hamburger-icon" aria-hidden="true">
+                    <div class="hamburger-line"></div>
+                    <div class="hamburger-line"></div>
+                    <div class="hamburger-line"></div>
+                </div>
+            </button>
+            <div class="menu-dropdown" id="menuDropdown" aria-label="Opciones de inicio de sesión" role="menu" tabindex="-1">
+                <button class="menu-item" id="registerBtn" role="menuitem" tabindex="0"> Registrarse</button>
+                <button class="menu-item" id="adminLoginBtn" role="menuitem" tabindex="0"> Entrar como Administrador</button>
+                <button class="menu-item" id="techLoginBtn" role="menuitem" tabindex="0"> Entrar como Técnico</button>
+            </div>
+  </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2 class="form-title">Solicitud de Servicio Técnico</h2>
+
+            <form id="techRequestForm">
+                <div class="form-group">
+                    <label for="teacherName">Nombre del Maestro <span class="required">*</span></label>
+                    <input type="text" id="teacherName" name="teacherName" required placeholder="Ingrese su nombre completo">
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Departamento <span class="required">*</span></label>
+                    <input type="text" id="department" name="department" required 
+                           placeholder="Escriba el nombre de su departamento (ej: Matemáticas, Ciencias, Español, etc.)"
+                           maxlength="50">
+                    <div class="input-hint">Escriba libremente el nombre de su departamento</div>
+                    <div id="departmentCounter" class="character-counter">0/50 caracteres</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="problemType">Tipo de Problema <span class="required">*</span></label>
+                    <input type="text" id="problemType" name="problemType" required 
+                           placeholder="Describa el tipo de problema (ej: Problema con computadora, internet, impresora, etc.)"
+                           maxlength="100">
+                    <div class="input-hint">Escriba libremente el tipo de problema técnico que está experimentando</div>
+                    <div id="problemTypeCounter" class="character-counter">0/100 caracteres</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="urgency">Nivel de Urgencia <span class="required">*</span></label>
+                    <select id="urgency" name="urgency" required>
+                        <option value="">Seleccione el nivel de urgencia</option>
+                        <option value="baja">Baja - Puede esperar</option>
+                        <option value="media">Media - Necesita atención pronto</option>
+                        <option value="alta">Alta - Requiere atención inmediata</option>
+                        <option value="critica">Crítica - Clase afectada</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="problemDescription">Descripción del Problema <span class="required">*</span></label>
+                    <textarea id="problemDescription" name="problemDescription" required placeholder="Describa detalladamente el problema que está experimentando, incluyendo cualquier mensaje de error, equipo afectado y pasos para reproducir el problema..."></textarea>
+                </div>
+
+                <button type="submit" class="btn">Enviar Solicitud</button>
+            </form>
+
+            <div id="successMessage" class="success-message">
+                ✅ ¡Solicitud enviada exitosamente! Nos comunicaremos con usted pronto.
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <h2 class="login-title">Acceso Técnico</h2>
+            <input type="text" id="techUsername" class="login-input" placeholder="Nombre de usuario" required>
+            <div class="password-container">
+                <input type="password" id="techPassword" class="login-input" placeholder="Contraseña" required>
+                <button type="button" class="toggle-password" id="togglePassword">👁️</button>
+            </div>
+            <button class="login-btn" id="loginSubmit">Ingresar</button>
+            <div class="login-error" id="loginError">Usuario o contraseña incorrectos</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Escuela Superior Vocacional Pablo Colon Berdecia © 2025</p>
+        <p>Departamento de Tecnología - COMPUTEC</p>
+    </div>
+
+    <script>
+        // Initialize EmailJS
+        (function(){
+            emailjs.init("k-RtP_Q9lUDgc_BQZ");
+        })();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let loginType = '';
+            const form = document.getElementById('techRequestForm');
+            const problemTypeInput = document.getElementById('problemType');
+            const problemTypeCounter = document.getElementById('problemTypeCounter');
+            const departmentInput = document.getElementById('department');
+            const departmentCounter = document.getElementById('departmentCounter');
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            // Hamburger menu functionality
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            const menuDropdown = document.getElementById('menuDropdown');
+
+            // Toggle hamburger menu
+            hamburgerMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('open');
+                menuDropdown.classList.toggle('open');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!hamburgerMenu.contains(e.target) && !menuDropdown.contains(e.target)) {
+                    hamburgerMenu.classList.remove('open');
+                    menuDropdown.classList.remove('open');
+                }
+            });
+
+            // Login functionality
+            const registerBtn = document.getElementById('registerBtn');
+            const adminLoginBtn = document.getElementById('adminLoginBtn');
+            const techLoginBtn = document.getElementById('techLoginBtn');
+            const loginModal = document.getElementById('loginModal');
+            const loginSubmitBtn = document.getElementById('loginSubmit');
+            const loginError = document.getElementById('loginError');
+            const togglePasswordBtn = document.getElementById('togglePassword');
+            const techPasswordInput = document.getElementById('techPassword');
+
+            // Password visibility toggle
+            togglePasswordBtn.addEventListener('click', function() {
+                if (techPasswordInput.type === 'password') {
+                    techPasswordInput.type = 'text';
+                    togglePasswordBtn.textContent = '🙈';
+                } else {
+                    techPasswordInput.type = 'password';
+                    togglePasswordBtn.textContent = '👁️';
+                }
+            });
+
+            // Open login page for admin
+            adminLoginBtn.addEventListener('click', function() {
+                window.location.href = 'login.html?role=admin';
+            });
+
+            // Open login page for technician
+            techLoginBtn.addEventListener('click', function() {
+                window.location.href = 'login.html?role=technician';
+            });
+
+            // Open register page
+            registerBtn.addEventListener('click', function() {
+                window.location.href = 'register.html';
+            });
+
+            // Close modal when clicking outside
+            loginModal.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    loginModal.classList.remove('active');
+                    loginError.style.display = 'none';
+                }
+            });
+
+            // Handle login submission
+            loginSubmitBtn.addEventListener('click', function() {
+                const username = document.getElementById('techUsername').value;
+                const password = document.getElementById('techPassword').value;
+
+                // Simple authentication (in production, this would connect to a backend)
+                if (loginType === 'admin' && username === 'Computec' && password === 'Adcom2025') {
+                    // Store authentication status for admin
+                    localStorage.setItem('admin_authenticated', 'true');
+                    localStorage.setItem('admin_username', username);
+
+                    // Redirect to admin dashboard
+                    window.location.href = 'admin.html';
+                } else if (loginType === 'technician' && username === 'Tecnico' && password === 'Tecnico 2025') {
+                    // Store authentication status for technician
+                    localStorage.setItem('tech_authenticated', 'true');
+                    localStorage.setItem('tech_username', username);
+
+                    // Redirect to technician page
+                    window.location.href = 'calificar.html';
+                } else {
+                    loginError.style.display = 'block';
+                }
+            });
+            
+            // Contador de caracteres para tipo de problema
+            problemTypeInput.addEventListener('input', function() {
+                const length = this.value.length;
+                const maxLength = this.maxLength;
+                problemTypeCounter.textContent = `${length}/${maxLength} caracteres`;
+                
+                // Cambiar color según la longitud
+                if (length > maxLength * 0.8) {
+                    problemTypeCounter.className = 'character-counter warning';
+                } else if (length === maxLength) {
+                    problemTypeCounter.className = 'character-counter error';
+                } else {
+                    problemTypeCounter.className = 'character-counter';
+                }
+            });
+            
+            // Contador de caracteres para departamento
+            departmentInput.addEventListener('input', function() {
+                const length = this.value.length;
+                const maxLength = this.maxLength;
+                departmentCounter.textContent = `${length}/${maxLength} caracteres`;
+                
+                // Cambiar color según la longitud
+                if (length > maxLength * 0.8) {
+                    departmentCounter.className = 'character-counter warning';
+                } else if (length === maxLength) {
+                    departmentCounter.className = 'character-counter error';
+                } else {
+                    departmentCounter.className = 'character-counter';
+                }
+            });
+            
+            // Validación personalizada para el campo de tipo de problema
+            problemTypeInput.addEventListener('blur', function() {
+                if (this.value.trim().length < 5 && this.value.length > 0) {
+                    this.setCustomValidity('Por favor, describa el problema con más detalle (mínimo 5 caracteres)');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+            
+            // Validación personalizada para el campo de departamento
+            departmentInput.addEventListener('blur', function() {
+                if (this.value.trim().length < 3 && this.value.length > 0) {
+                    this.setCustomValidity('Por favor, escriba el nombre completo del departamento (mínimo 3 caracteres)');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+            
+            // Envío del formulario
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validar formulario
+                if (!form.checkValidity()) {
+                    // Mostrar mensajes de validación
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Mostrar overlay de carga
+                const loadingOverlay = document.createElement('div');
+                loadingOverlay.className = 'loading-overlay';
+                loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
+                document.body.appendChild(loadingOverlay);
+                loadingOverlay.style.display = 'flex';
+                
+                // Cambiar estado del botón
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Enviando...';
+                submitBtn.disabled = true;
+                submitBtn.classList.add('btn-loading');
+                
+                // Enviar email usando EmailJS
+                const templateParams = {
+                    maestro: document.getElementById('teacherName').value,
+                    departamento: document.getElementById('department').value,
+                    problema: document.getElementById('problemType').value,
+                    prioridad: document.getElementById('urgency').value,
+                    descripcion: document.getElementById('problemDescription').value,
+                    fecha: new Date().toLocaleString('es-ES')
+                };
+
+                emailjs.send('service_hav1obe', 'template_nby2pe2', templateParams)
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+
+                        // Ocultar overlay de carga
+                        loadingOverlay.style.display = 'none';
+                        document.body.removeChild(loadingOverlay);
+
+                        // Guardar también en localStorage como respaldo
+                        const requestData = {
+                            fecha: new Date().toISOString(),
+                            maestro: templateParams.maestro,
+                            departamento: templateParams.departamento,
+                            problema: templateParams.problema,
+                            prioridad: templateParams.prioridad,
+                            descripcion: templateParams.descripcion,
+                            estado: 'pendiente'
+                        };
+
+                        const existingRequests = JSON.parse(localStorage.getItem('tech_requests') || '[]');
+                        existingRequests.push(requestData);
+                        localStorage.setItem('tech_requests', JSON.stringify(existingRequests));
+
+                        // Mostrar mensaje de éxito con animación
+                        const successMessage = document.getElementById('successMessage');
+                        successMessage.style.display = 'block';
+                        successMessage.innerHTML = `
+                            <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">✅ ¡Solicitud Enviada!</h3>
+                            <p style="margin-bottom: 0.5rem;">Tu solicitud de servicio técnico ha sido enviada por email exitosamente.</p>
+                            <p style="font-size: 0.9rem; opacity: 0.9;">Nos comunicaremos contigo pronto para resolver tu problema.</p>
+                        `;
+
+                        // Ocultar el formulario
+                        form.style.display = 'none';
+
+                        // Restaurar botón
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('btn-loading');
+
+                        // Limpiar formulario
+                        form.reset();
+                        problemTypeCounter.textContent = '0/100 caracteres';
+                        problemTypeCounter.className = 'character-counter';
+                        departmentCounter.textContent = '0/50 caracteres';
+                        departmentCounter.className = 'character-counter';
+
+                        // Remover badges de prioridad
+                        const priorityBadges = document.querySelectorAll('.priority-badge');
+                        priorityBadges.forEach(badge => badge.remove());
+                    }, function(error) {
+                        console.log('FAILED...', error);
+
+                        // Ocultar overlay de carga
+                        loadingOverlay.style.display = 'none';
+                        document.body.removeChild(loadingOverlay);
+
+                        // Mostrar mensaje de error
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'error-message';
+                        errorMessage.innerHTML = `
+                            <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">❌ Error al enviar</h3>
+                            <p style="margin-bottom: 0.5rem;">Hubo un problema al enviar tu solicitud por email.</p>
+                            <p style="font-size: 0.9rem; opacity: 0.9;">Por favor, intenta nuevamente o contacta al departamento técnico directamente.</p>
+                        `;
+                        form.appendChild(errorMessage);
+                        errorMessage.style.display = 'block';
+
+                        // Restaurar botón
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('btn-loading');
+                    });
+            });
+            
+            // Mejorar la experiencia visual de los selects
+            document.querySelectorAll('select').forEach(select => {
+                select.addEventListener('change', function() {
+                    if (this.value) {
+                        this.style.borderColor = '#1d4ed8';
+                    }
+                });
+            });
+            
+            // Mostrar badge de prioridad en tiempo real
+            const urgencySelect = document.getElementById('urgency');
+            urgencySelect.addEventListener('change', function() {
+                // Remover badges anteriores
+                const existingBadge = this.parentNode.querySelector('.priority-badge');
+                if (existingBadge) {
+                    existingBadge.remove();
+                }
+                
+                if (this.value) {
+                    const badge = document.createElement('span');
+                    badge.className = `priority-badge priority-${this.value}`;
+                    
+                    switch(this.value) {
+                        case 'baja':
+                            badge.textContent = 'Baja';
+                            break;
+                        case 'media':
+                            badge.textContent = 'Media';
+                            break;
+                        case 'alta':
+                            badge.textContent = 'Alta';
+                            break;
+                        case 'critica':
+                            badge.textContent = 'Crítica';
+                            break;
+                    }
+                    
+                    this.parentNode.appendChild(badge);
+                }
+            });
+            
+            // Validación en tiempo real para todos los campos
+            const inputs = form.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.checkValidity()) {
+                        this.style.borderColor = '#10b981';
+                    } else {
+                        this.style.borderColor = '#e2e8f0';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

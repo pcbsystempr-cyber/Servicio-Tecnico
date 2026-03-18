@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitudes de Servicio Técnico - Escuela Superior Vocacional Pablo Colon Berdecia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .school-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .department-name {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #2c5282;
+            text-align: center;
+            margin: 2rem 0;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #2c5282 0%, #4299e1 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 82, 130, 0.3);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c5282;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .requests-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .request-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #2c5282;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .request-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .request-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .request-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .request-date {
+            color: #6b7280;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .request-status {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pendiente {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .status-en-proceso {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .status-completada {
+            background: #10b981;
+            color: white;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+
+        .priority-baja {
+            background: #10b981;
+            color: white;
+        }
+
+        .priority-media {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .priority-alta {
+            background: #ef4444;
+            color: white;
+        }
+
+        .priority-critica {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .request-details {
+            margin-top: 1rem;
+        }
+
+        .detail-item {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #374151;
+            min-width: 120px;
+        }
+
+        .detail-value {
+            color: #6b7280;
+            flex: 1;
+        }
+
+        .no-requests {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .no-requests-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .btn-complete {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .btn-complete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-complete:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .request-header {
+                flex-direction: column;
+            }
+            
+            .request-info {
+                min-width: 100%;
+            }
+            
+            .request-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+            }
+            
+            .detail-label {
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .requests-container {
+                padding: 1rem;
+            }
+            
+            .request-card {
+                padding: 1rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="school-name">Escuela Superior Vocacional Pablo Colon Berdecia</div>
+        <div class="department-name">Solicitudes de Servicio Técnico - COMPUTEC</div>
+    </div>
+
+    <div class="container">
+        <a href="dashboard.html" class="back-btn">← Volver al Formulario</a>
+        
+        <h1 class="page-title">Todas las Solicitudes de Servicio Técnico</h1>
+
+        <!-- Estadísticas -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalRequests">0</div>
+                <div class="stat-label">Total Solicitudes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pendingRequests">0</div>
+                <div class="stat-label">Pendientes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="inProgressRequests">0</div>
+                <div class="stat-label">En Proceso</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completedRequests">0</div>
+                <div class="stat-label">Completadas</div>
+            </div>
+        </div>
+
+        <!-- Lista de Solicitudes -->
+        <div class="requests-container">
+            <div id="requestsList">
+                <!-- Las solicitudes se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Almacenamiento local para las solicitudes
+        const STORAGE_KEY = 'tech_requests';
+
+        // Elementos del DOM
+        const requestsList = document.getElementById('requestsList');
+        const totalRequestsEl = document.getElementById('totalRequests');
+        const pendingRequestsEl = document.getElementById('pendingRequests');
+        const inProgressRequestsEl = document.getElementById('inProgressRequests');
+        const completedRequestsEl = document.getElementById('completedRequests');
+
+        // Cargar solicitudes al iniciar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRequests();
+        });
+
+        function loadRequests() {
+            const requests = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            updateStats(requests);
+            displayRequests(requests);
+        }
+
+        function updateStats(requests) {
+            const total = requests.length;
+            const pending = requests.filter(r => r.estado === 'pendiente').length;
+            const inProgress = requests.filter(r => r.estado === 'en-proceso').length;
+            const completed = requests.filter(r => r.estado === 'completada').length;
+
+            totalRequestsEl.textContent = total;
+            pendingRequestsEl.textContent = pending;
+            inProgressRequestsEl.textContent = inProgress;
+            completedRequestsEl.textContent = completed;
+        }
+
+        function displayRequests(requests) {
+            requestsList.innerHTML = '';
+
+            if (requests.length === 0) {
+                requestsList.innerHTML = `
+                    <div class="no-requests">
+                        <div class="no-requests-icon">📋</div>
+                        <p>No hay solicitudes de servicio técnico registradas.</p>
+                        <p>¡Sé el primero en enviar una solicitud!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Ordenar solicitudes por fecha (más recientes primero)
+            requests.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+            requests.forEach((request, index) => {
+                const requestCard = document.createElement('div');
+                requestCard.className = 'request-card';
+                
+                const fecha = new Date(request.fecha);
+                const fechaFormateada = fecha.toLocaleString('es-ES', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                requestCard.innerHTML = `
+                    <div class="request-header">
+                        <div class="request-info">
+                            <h3 style="color: #2c5282; margin-bottom: 0.5rem;">Solicitud #${requests.length - index}</h3>
+                            <div class="request-meta">
+                                <span class="request-date">📅 ${fechaFormateada}</span>
+                                <span class="request-status status-${request.estado || 'pendiente'}">${getStatusText(request.estado || 'pendiente')}</span>
+                                <span class="priority-badge priority-${request.prioridad}">${getPriorityText(request.prioridad)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="request-details">
+                        <div class="detail-item">
+                            <span class="detail-label">👤 Maestro:</span>
+                            <span class="detail-value">${request.maestro}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">🏢 Departamento:</span>
+                            <span class="detail-value">${request.departamento}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">🔧 Tipo de Problema:</span>
+                            <span class="detail-value">${request.problema}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">📝 Descripción:</span>
+                            <span class="detail-value">${request.descripcion}</span>
+                        </div>
+                    </div>
+                    ${request.estado !== 'completada' ? `<button class="btn btn-complete" onclick="markCompleted(${index})">Marcar como Completada</button>` : ''}
+                `;
+                
+                requestsList.appendChild(requestCard);
+            });
+        }
+
+        function getPriorityText(priority) {
+            const priorities = {
+                'baja': 'Baja',
+                'media': 'Media',
+                'alta': 'Alta',
+                'critica': 'Crítica'
+            };
+            return priorities[priority] || priority;
+        }
+
+        function getStatusText(status) {
+            const statuses = {
+                'pendiente': 'Pendiente',
+                'en-proceso': 'En Proceso',
+                'completada': 'Completada'
+            };
+            return statuses[status] || status;
+        }
+
+        // Función para marcar una solicitud como completada
+        function markCompleted(index) {
+            const requests = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            
+            if (index >= 0 && index < requests.length) {
+                // Actualizar el estado de la solicitud
+                requests[index].estado = 'completada';
+                
+                // Guardar en localStorage
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
+                
+                // Recargar la lista para reflejar los cambios
+                loadRequests();
+                
+                // Mostrar mensaje de confirmación
+                alert('✅ Solicitud marcada como completada exitosamente');
+            }
+        }
+
+        // Actualizar automáticamente cada 30 segundos
+        setInterval(loadRequests, 30000);
+    </script>
+</body>
+</html>
