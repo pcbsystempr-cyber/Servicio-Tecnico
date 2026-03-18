@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calificaciones de Maestros - Escuela Superior Vocacional Pablo Colon Berdecia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        h1 {
+            text-align: center;
+            color: #2c5282;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        thead {
+            background: #f8fafc;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+            color: #374151;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        tbody tr:hover {
+            background-color: #e0e7ff;
+        }
+        .star {
+            color: #fbbf24;
+            font-size: 1.2rem;
+            margin-right: 0.1rem;
+        }
+        .no-ratings {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 1.2rem;
+            color: #6b7280;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #2c5282 0%, #4299e1 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 82, 130, 0.3);
+        }
+        .comments {
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+        .date {
+            color: #a0aec0;
+            font-size: 0.8rem;
+        }
+        .btn-details {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-details:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+        }
+        .modal-title {
+            color: #2c5282;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        .close {
+            color: #6b7280;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close:hover {
+            color: #374151;
+        }
+        .detail-item {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #374151;
+            min-width: 150px;
+            margin-right: 1rem;
+        }
+        .detail-value {
+            color: #6b7280;
+            flex: 1;
+        }
+        .signature-img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <a href="dashboard.html" class="back-btn">← Volver al Panel de Administración</a>
+    <h1>Calificaciones de Maestros</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Técnico</th>
+                <th>Calificación</th>
+                <th>Comentarios</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="ratingsTableBody">
+            <!-- Las calificaciones se cargarán aquí -->
+        </tbody>
+    </table>
+    <div id="noRatingsMessage" class="no-ratings" style="display:none;">
+        No hay calificaciones registradas aún.
+    </div>
+
+    <script>
+        const RATINGS_KEY = 'tech_ratings';
+
+        function loadRatings() {
+            const ratings = JSON.parse(localStorage.getItem(RATINGS_KEY) || '[]');
+            const tbody = document.getElementById('ratingsTableBody');
+            const noRatingsMessage = document.getElementById('noRatingsMessage');
+
+            if (ratings.length === 0) {
+                noRatingsMessage.style.display = 'block';
+                tbody.style.display = 'none';
+                return;
+            } else {
+                noRatingsMessage.style.display = 'none';
+                tbody.style.display = 'table-row-group';
+            }
+
+            tbody.innerHTML = '';
+
+            ratings.forEach(rating => {
+                const tr = document.createElement('tr');
+
+                // Technician name
+                const tdTech = document.createElement('td');
+                tdTech.textContent = rating.technician || 'N/A';
+                tr.appendChild(tdTech);
+
+                // Star rating
+                const tdRating = document.createElement('td');
+                for (let i = 1; i <= 5; i++) {
+                    const starSpan = document.createElement('span');
+                    starSpan.className = 'star';
+                    starSpan.textContent = i <= rating.rating ? '★' : '☆';
+                    tdRating.appendChild(starSpan);
+                }
+                tr.appendChild(tdRating);
+
+                // Comments / observations
+                const tdComments = document.createElement('td');
+                tdComments.innerHTML = rating.observations ? `<div class="comments">${rating.observations}</div>` : '-';
+                tr.appendChild(tdComments);
+
+                // Date
+                const tdDate = document.createElement('td');
+                const dateObj = new Date(rating.date);
+                tdDate.textContent = dateObj.toLocaleString();
+                tdDate.className = 'date';
+                tr.appendChild(tdDate);
+
+                // Actions
+                const tdActions = document.createElement('td');
+                const btnDetails = document.createElement('button');
+                btnDetails.textContent = 'Ver Detalles';
+                btnDetails.className = 'btn-details';
+                btnDetails.onclick = () => showDetailsModal(rating);
+                tdActions.appendChild(btnDetails);
+                tr.appendChild(tdActions);
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadRatings);
+
+        // Crear modal para mostrar detalles
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.id = 'detailsModal';
+
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Detalles de la Calificación</h2>
+                    <span class="close" id="closeModal">&times;</span>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Detalles se cargarán aquí -->
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Función para mostrar el modal con detalles
+        function showDetailsModal(rating) {
+            const modal = document.getElementById('detailsModal');
+            const modalBody = document.getElementById('modalBody');
+
+            modalBody.innerHTML = `
+                <div class="detail-item"><div class="detail-label">Nombre del Técnico:</div><div class="detail-value">${rating.technician || 'N/A'}</div></div>
+                <div class="detail-item"><div class="detail-label">Nombre del Maestro:</div><div class="detail-value">${rating.teacher || 'N/A'}</div></div>
+                <div class="detail-item"><div class="detail-label">Tiempo de Resolución:</div><div class="detail-value">${rating.time || 'N/A'}</div></div>
+                <div class="detail-item"><div class="detail-label">Servicio Realizado:</div><div class="detail-value">${rating.service || 'N/A'}</div></div>
+                <div class="detail-item"><div class="detail-label">Solución Implementada:</div><div class="detail-value">${rating.solution || 'N/A'}</div></div>
+                <div class="detail-item"><div class="detail-label">Observaciones Adicionales:</div><div class="detail-value">${rating.observations || '-'}</div></div>
+                <div class="detail-item"><div class="detail-label">Firma Digital:</div><div class="detail-value"><img src="${rating.signature}" alt="Firma Digital" class="signature-img" /></div></div>
+                <div class="detail-item"><div class="detail-label">Calificación:</div><div class="detail-value">${'★'.repeat(rating.rating) + '☆'.repeat(5 - rating.rating)}</div></div>
+                <div class="detail-item"><div class="detail-label">Fecha:</div><div class="detail-value">${new Date(rating.date).toLocaleString()}</div></div>
+            `;
+
+            modal.style.display = 'block';
+
+            // Cerrar modal al hacer click en la X
+            document.getElementById('closeModal').onclick = () => {
+                modal.style.display = 'none';
+            };
+
+            // Cerrar modal al hacer click fuera del contenido
+            window.onclick = (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        }
+    </script>
+</body>
+</html>

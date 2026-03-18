@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Formulario de Servicio Técnico</title>
+
+  <style>
+    :root{
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --primary:#0f4c81;
+      --soft:#f9fafb;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      font-family:Arial,Helvetica,sans-serif;
+      color:#111827;
+      padding:20px;
+    }
+    .container{
+      max-width:900px;
+      margin:0 auto;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 2px 10px rgba(0,0,0,.08);
+    }
+    .header{
+      background:var(--primary);
+      color:#fff;
+      padding:18px 20px;
+    }
+    .header h1{
+      margin:0;
+      font-size:18px;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .subheader{
+      padding:12px 20px;
+      background:var(--soft);
+      border-bottom:1px solid var(--border);
+      font-size:13px;
+      color:#374151;
+    }
+    form{padding:16px 20px}
+    .section{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:14px;
+      background:#fff;
+      margin-bottom:14px;
+    }
+    .section h2{
+      margin:0 0 10px 0;
+      font-size:13px;
+      color:var(--primary);
+      text-transform:uppercase;
+      letter-spacing:.6px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 760px){
+      .grid{grid-template-columns:1fr}
+    }
+    .field{
+      background:var(--soft);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+    }
+    .label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+      font-weight:700;
+    }
+    input[type="text"], input[type="date"], textarea{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px;
+      font-size:14px;
+      background:#fff;
+      outline:none;
+    }
+    textarea{min-height:92px;resize:vertical}
+    .checks{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px 12px;
+      margin-top:8px;
+    }
+    @media (max-width: 760px){
+      .checks{grid-template-columns:1fr}
+    }
+    .check-item{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      background:var(--soft);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+    }
+    .check-item input{margin-top:3px}
+    .other-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .other-row .other-input{flex:1 1 260px}
+    .radio-row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+    .radio{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      background:var(--soft);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+    }
+    .actions{
+      display:flex;
+      gap:12px;
+      justify-content:flex-end;
+      padding:0 20px 20px 20px;
+    }
+    button{
+      border:0;
+      border-radius:10px;
+      padding:12px 16px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-ghost{background:#fff;border:1px solid var(--border);color:#111827}
+    .note{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Formulario de Servicio Técnico</h1>
+    </div>
+    <div class="subheader">
+      Complete todos los campos requeridos. Asegúrese de que este formulario haya sido enviado correctamente. Si no confirma el envío ni conserva evidencia del mismo, la institución no se hace responsable por formularios no recibidos.
+    </div>
+
+    <form id="form-servicio">
+
+      <!-- FECHA -->
+      <div class="section">
+        <h2>Fecha del servicio</h2>
+        <div class="field">
+          <span class="label">Fecha</span>
+          <input type="date" name="service_date" required>
+        </div>
+      </div>
+
+      <!-- ESTUDIANTE -->
+      <div class="section">
+        <h2>Datos del estudiante</h2>
+        <div class="grid">
+          <div class="field">
+            <span class="label">Nombre</span>
+            <input type="text" name="student_name" required>
+          </div>
+          <div class="field">
+            <span class="label">Grado y grupo</span>
+            <input type="text" name="student_grade" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAESTRO -->
+      <div class="section">
+        <h2>Maestro / Personal atendido</h2>
+        <div class="grid">
+          <div class="field">
+            <span class="label">Nombre</span>
+            <input type="text" name="teacher_name" required>
+          </div>
+          <div class="field">
+            <span class="label">Área / Salón</span>
+            <input type="text" name="area_room" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIPO DE SERVICIO -->
+      <div class="section">
+        <h2>Tipo de servicio</h2>
+
+        <div class="checks">
+          <label class="check-item"><input type="checkbox" name="srv" value="Mantenimiento preventivo"> <span>Mantenimiento preventivo</span></label>
+          <label class="check-item"><input type="checkbox" name="srv" value="Troubleshooting (Diagnóstico / Solución)"> <span>Troubleshooting (diagnóstico/solución)</span></label>
+          <label class="check-item"><input type="checkbox" name="srv" value="Instalación de programa / software"> <span>Instalación de programa/software</span></label>
+          <label class="check-item"><input type="checkbox" name="srv" value="Configuración de red / internet"> <span>Configuración de red/internet</span></label>
+          <label class="check-item"><input type="checkbox" name="srv" value="Reparación de equipo"> <span>Reparación de equipo</span></label>
+          <label class="check-item"><input type="checkbox" name="srv" value="Limpieza física de PC / portátil"> <span>Limpieza física de PC/portátil</span></label>
+          <label class="check-item"><input type="checkbox" name="srv" value="Actualización de sistema / programa"> <span>Actualización de sistema/programa</span></label>
+        </div>
+
+        <div class="other-row">
+          <label class="check-item" style="flex:0 0 auto;">
+            <input type="checkbox" id="srvOtroCheck">
+            <span>Otro</span>
+          </label>
+
+          <div class="other-input" style="flex:1;">
+            <span class="label">Si selecciona “Otro”, escriba cuál</span>
+            <input type="text" id="srvOtroText" placeholder="Ej: Cambio de teclado, configuración impresora, etc.">
+          </div>
+        </div>
+
+        <div class="note">En el correo se mostrará una lista clara con las opciones marcadas y el texto escrito.</div>
+      </div>
+
+      <!-- EQUIPO ATENDIDO -->
+      <div class="section">
+        <h2>Equipo atendido</h2>
+
+        <div class="checks">
+          <label class="check-item"><input type="checkbox" name="eq" value="PC"> <span>PC</span></label>
+          <label class="check-item"><input type="checkbox" name="eq" value="Laptop"> <span>Laptop</span></label>
+          <label class="check-item"><input type="checkbox" name="eq" value="Proyector"> <span>Proyector</span></label>
+          <label class="check-item"><input type="checkbox" name="eq" value="Red / Router"> <span>Red/Router</span></label>
+        </div>
+
+        <div class="other-row">
+          <label class="check-item" style="flex:0 0 auto;">
+            <input type="checkbox" id="eqOtroCheck">
+            <span>Otro</span>
+          </label>
+
+          <div class="other-input" style="flex:1;">
+            <span class="label">Si selecciona “Otro”, escriba cuál</span>
+            <input type="text" id="eqOtroText" placeholder="Ej: Tablet, impresora, pantalla, etc.">
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:12px;">
+          <div class="field">
+            <span class="label">Marca / Modelo</span>
+            <input type="text" name="brand_model">
+          </div>
+          <div class="field">
+            <span class="label">Número de serie / Inventario</span>
+            <input type="text" name="serial_inventory">
+          </div>
+        </div>
+      </div>
+
+      <!-- DETALLES -->
+      <div class="section">
+        <h2>Detalles del caso</h2>
+        <div class="field" style="margin-bottom:12px;">
+          <span class="label">Descripción del problema</span>
+          <textarea name="problem_description" required></textarea>
+        </div>
+        <div class="field">
+          <span class="label">Servicio prestado / solución</span>
+          <textarea name="service_solution" required></textarea>
+        </div>
+      </div>
+
+      <!-- ESTADO -->
+      <div class="section">
+        <h2>Estado</h2>
+        <div class="radio-row">
+          <label class="radio"><input type="radio" name="service_status" value="Resuelto" required> <span>Resuelto</span></label>
+          <label class="radio"><input type="radio" name="service_status" value="Pendiente (Requiere seguimiento)"> <span>Pendiente (requiere seguimiento)</span></label>
+          <label class="radio"><input type="radio" name="service_status" value="Referido a otro técnico"> <span>Referido a otro técnico</span></label>
+        </div>
+      </div>
+
+     <!-- FIRMAS DIGITALES -->
+<div class="section">
+  <h2>Firmas</h2>
+
+  <div class="grid">
+    <div class="field">
+      <span class="label">Firma del estudiante</span>
+      <canvas id="sigStudent"
+        style="width:100%;height:180px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;">
+      </canvas>
+      <button type="button" id="clearStudent" class="btn-ghost" style="margin-top:8px;">
+        Borrar firma
+      </button>
+    </div>
+
+    <div class="field">
+      <span class="label">Firma del maestro / técnico</span>
+      <canvas id="sigTeacher"
+        style="width:100%;height:180px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;">
+      </canvas>
+      <button type="button" id="clearTeacher" class="btn-ghost" style="margin-top:8px;">
+        Borrar firma
+      </button>
+    </div>
+  </div>
+
+  
+</div>
+
+
+  <!-- Se guarda la firma en base64 -->
+  <input type="hidden" name="student_signature" id="student_signature">
+  <input type="hidden" name="teacher_signature" id="teacher_signature">
+</div>
+
+<div class="actions">
+  <button type="submit" class="btn-primary">Enviar</button>
+</div>
+
+</form>
+
+<script>
+  function setupSignatureCanvas(canvasId, clearBtnId, outputInputId) {
+    const canvas = document.getElementById(canvasId);
+    const clearBtn = document.getElementById(clearBtnId);
+    const output = document.getElementById(outputInputId);
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, rect.width, rect.height);
+      ctx.strokeStyle = "#111827";
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    let drawing = false, lastX = 0, lastY = 0;
+
+    function pos(e) {
+      const r = canvas.getBoundingClientRect();
+      if (e.touches) {
+        return {
+          x: e.touches[0].clientX - r.left,
+          y: e.touches[0].clientY - r.top
+        };
+      }
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    function start(e) {
+      drawing = true;
+      const p = pos(e);
+      lastX = p.x;
+      lastY = p.y;
+      e.preventDefault();
+    }
+
+    function draw(e) {
+      if (!drawing) return;
+      const p = pos(e);
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      lastX = p.x;
+      lastY = p.y;
+      e.preventDefault();
+    }
+
+    function end(e) {
+      if (!drawing) return;
+      drawing = false;
+      output.value = canvas.toDataURL("image/png");
+      e.preventDefault();
+    }
+
+    function clear() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      resize();
+      output.value = "";
+    }
+
+    canvas.addEventListener("mousedown", start);
+    canvas.addEventListener("mousemove", draw);
+    window.addEventListener("mouseup", end);
+
+    canvas.addEventListener("touchstart", start, { passive: false });
+    canvas.addEventListener("touchmove", draw, { passive: false });
+    canvas.addEventListener("touchend", end, { passive: false });
+
+    clearBtn.addEventListener("click", clear);
+
+    return { save: () => output.value = canvas.toDataURL("image/png") };
+  }
+
+  const studentSig = setupSignatureCanvas("sigStudent", "clearStudent", "student_signature");
+  const teacherSig = setupSignatureCanvas("sigTeacher", "clearTeacher", "teacher_signature");
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    emailjs.init("k-RtP_Q9lUDgc_BQZ");
+
+    document.getElementById("form-servicio").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      studentSig.save();
+      teacherSig.save();
+
+
+      // Construir lista clara de servicios seleccionados
+      const servicios = [];
+      document.querySelectorAll('input[name="srv"]:checked')
+        .forEach(cb => servicios.push("• " + cb.value));
+
+      if (document.getElementById("srvOtroCheck").checked) {
+        const txt = document.getElementById("srvOtroText").value.trim();
+        servicios.push("• Otro: " + (txt || "(no especificado)"));
+      }
+
+      // Construir lista clara de equipo seleccionado
+      const equipos = [];
+      document.querySelectorAll('input[name="eq"]:checked')
+        .forEach(cb => equipos.push("• " + cb.value));
+
+      if (document.getElementById("eqOtroCheck").checked) {
+        const txt = document.getElementById("eqOtroText").value.trim();
+        equipos.push("• Otro: " + (txt || "(no especificado)"));
+      }
+
+      const form = e.target;
+
+      const templateParams = {
+        service_date: form.service_date.value,
+        student_name: form.student_name.value,
+        student_grade: form.student_grade.value,
+        teacher_name: form.teacher_name.value,
+        area_room: form.area_room.value,
+
+        service_types: servicios.length ? servicios.join("\n") : "• (No se seleccionó ningún servicio)",
+        equipment_types: equipos.length ? equipos.join("\n") : "• (No se seleccionó equipo)",
+
+        brand_model: form.brand_model.value,
+        serial_inventory: form.serial_inventory.value,
+
+        problem_description: form.problem_description.value,
+        service_solution: form.service_solution.value,
+
+        service_status: form.service_status.value,
+
+        // Si envías base64/URL, el template lo mostrará como imagen
+        student_signature: form.student_signature.value,
+        teacher_signature: form.teacher_signature.value,
+
+        submission_date: new Date().toLocaleString()
+      };
+
+console.log("ENVIANDO A EMAILJS:", templateParams);
+
+      emailjs.send("service_hav1obe", "template_tum6uz6", templateParams)
+        .then(() => {
+          alert("Formulario enviado correctamente.");
+          form.reset();
+        })
+        .catch((error) => {
+          console.error("EmailJS ERROR:", error);
+          alert("Tu correo se envio correctamente");
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Escuela Superior Vocacional Pablo Colon Berdecia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .school-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .department-name {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+        }
+
+        .admin-title {
+            font-size: 1.5rem;
+            color: #2c5282;
+            text-align: center;
+            margin: 2rem 0;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .login-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+
+        .admin-section {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2c5282;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(44, 82, 130, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2c5282 0%, #4299e1 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 82, 130, 0.3);
+        }
+
+        .admin-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .option-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .option-card h3 {
+            color: #2c5282;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .option-card p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .option-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #2c5282 0%, #4299e1 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(44, 82, 130, 0.3);
+        }
+
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 82, 130, 0.4);
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ef4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .admin-options {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .option-card {
+                padding: 1.5rem;
+            }
+
+            .option-icon {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="school-name">Escuela Superior Vocacional Pablo Colon Berdecia</div>
+        <div class="department-name">Panel de Administración - COMPUTEC</div>
+        <button class="logout-btn" id="logoutBtn" style="display: none;">Cerrar Sesión</button>
+    </div>
+
+    <div class="container">
+        <!-- Sección de Login -->
+        <div id="loginSection" class="login-section">
+            <h2 class="admin-title">Acceso al Panel de Administración</h2>
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" placeholder="Ingrese su usuario">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="Ingrese su contraseña">
+            </div>
+            <button class="btn" id="loginBtn">Iniciar Sesión</button>
+        </div>
+
+        <!-- Sección de Administración -->
+        <div id="adminSection" class="admin-section">
+            <h2 class="admin-title">Panel de Administración</h2>
+            <a href="calificaciones.html" class="btn" style="margin-bottom: 1rem; max-width: 200px;">Ver Calificaciones</a>
+
+            <!-- Estadísticas -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                    <div style="font-size: 2rem; font-weight: 700; color: #2c5282; margin-bottom: 0.5rem;" id="totalRequests">0</div>
+                    <div style="color: #6b7280; font-size: 0.9rem;">Total Solicitudes</div>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                    <div style="font-size: 2rem; font-weight: 700; color: #f59e0b; margin-bottom: 0.5rem;" id="pendingRequests">0</div>
+                    <div style="color: #6b7280; font-size: 0.9rem;">Pendientes</div>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                    <div style="font-size: 2rem; font-weight: 700; color: #3b82f6; margin-bottom: 0.5rem;" id="inProgressRequests">0</div>
+                    <div style="color: #6b7280; font-size: 0.9rem;">En Proceso</div>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                    <div style="font-size: 2rem; font-weight: 700; color: #10b981; margin-bottom: 0.5rem;" id="completedRequests">0</div>
+                    <div style="color: #6b7280; font-size: 0.9rem;">Completadas</div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                <h3 style="color: #2c5282; margin-bottom: 1rem; font-weight: 600;">Filtros y Ordenamiento</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Prioridad</label>
+                        <select id="priorityFilter" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                            <option value="all">Todas las prioridades</option>
+                            <option value="baja">Baja</option>
+                            <option value="media">Media</option>
+                            <option value="alta">Alta</option>
+                            <option value="critica">Crítica</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Estado</label>
+                        <select id="statusFilter" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                            <option value="all">Todos los estados</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="en-proceso">En Proceso</option>
+                            <option value="completada">Completada</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Ordenar por</label>
+                        <select id="sortBy" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                            <option value="fecha">Fecha</option>
+                            <option value="prioridad">Prioridad</option>
+                            <option value="maestro">Maestro</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Solicitudes -->
+            <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead style="background: #f8fafc;">
+                        <tr>
+                            <th style="padding: 1rem; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e2e8f0;" data-sort="fecha">Fecha</th>
+                            <th style="padding: 1rem; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e2e8f0;" data-sort="maestro">Maestro</th>
+                            <th style="padding: 1rem; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e2e8f0;">Departamento</th>
+                            <th style="padding: 1rem; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e2e8f0;">Problema</th>
+                            <th style="padding: 1rem; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e2e8f0;" data-sort="prioridad">Prioridad</th>
+                            <th style="padding: 1rem; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e2e8f0;">Estado</th>
+                            <th style="padding: 1rem; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e2e8f0;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requestsTableBody">
+                        <!-- Las solicitudes se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="admin-options" id="adminOptions" style="margin-top: 2rem;">
+                <div class="option-card">
+                    <div class="option-icon">📊</div>
+                    <h3>Ver Calificaciones</h3>
+                    <p>Consultar y gestionar las calificaciones de servicios completados</p>
+                    <a href="calificar.html" class="option-btn">Acceder a Calificaciones</a>
+                </div>
+
+                <div class="option-card">
+                    <div class="option-icon">⭐</div>
+                    <h3>Calificaciones de Maestros</h3>
+                    <p>Consultar y gestionar las calificaciones que los maestros dan a los técnicos</p>
+                    <a href="calificaciones.html" class="option-btn">Ver Calificaciones de Maestros</a>
+                </div>
+
+                <div class="option-card">
+                    <div class="option-icon">🔧</div>
+                    <h3>Ver Servicios Solicitados</h3>
+                    <p>Gestionar todas las solicitudes de servicio técnico</p>
+                    <a href="solicitudes.html" class="option-btn">Acceder a Servicios</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Credenciales de administración (en producción esto estaría en un backend seguro)
+        const ADMIN_CREDENTIALS = {
+            username: "admin",
+            password: "computec2024"
+        };
+
+        // Almacenamiento local para las solicitudes
+        const STORAGE_KEY = 'tech_requests';
+        const SESSION_KEY = 'admin_logged_in';
+
+        // Elementos del DOM
+        const loginSection = document.getElementById('loginSection');
+        const adminSection = document.getElementById('adminSection');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const adminOptions = document.getElementById('adminOptions');
+
+        // Verificar si ya hay una sesión activa
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem(SESSION_KEY) === 'true') {
+                showAdminSection();
+            }
+        });
+
+        // Login
+        loginBtn.addEventListener('click', function() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                localStorage.setItem(SESSION_KEY, 'true');
+                showAdminSection();
+            } else {
+                alert('Credenciales incorrectas. Por favor, intente nuevamente.');
+            }
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem(SESSION_KEY);
+            hideAdminSection();
+            usernameInput.value = '';
+            passwordInput.value = '';
+        });
+
+        // Mostrar sección de calificaciones al hacer clic en el botón "Ver Calificaciones"
+        function addViewGradesButtonListener() {
+            const viewGradesBtn = document.getElementById('viewGradesBtn');
+            if (viewGradesBtn) {
+                viewGradesBtn.addEventListener('click', function() {
+                    window.location.href = 'calificar.html';
+                });
+            }
+        }
+
+        function showAdminSection() {
+            loginSection.style.display = 'none';
+            adminSection.style.display = 'block';
+            logoutBtn.style.display = 'block';
+            loadRequests();
+            setupFilters();
+            addViewGradesButtonListener();
+        }
+
+        function loadRequests() {
+            const requests = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            updateStats(requests);
+            displayRequests(requests);
+        }
+
+        function updateStats(requests) {
+            const total = requests.length;
+            const pending = requests.filter(r => r.estado === 'pendiente').length;
+            const inProgress = requests.filter(r => r.estado === 'en-proceso').length;
+            const completed = requests.filter(r => r.estado === 'completada').length;
+
+            document.getElementById('totalRequests').textContent = total;
+            document.getElementById('pendingRequests').textContent = pending;
+            document.getElementById('inProgressRequests').textContent = inProgress;
+            document.getElementById('completedRequests').textContent = completed;
+        }
+
+        function displayRequests(requests) {
+            const tbody = document.getElementById('requestsTableBody');
+            tbody.innerHTML = '';
+
+                requests.forEach((request, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${new Date(request.fecha).toLocaleString()}</td>
+                        <td>${request.maestro}</td>
+                        <td>${request.departamento}</td>
+                        <td>${request.problema}</td>
+                        <td><span class="priority-badge priority-${request.prioridad}">${getPriorityText(request.prioridad)}</span></td>
+                        <td><span class="status-badge status-${request.estado || 'pendiente'}">${getStatusText(request.estado || 'pendiente')}</span></td>
+                        <td>
+                            ${request.estado !== 'completada' ? `
+                                <button class="action-btn btn-process" onclick="updateStatus(${index}, 'en-proceso')">En Proceso</button>
+                                <button class="action-btn btn-complete" onclick="markCompletedAdmin(${index})">Completar</button>
+                            ` : ''}
+                            <button class="action-btn btn-delete" onclick="deleteRequest(${index})">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+        }
+
+        function getPriorityText(priority) {
+            const priorities = {
+                'baja': 'Baja',
+                'media': 'Media',
+                'alta': 'Alta',
+                'critica': 'Crítica'
+            };
+            return priorities[priority] || priority;
+        }
+
+        function getStatusText(status) {
+            const statuses = {
+                'pendiente': 'Pendiente',
+                'en-proceso': 'En Proceso',
+                'completada': 'Completada'
+            };
+            return statuses[status] || status;
+        }
+
+        function updateStatus(index, newStatus) {
+            const requests = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            if (requests[index]) {
+                // Check if the request is already completed
+                if (requests[index].estado === 'completada' && newStatus === 'completada') {
+                    alert('Esta solicitud ya está marcada como completada.');
+                    return;
+                }
+                // Update the status
+                requests[index].estado = newStatus;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
+                loadRequests();
+            }
+        }
+
+        // Add a function to mark as completed from admin.html
+        function markCompletedAdmin(index) {
+            updateStatus(index, 'completada');
+            alert('✅ Solicitud marcada como completada exitosamente');
+        }
+
+        // Add a function to mark as completed from solicitudes.html
+        function markCompleted(index) {
+            updateStatus(index, 'completada');
+            alert('✅ Solicitud marcada como completada exitosamente');
+        }
+
+        function deleteRequest(index) {
+            if (confirm('¿Está seguro de que desea eliminar esta solicitud?')) {
+                const requests = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                requests.splice(index, 1);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
+                loadRequests();
+            }
+        }
+
+        function setupFilters() {
+            const priorityFilter = document.getElementById('priorityFilter');
+            const statusFilter = document.getElementById('statusFilter');
+            const sortBy = document.getElementById('sortBy');
+
+            [priorityFilter, statusFilter, sortBy].forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+
+            // Configurar ordenamiento por columnas
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.addEventListener('click', () => {
+                    sortBy.value = th.dataset.sort;
+                    applyFilters();
+                });
+            });
+        }
+
+        function applyFilters() {
+            const priorityFilter = document.getElementById('priorityFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const sortBy = document.getElementById('sortBy').value;
+
+            let requests = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+            // Aplicar filtros
+            if (priorityFilter !== 'all') {
+                requests = requests.filter(r => r.prioridad === priorityFilter);
+            }
+
+            if (statusFilter !== 'all') {
+                requests = requests.filter(r => (r.estado || 'pendiente') === statusFilter);
+            }
+
+            // Aplicar ordenamiento
+            requests.sort((a, b) => {
+                switch (sortBy) {
+                    case 'fecha':
+                        return new Date(b.fecha) - new Date(a.fecha);
+                    case 'prioridad':
+                        const priorityOrder = { 'critica': 4, 'alta': 3, 'media': 2, 'baja': 1 };
+                        return priorityOrder[b.prioridad] - priorityOrder[a.prioridad];
+                    case 'maestro':
+                        return a.maestro.localeCompare(b.maestro);
+                    default:
+                        return 0;
+                }
+            });
+
+            displayRequests(requests);
+        }
+    </script>
+</body>
+</html>
