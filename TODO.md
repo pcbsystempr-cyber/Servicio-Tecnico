@@ -1,8 +1,8 @@
-# TODO: Agregar opción para ver detalles en calificaciones
+# TODO: Update Login Credentials
 
-- [x] Agregar columna "Acciones" en la tabla de calificaciones
-- [x] Agregar botón "Ver Detalles" en cada fila
-- [x] Crear modal HTML para mostrar detalles completos
-- [x] Agregar estilos CSS para el modal
-- [x] Implementar JavaScript para abrir modal y mostrar información del maestro y todos los campos llenados
-- [x] Probar funcionalidad del modal
+## Steps:
+- [ ] Step 1: Edit login.html to update admin credentials from 'Computec'/'Adcom2025' to 'Admin'/'Adcom2026'
+- [ ] Step 2: Edit login.html to update technician credentials from 'Tecnico'/'Tecnico 2025' to 'Admin'/'Adcom2026'
+- [ ] Step 3: Test admin login redirects to dashboard.html
+- [ ] Step 4: Test technician login redirects to calificar.html
+- [ ] Step 5: Complete task

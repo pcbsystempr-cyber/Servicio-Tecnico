@@ -31,18 +31,23 @@
             position: relative;
             overflow: hidden;
         }
+        .header > * {
+    position: relative;
+    z-index: 2;
+}
 
-        .hamburger-menu {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
+       .hamburger-menu {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    cursor: pointer;
+    padding: 0.6rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    z-index: 1001;
+}
 
         .hamburger-menu:hover {
             background-color: rgba(255, 255, 255, 0.1);
@@ -76,20 +81,20 @@
             transform: rotate(-45deg) translate(7px, -6px);
         }
 
-        .menu-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            min-width: 200px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
+       .menu-dropdown {
+    position: absolute;
+    top: 4.2rem;
+    right: 1rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1002;
+}
 
         .menu-dropdown.open {
             opacity: 1;
@@ -130,6 +135,7 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
             pointer-events: none;
         }
+        
 
         .school-name {
             font-size: 2.2rem;
@@ -349,7 +355,7 @@
         <div class="menu-dropdown" id="menuDropdown">
             <a href="calificaciones.html" class="menu-item">📊 Ver Calificaciones</a>
             <a href="solicitudes.html" class="menu-item">🔧 Ver Solicitudes de Servicios</a>
-            <a href="anadir-inventario.html" class="menu-item">📦 Añadir Inventario</a>
+            <a href="inventario.html" class="menu-item">📦 Añadir Inventario</a>
             <a href="#" class="menu-item" onclick="logout()">🚪 Cerrar Sesión</a>
         </div>
     </div>
@@ -370,7 +376,7 @@
                     Ver Solicitudes de Servicios
                 </a>
 
-                <a href="anadir-inventario.html" class="dashboard-btn btn-inventory">
+                <a href="inventario.html" class="dashboard-btn btn-inventory">
                     <span class="btn-icon">📦</span>
                     Añadir Inventario
                 </a>
@@ -381,7 +387,7 @@
     </div>
 
     <div class="footer">
-        <p>Escuela Superior Vocacional Pablo Colon Berdecia © 2025</p>
+        <p>Escuela Superior Vocacional Pablo Colon Berdecia © 2026</p>
         <p>Departamento de Tecnología - COMPUTEC</p>
     </div>
 

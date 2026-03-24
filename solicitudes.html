@@ -1,507 +1,820 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitudes de Servicio Técnico - Escuela Superior Vocacional Pablo Colon Berdecia</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitudes de Servicio Técnico - Escuela Superior Vocacional Pablo Colon Berdecia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            min-height: 100vh;
-            color: #1e293b;
-            line-height: 1.6;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .header {
-            background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      min-height: 100vh;
+      color: #1e293b;
+      line-height: 1.6;
+    }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            pointer-events: none;
-        }
+    .header {
+      background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
 
-        .school-name {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.5px;
-            position: relative;
-        }
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      pointer-events: none;
+    }
 
-        .department-name {
-            font-size: 1.1rem;
-            opacity: 0.95;
-            font-weight: 400;
-            position: relative;
-        }
+    .school-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 1;
+    }
 
-        .page-title {
-            font-size: 2rem;
-            color: #2c5282;
-            text-align: center;
-            margin: 2rem 0;
-            font-weight: 600;
-        }
+    .department-name {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      font-weight: 400;
+      position: relative;
+      z-index: 1;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
+    .container {
+      max-width: 1350px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
 
-        .back-btn {
-            background: linear-gradient(135deg, #2c5282 0%, #4299e1 100%);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 2rem;
-            text-decoration: none;
-            display: inline-block;
-        }
+    .back-btn {
+      background: linear-gradient(135deg, #2c5282 0%, #4299e1 100%);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 2rem;
+      text-decoration: none;
+      display: inline-block;
+    }
 
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(44, 82, 130, 0.3);
-        }
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(44, 82, 130, 0.3);
+    }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
+    .page-title {
+      font-size: 2rem;
+      color: #2c5282;
+      text-align: center;
+      margin: 1.5rem 0 2rem;
+      font-weight: 600;
+    }
 
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
+    .filters-card,
+    .requests-container,
+    .stat-card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
 
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2c5282;
-            margin-bottom: 0.5rem;
-        }
+    .filters-card {
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
 
-        .stat-label {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
+    .filters-title {
+      color: #2c5282;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
 
-        .requests-container {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
 
-        .request-card {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid #2c5282;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .filter-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #374151;
+      font-size: 0.92rem;
+    }
 
-        .request-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
+    .filter-group input,
+    .filter-group select {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: #fafafa;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
 
-        .request-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
+    .filter-group input:focus,
+    .filter-group select:focus {
+      outline: none;
+      border-color: #2563eb;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    }
 
-        .request-info {
-            flex: 1;
-            min-width: 300px;
-        }
+    .filters-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
 
-        .request-meta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
-        }
+    .btn-action {
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
 
-        .request-date {
-            color: #6b7280;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+    .btn-primary {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color: white;
+    }
 
-        .request-status {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #1f2937;
+    }
 
-        .status-pendiente {
-            background: #f59e0b;
-            color: white;
-        }
+    .btn-action:hover {
+      transform: translateY(-2px);
+    }
 
-        .status-en-proceso {
-            background: #3b82f6;
-            color: white;
-        }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
 
-        .status-completada {
-            background: #10b981;
-            color: white;
-        }
+    .stat-card {
+      padding: 1.5rem;
+      text-align: center;
+    }
 
-        .priority-badge {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-left: 1rem;
-        }
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2c5282;
+      margin-bottom: 0.4rem;
+    }
 
-        .priority-baja {
-            background: #10b981;
-            color: white;
-        }
+    .stat-label {
+      color: #6b7280;
+      font-size: 0.92rem;
+    }
 
-        .priority-media {
-            background: #f59e0b;
-            color: white;
-        }
+    .requests-container {
+      padding: 2rem;
+    }
 
-        .priority-alta {
-            background: #ef4444;
-            color: white;
-        }
+    .request-card {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+      border-left: 5px solid #2c5282;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
 
-        .priority-critica {
-            background: #7c3aed;
-            color: white;
-        }
+    .request-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
 
-        .request-details {
-            margin-top: 1rem;
-        }
+    .request-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
 
-        .detail-item {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: flex-start;
-        }
+    .request-info {
+      flex: 1;
+      min-width: 280px;
+    }
 
-        .detail-label {
-            font-weight: 600;
-            color: #374151;
-            min-width: 120px;
-        }
+    .request-title {
+      color: #2c5282;
+      margin-bottom: 0.4rem;
+      font-size: 1.1rem;
+    }
 
-        .detail-value {
-            color: #6b7280;
-            flex: 1;
-        }
+    .request-meta {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
 
-        .no-requests {
-            text-align: center;
-            padding: 3rem;
-            color: #6b7280;
-            font-size: 1.1rem;
-        }
+    .request-date {
+      color: #6b7280;
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
 
-        .no-requests-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
+    .request-status,
+    .priority-badge {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
 
-        .btn-complete {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            width: 100%;
-        }
+    .status-pendiente {
+      background: #f59e0b;
+      color: white;
+    }
 
-        .btn-complete:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-        }
+    .status-en-proceso {
+      background: #2563eb;
+      color: white;
+    }
 
-        .btn-complete:active {
-            transform: translateY(0);
-        }
+    .status-realizado {
+      background: #10b981;
+      color: white;
+    }
 
-        @media (max-width: 768px) {
-            .stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .request-header {
-                flex-direction: column;
-            }
-            
-            .request-info {
-                min-width: 100%;
-            }
-            
-            .request-meta {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .detail-item {
-                flex-direction: column;
-            }
-            
-            .detail-label {
-                margin-bottom: 0.25rem;
-            }
-        }
+    .priority-baja {
+      background: #10b981;
+      color: white;
+    }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 1rem;
-            }
-            
-            .requests-container {
-                padding: 1rem;
-            }
-            
-            .request-card {
-                padding: 1rem;
-            }
-            
-            .page-title {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+    .priority-media {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .priority-alta {
+      background: #ef4444;
+      color: white;
+    }
+
+    .priority-critica {
+      background: #7c3aed;
+      color: white;
+    }
+
+    .request-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0.8rem 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .detail-item {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .detail-label {
+      font-weight: 700;
+      color: #374151;
+      min-width: 110px;
+    }
+
+    .detail-value {
+      color: #6b7280;
+      flex: 1;
+      word-break: break-word;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+
+    .btn-status,
+    .btn-delete {
+      border: none;
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .btn-pending {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .btn-progress {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-done {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-status:hover,
+    .btn-delete:hover {
+      transform: translateY(-2px);
+    }
+
+    .tech-input {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .tech-input input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .tech-input input:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
+
+    .btn-assign {
+      background: #0f766e;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: inherit;
+    }
+
+    .no-requests {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #6b7280;
+      font-size: 1.08rem;
+    }
+
+    .no-requests-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.55;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+      }
+
+      .requests-container {
+        padding: 1.2rem;
+      }
+
+      .request-card {
+        padding: 1rem;
+      }
+
+      .request-header {
+        flex-direction: column;
+      }
+
+      .tech-input {
+        grid-template-columns: 1fr;
+      }
+
+      .actions-row {
+        flex-direction: column;
+      }
+
+      .btn-status,
+      .btn-delete,
+      .btn-assign,
+      .btn-action {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <div class="school-name">Escuela Superior Vocacional Pablo Colon Berdecia</div>
-        <div class="department-name">Solicitudes de Servicio Técnico - COMPUTEC</div>
-    </div>
+  <div class="header">
+    <div class="school-name">Escuela Superior Vocacional Pablo Colon Berdecia</div>
+    <div class="department-name">Solicitudes de Servicio Técnico - COMPUTEC</div>
+  </div>
 
-    <div class="container">
-        <a href="dashboard.html" class="back-btn">← Volver al Formulario</a>
-        
-        <h1 class="page-title">Todas las Solicitudes de Servicio Técnico</h1>
+  <div class="container">
+    <a href="dashboard.html" class="back-btn">← Volver al Panel</a>
 
-        <!-- Estadísticas -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number" id="totalRequests">0</div>
-                <div class="stat-label">Total Solicitudes</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="pendingRequests">0</div>
-                <div class="stat-label">Pendientes</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="inProgressRequests">0</div>
-                <div class="stat-label">En Proceso</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="completedRequests">0</div>
-                <div class="stat-label">Completadas</div>
-            </div>
+    <h1 class="page-title">Todas las Solicitudes de Servicio Técnico</h1>
+
+    <div class="filters-card">
+      <h2 class="filters-title">Buscar y filtrar solicitudes</h2>
+
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label for="searchTeacher">Buscar por maestro</label>
+          <input type="text" id="searchTeacher" placeholder="Ej: Ángel o Rivera" />
         </div>
 
-        <!-- Lista de Solicitudes -->
-        <div class="requests-container">
-            <div id="requestsList">
-                <!-- Las solicitudes se cargarán aquí dinámicamente -->
-            </div>
+        <div class="filter-group">
+          <label for="searchTechnician">Buscar por técnico</label>
+          <input type="text" id="searchTechnician" placeholder="Ej: Sebastián" />
         </div>
+
+        <div class="filter-group">
+          <label for="searchDate">Buscar por fecha</label>
+          <input type="date" id="searchDate" />
+        </div>
+
+        <div class="filter-group">
+          <label for="filterStatus">Filtrar por estado</label>
+          <select id="filterStatus">
+            <option value="">Todos</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="En Proceso">En Proceso</option>
+            <option value="Realizado">Realizado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filters-actions">
+        <button class="btn-action btn-primary" id="applyFiltersBtn">Aplicar filtros</button>
+        <button class="btn-action btn-secondary" id="clearFiltersBtn">Limpiar filtros</button>
+      </div>
     </div>
 
-    <script>
-        // Almacenamiento local para las solicitudes
-        const STORAGE_KEY = 'tech_requests';
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number" id="totalRequests">0</div>
+        <div class="stat-label">Total Solicitudes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="pendingRequests">0</div>
+        <div class="stat-label">Pendientes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="inProgressRequests">0</div>
+        <div class="stat-label">En Proceso</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="completedRequests">0</div>
+        <div class="stat-label">Realizados</div>
+      </div>
+    </div>
 
-        // Elementos del DOM
-        const requestsList = document.getElementById('requestsList');
-        const totalRequestsEl = document.getElementById('totalRequests');
-        const pendingRequestsEl = document.getElementById('pendingRequests');
-        const inProgressRequestsEl = document.getElementById('inProgressRequests');
-        const completedRequestsEl = document.getElementById('completedRequests');
+    <div class="requests-container">
+      <div id="requestsList"></div>
+    </div>
+  </div>
 
-        // Cargar solicitudes al iniciar la página
-        document.addEventListener('DOMContentLoaded', function() {
-            loadRequests();
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const supabase = createClient(
+      "https://alqdcxtzwximorkkyecp.supabase.co",
+      "sb_publishable_V6kHfLnjsyODWSgJXJ9igg_gv1QPebb"
+    );
+
+    const requestsList = document.getElementById("requestsList");
+    const totalRequestsEl = document.getElementById("totalRequests");
+    const pendingRequestsEl = document.getElementById("pendingRequests");
+    const inProgressRequestsEl = document.getElementById("inProgressRequests");
+    const completedRequestsEl = document.getElementById("completedRequests");
+
+    const searchTeacher = document.getElementById("searchTeacher");
+    const searchTechnician = document.getElementById("searchTechnician");
+    const searchDate = document.getElementById("searchDate");
+    const filterStatus = document.getElementById("filterStatus");
+    const applyFiltersBtn = document.getElementById("applyFiltersBtn");
+    const clearFiltersBtn = document.getElementById("clearFiltersBtn");
+
+    let allRequests = [];
+
+    function normalizeText(value) {
+      return (value || "").toString().trim().toLowerCase();
+    }
+
+    function getPriorityText(priority) {
+      const priorities = {
+        baja: "Baja",
+        media: "Media",
+        alta: "Alta",
+        critica: "Crítica"
+      };
+      return priorities[priority] || priority || "Sin prioridad";
+    }
+
+    function getStatusClass(status) {
+      const normalized = normalizeText(status);
+
+      if (normalized === "pendiente") return "status-pendiente";
+      if (normalized === "en proceso") return "status-en-proceso";
+      if (normalized === "realizado") return "status-realizado";
+
+      return "status-pendiente";
+    }
+
+    function formatDate(dateValue) {
+      const date = new Date(dateValue);
+      return date.toLocaleString("es-ES", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function updateStats(requests) {
+      const total = requests.length;
+      const pending = requests.filter(r => normalizeText(r.estado) === "pendiente").length;
+      const inProgress = requests.filter(r => normalizeText(r.estado) === "en proceso").length;
+      const completed = requests.filter(r => normalizeText(r.estado) === "realizado").length;
+
+      totalRequestsEl.textContent = total;
+      pendingRequestsEl.textContent = pending;
+      inProgressRequestsEl.textContent = inProgress;
+      completedRequestsEl.textContent = completed;
+    }
+
+    function getFilteredRequests() {
+      const teacherValue = normalizeText(searchTeacher.value);
+      const technicianValue = normalizeText(searchTechnician.value);
+      const dateValue = searchDate.value;
+      const statusValue = normalizeText(filterStatus.value);
+
+      return allRequests.filter((request) => {
+        const maestro = normalizeText(request.nombre_maestro);
+        const tecnico = normalizeText(request.tecnico_asignado);
+        const estado = normalizeText(request.estado);
+        const fecha = request.created_at ? new Date(request.created_at).toISOString().slice(0, 10) : "";
+
+        const teacherMatch = !teacherValue || maestro.includes(teacherValue);
+        const technicianMatch = !technicianValue || tecnico.includes(technicianValue);
+        const dateMatch = !dateValue || fecha === dateValue;
+        const statusMatch = !statusValue || estado === statusValue;
+
+        return teacherMatch && technicianMatch && dateMatch && statusMatch;
+      });
+    }
+
+    function renderRequests(requests) {
+      requestsList.innerHTML = "";
+
+      if (!requests.length) {
+        requestsList.innerHTML = `
+          <div class="no-requests">
+            <div class="no-requests-icon">📋</div>
+            <p>No hay solicitudes que coincidan con los filtros.</p>
+            <p>Prueba cambiar la fecha, maestro, técnico o estado.</p>
+          </div>
+        `;
+        return;
+      }
+
+      requests.forEach((request, index) => {
+        const estado = request.estado || "Pendiente";
+        const estadoClase = getStatusClass(estado);
+
+        const card = document.createElement("div");
+        card.className = "request-card";
+
+        card.innerHTML = `
+          <div class="request-header">
+            <div class="request-info">
+              <h3 class="request-title">Solicitud #${requests.length - index}</h3>
+              <div class="request-meta">
+                <span class="request-date">📅 ${formatDate(request.created_at)}</span>
+                <span class="request-status ${estadoClase}">${estado}</span>
+                <span class="priority-badge priority-${request.urgencia}">${getPriorityText(request.urgencia)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="request-details">
+            <div class="detail-item">
+              <span class="detail-label">👤 Maestro:</span>
+              <span class="detail-value">${request.nombre_maestro || ""}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">🏢 Departamento:</span>
+              <span class="detail-value">${request.departamento || ""}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">🔧 Problema:</span>
+              <span class="detail-value">${request.tipo_problema || ""}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">📝 Descripción:</span>
+              <span class="detail-value">${request.descripcion_problema || ""}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">🧑‍🔧 Técnico:</span>
+              <span class="detail-value">${request.tecnico_asignado || "No asignado"}</span>
+            </div>
+          </div>
+
+          <div class="tech-input">
+            <input type="text" id="tech-${request.id}" placeholder="Escribe el nombre del técnico" value="${request.tecnico_asignado || ""}">
+            <button class="btn-assign" data-id="${request.id}">Guardar técnico</button>
+          </div>
+
+          <div class="actions-row">
+            <button class="btn-status btn-pending" data-id="${request.id}" data-status="Pendiente">Marcar Pendiente</button>
+            <button class="btn-status btn-progress" data-id="${request.id}" data-status="En Proceso">Marcar En Proceso</button>
+            <button class="btn-status btn-done" data-id="${request.id}" data-status="Realizado">Marcar Realizado</button>
+            <button class="btn-delete" data-delete-id="${request.id}">Eliminar servicio</button>
+          </div>
+        `;
+
+        requestsList.appendChild(card);
+      });
+
+      document.querySelectorAll(".btn-status").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const id = Number(button.dataset.id);
+          const status = button.dataset.status;
+          await updateRequestStatus(id, status);
         });
+      });
 
-        function loadRequests() {
-            const requests = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-            updateStats(requests);
-            displayRequests(requests);
-        }
+      document.querySelectorAll(".btn-delete").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const id = Number(button.dataset.deleteId);
+          await deleteRequest(id);
+        });
+      });
 
-        function updateStats(requests) {
-            const total = requests.length;
-            const pending = requests.filter(r => r.estado === 'pendiente').length;
-            const inProgress = requests.filter(r => r.estado === 'en-proceso').length;
-            const completed = requests.filter(r => r.estado === 'completada').length;
+      document.querySelectorAll(".btn-assign").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const id = Number(button.dataset.id);
+          const input = document.getElementById(`tech-${id}`);
+          const tecnico = input.value.trim();
+          await assignTechnician(id, tecnico);
+        });
+      });
+    }
 
-            totalRequestsEl.textContent = total;
-            pendingRequestsEl.textContent = pending;
-            inProgressRequestsEl.textContent = inProgress;
-            completedRequestsEl.textContent = completed;
-        }
+    function applyFilters() {
+      const filtered = getFilteredRequests();
+      updateStats(filtered);
+      renderRequests(filtered);
+    }
 
-        function displayRequests(requests) {
-            requestsList.innerHTML = '';
+    async function loadRequests() {
+      const { data, error } = await supabase
+        .from("solicitudes_servicio")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-            if (requests.length === 0) {
-                requestsList.innerHTML = `
-                    <div class="no-requests">
-                        <div class="no-requests-icon">📋</div>
-                        <p>No hay solicitudes de servicio técnico registradas.</p>
-                        <p>¡Sé el primero en enviar una solicitud!</p>
-                    </div>
-                `;
-                return;
-            }
+      if (error) {
+        console.error("Error cargando solicitudes:", error);
+        requestsList.innerHTML = `
+          <div class="no-requests">
+            <div class="no-requests-icon">❌</div>
+            <p>Error al cargar las solicitudes.</p>
+            <p>${error.message}</p>
+          </div>
+        `;
+        return;
+      }
 
-            // Ordenar solicitudes por fecha (más recientes primero)
-            requests.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+      allRequests = data || [];
+      applyFilters();
+    }
 
-            requests.forEach((request, index) => {
-                const requestCard = document.createElement('div');
-                requestCard.className = 'request-card';
-                
-                const fecha = new Date(request.fecha);
-                const fechaFormateada = fecha.toLocaleString('es-ES', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
+    async function updateRequestStatus(id, nuevoEstado) {
+  const confirmed = confirm(`¿Seguro que deseas cambiar el estado a "${nuevoEstado}"?`);
+  if (!confirmed) return;
 
-                requestCard.innerHTML = `
-                    <div class="request-header">
-                        <div class="request-info">
-                            <h3 style="color: #2c5282; margin-bottom: 0.5rem;">Solicitud #${requests.length - index}</h3>
-                            <div class="request-meta">
-                                <span class="request-date">📅 ${fechaFormateada}</span>
-                                <span class="request-status status-${request.estado || 'pendiente'}">${getStatusText(request.estado || 'pendiente')}</span>
-                                <span class="priority-badge priority-${request.prioridad}">${getPriorityText(request.prioridad)}</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="request-details">
-                        <div class="detail-item">
-                            <span class="detail-label">👤 Maestro:</span>
-                            <span class="detail-value">${request.maestro}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">🏢 Departamento:</span>
-                            <span class="detail-value">${request.departamento}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">🔧 Tipo de Problema:</span>
-                            <span class="detail-value">${request.problema}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">📝 Descripción:</span>
-                            <span class="detail-value">${request.descripcion}</span>
-                        </div>
-                    </div>
-                    ${request.estado !== 'completada' ? `<button class="btn btn-complete" onclick="markCompleted(${index})">Marcar como Completada</button>` : ''}
-                `;
-                
-                requestsList.appendChild(requestCard);
-            });
-        }
+  const { error } = await supabase
+    .from("solicitudes_servicio")
+    .update({ estado: nuevoEstado })
+    .eq("id", id);
 
-        function getPriorityText(priority) {
-            const priorities = {
-                'baja': 'Baja',
-                'media': 'Media',
-                'alta': 'Alta',
-                'critica': 'Crítica'
-            };
-            return priorities[priority] || priority;
-        }
+  if (error) {
+    console.error("Error actualizando estado:", error);
+    alert("❌ No se pudo actualizar el estado: " + error.message);
+    return;
+  }
 
-        function getStatusText(status) {
-            const statuses = {
-                'pendiente': 'Pendiente',
-                'en-proceso': 'En Proceso',
-                'completada': 'Completada'
-            };
-            return statuses[status] || status;
-        }
+  alert(`✅ El servicio fue marcado como "${nuevoEstado}".`);
+  await loadRequests();
+}
+    async function assignTechnician(id, tecnico) {
+      const { error } = await supabase
+        .from("solicitudes_servicio")
+        .update({ tecnico_asignado: tecnico })
+        .eq("id", id);
 
-        // Función para marcar una solicitud como completada
-        function markCompleted(index) {
-            const requests = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-            
-            if (index >= 0 && index < requests.length) {
-                // Actualizar el estado de la solicitud
-                requests[index].estado = 'completada';
-                
-                // Guardar en localStorage
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
-                
-                // Recargar la lista para reflejar los cambios
-                loadRequests();
-                
-                // Mostrar mensaje de confirmación
-                alert('✅ Solicitud marcada como completada exitosamente');
-            }
-        }
+      if (error) {
+        console.error("Error guardando técnico:", error);
+        alert("❌ No se pudo guardar el técnico: " + error.message);
+        return;
+      }
 
-        // Actualizar automáticamente cada 30 segundos
-        setInterval(loadRequests, 30000);
-    </script>
+      await loadRequests();
+    }
+
+   async function deleteRequest(id) {
+  const confirmed = confirm("⚠️ Vas a eliminar este servicio. Esta acción no se puede deshacer.\n\n¿Deseas continuar?");
+  if (!confirmed) return;
+
+  const { error } = await supabase
+    .from("solicitudes_servicio")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error eliminando servicio:", error);
+    alert("❌ No se pudo eliminar el servicio: " + error.message);
+    return;
+  }
+
+  alert("✅ El servicio fue eliminado correctamente.");
+  await loadRequests();
+}
+
+    applyFiltersBtn.addEventListener("click", applyFilters);
+
+    clearFiltersBtn.addEventListener("click", () => {
+      searchTeacher.value = "";
+      searchTechnician.value = "";
+      searchDate.value = "";
+      filterStatus.value = "";
+      applyFilters();
+    });
+
+    searchTeacher.addEventListener("input", applyFilters);
+    searchTechnician.addEventListener("input", applyFilters);
+    searchDate.addEventListener("change", applyFilters);
+    filterStatus.addEventListener("change", applyFilters);
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      await loadRequests();
+
+      setInterval(loadRequests, 30000);
+
+      supabase
+        .channel("solicitudes-realtime")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "solicitudes_servicio" },
+          async () => {
+            await loadRequests();
+          }
+        )
+        .subscribe();
+    });
+  </script>
 </body>
 </html>
