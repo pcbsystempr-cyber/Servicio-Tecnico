@@ -25,23 +25,233 @@
       line-height: 1.6;
     }
 
-    .header {
-      background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
-      color: white;
-      padding: 2.5rem 0;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      position: relative;
-      overflow: hidden;
-    }
+.header {
+  background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-    .header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-      pointer-events: none;
-    }
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  pointer-events: none;
+}
+.header-content {
+  text-align: center;
+}
+
+
+.school-name {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  z-index: 1;
+  position: relative;
+}
+
+.department-name {
+  font-size: 1.3rem;
+  opacity: 0.95;
+  font-weight: 400;
+  line-height: 1.4;
+  z-index: 1;
+  position: relative;
+}
+
+
+
+.btn-regresar {
+  background: rgba(255,255,255,0.12);
+  border: none;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  position: relative;
+  z-index: 10;
+}
+
+.btn-regresar:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-1px);
+}
+
+.btn-regresar svg {
+  width: 16px;
+  height: 16px;
+}
+
+.hamburger-menu {
+  background: rgba(255,255,255,0.12);
+  border: none;
+  cursor: pointer;
+  padding: 0.75rem;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+.hamburger-menu:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.hamburger-icon {
+  width: 24px;
+  height: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+.menu-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+  z-index: 1000;
+  padding: 0.5rem 0;
+  transform: translateY(-10px);
+}
+
+.menu-dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.menu-item {
+  display: block;
+  padding: 0.85rem 1.25rem;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.menu-item:hover {
+  background: #f3f4f6;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0.75rem 1rem 1.5rem;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start;
+    min-height: auto;
+  }
+
+  .header-top {
+    display: flex !important;
+    order: 99 !important;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+
+  .header-content {
+    display: block !important;
+    order: 1 !important;
+    padding-top: 1.5rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .school-name {
+    font-size: 1.8rem;
+  }
+
+  .department-name {
+    font-size: 1.1rem;
+  }
+
+  .btn-regresar {
+    font-size: 0.88rem;
+    padding: 0.65rem 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-top {
+    gap: 0.75rem;
+  }
+
+  .header-content {
+    padding-top: 1.5rem;
+  }
+
+  .school-name {
+    font-size: 1.5rem;
+  }
+
+  .department-name {
+    font-size: 1rem;
+  }
+
+  .btn-regresar {
+    font-size: 0.82rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .btn-regresar svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .menu-dropdown {
+    right: 0;
+    min-width: 200px;
+  }
+}
 
     .school-name {
       font-size: 2.2rem;
@@ -58,6 +268,33 @@
       font-weight: 400;
       position: relative;
       z-index: 1;
+    }
+
+    /* Botón PCB System - Posicionamiento fix aplicado arriba */
+
+    .btn-regresar:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .btn-regresar svg {
+      width: 16px;
+      height: 16px;
+    }
+
+@media (max-width: 768px) {
+      .header {
+        padding: 1.5rem 1rem;
+      }
+
+      .btn-regresar {
+        margin-bottom: 1rem;
+      }
+
+      .hamburger-menu {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+      }
     }
 
     .hamburger-menu {
@@ -184,6 +421,105 @@
     .form-group {
       margin-bottom: 2rem;
       position: relative;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select,
+    .input-wrapper textarea {
+      padding-right: 3rem;
+    }
+
+    .mic-btn {
+      position: absolute;
+      right: 0.75rem;
+      background: #6b7280;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .mic-btn:hover {
+      background: #4b5563;
+    }
+
+    .mic-btn.listening {
+      background: #ef4444;
+      animation: pulse 1s infinite;
+    }
+
+    .mic-btn svg {
+      width: 18px;
+      height: 18px;
+      color: white;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .btn-dictate-all {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      color: white;
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-dictate-all:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-dictate-all:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-dictate-all.listening {
+      background: #ef4444;
+      animation: pulse 1s infinite;
+    }
+
+    .btn-dictate-all svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .saved-indicator {
+      display: none;
+      font-size: 0.85rem;
+      color: #10b981;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .saved-indicator.visible {
+      display: block;
     }
 
     label {
@@ -362,6 +698,17 @@
       .form-title {
         font-size: 1.7rem;
       }
+
+      .btn-regresar {
+        position: relative;
+        display: inline-flex;
+        margin: 0 0 1rem 0;
+      }
+
+      .header {
+        padding: 1.5rem 1rem;
+        text-align: center;
+      }
     }
 
     @media (max-width: 480px) {
@@ -380,85 +727,148 @@
       .form-title {
         font-size: 1.5rem;
       }
+
+      .btn-regresar {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.75rem;
+      }
+
+      .btn-regresar svg {
+        width: 14px;
+        height: 14px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <div class="school-name">Escuela Superior Vocacional Pablo Colon Berdecia</div>
-    <div class="department-name">Departamento de Tecnología - COMPUTEC</div>
+    <div class="header-top">
+      <a href="https://pcbsystempr-cyber.github.io/pcbsystem/index.html#inicio" class="btn-regresar" target="_blank" title="Ir a PCB System">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        PCB System
+      </a>
 
-    <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menú de navegación">
-      <div class="hamburger-icon" aria-hidden="true">
-        <div class="hamburger-line"></div>
-        <div class="hamburger-line"></div>
-        <div class="hamburger-line"></div>
+      <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menú de navegación">
+        <div class="hamburger-icon" aria-hidden="true">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </div>
+      </button>
+
+      <div class="menu-dropdown" id="menuDropdown" aria-label="Opciones de inicio de sesión">
+        <button class="menu-item" id="adminLoginBtn">Entrar como Administrador</button>
+        <button class="menu-item" id="techLoginBtn">Entrar como Técnico</button>
       </div>
-    </button>
+    </div>
 
-    <div class="menu-dropdown" id="menuDropdown" aria-label="Opciones de inicio de sesión">
-      <button class="menu-item" id="adminLoginBtn">Entrar como Administrador</button>
-      <button class="menu-item" id="techLoginBtn">Entrar como Técnico</button>
+    <div class="header-content">
+      <div class="school-name">Escuela Superior Vocacional Pablo Colón Berdecia</div>
+      <div class="department-name">Departamento de Tecnología - COMPUTEC</div>
     </div>
   </div>
 
   <div class="container">
     <div class="card">
       <h2 class="form-title">Solicitud de Servicio Técnico</h2>
+      
+      <button type="button" class="btn-dictate-all" id="dictateAllBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+        </svg>
+        Dictar todo
+      </button>
 
       <form id="techRequestForm">
         <div class="form-group">
           <label for="teacherName">Nombre del Maestro <span class="required">*</span></label>
-          <input type="text" id="teacherName" name="teacherName" required placeholder="Ingrese su nombre completo" />
+          <div class="input-wrapper">
+            <input type="text" id="teacherName" name="teacherName" required placeholder="Ingrese su nombre completo" />
+            <button type="button" class="mic-btn" data-target="teacherName" aria-label="Dictar">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div class="form-group">
           <label for="department">Departamento <span class="required">*</span></label>
-          <input
-            type="text"
-            id="department"
-            name="department"
-            required
-            placeholder="Escriba el nombre de su departamento (ej: Matemáticas, Ciencias, Español, etc.)"
-            maxlength="50"
-          />
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="department"
+              name="department"
+              required
+              placeholder="Escriba el nombre de su departamento (ej: Matemáticas, Ciencias, Español, etc.)"
+              maxlength="50"
+            />
+            <button type="button" class="mic-btn" data-target="department" aria-label="Dictar">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+              </svg>
+            </button>
+          </div>
           <div class="input-hint">Escriba libremente el nombre de su departamento</div>
           <div id="departmentCounter" class="character-counter">0/50 caracteres</div>
         </div>
 
         <div class="form-group">
           <label for="problemType">Tipo de Problema <span class="required">*</span></label>
-          <input
-            type="text"
-            id="problemType"
-            name="problemType"
-            required
-            placeholder="Describa el tipo de problema (ej: computadora, internet, impresora, etc.)"
-            maxlength="100"
-          />
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="problemType"
+              name="problemType"
+              required
+              placeholder="Describa el tipo de problema (ej: computadora, internet, impresora, etc.)"
+              maxlength="100"
+            />
+            <button type="button" class="mic-btn" data-target="problemType" aria-label="Dictar">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+              </svg>
+            </button>
+          </div>
           <div class="input-hint">Escriba libremente el tipo de problema técnico que está experimentando</div>
           <div id="problemTypeCounter" class="character-counter">0/100 caracteres</div>
         </div>
 
         <div class="form-group">
           <label for="urgency">Nivel de Urgencia <span class="required">*</span></label>
-          <select id="urgency" name="urgency" required>
-            <option value="">Seleccione el nivel de urgencia</option>
-            <option value="baja">Baja - Puede esperar</option>
-            <option value="media">Media - Necesita atención pronto</option>
-            <option value="alta">Alta - Requiere atención inmediata</option>
-            <option value="critica">Crítica - Clase afectada</option>
-          </select>
+          <div class="input-wrapper">
+            <select id="urgency" name="urgency" required>
+              <option value="">Seleccione el nivel de urgencia</option>
+              <option value="baja">Baja - Puede esperar</option>
+              <option value="media">Media - Necesita atención pronto</option>
+              <option value="alta">Alta - Requiere atención inmediata</option>
+              <option value="critica">Crítica - Clase afectada</option>
+            </select>
+            <button type="button" class="mic-btn" data-target="urgency" aria-label="Dictar">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div class="form-group">
           <label for="problemDescription">Descripción del Problema <span class="required">*</span></label>
-          <textarea
-            id="problemDescription"
-            name="problemDescription"
-            required
-            placeholder="Describa detalladamente el problema que está experimentando, incluyendo cualquier mensaje de error, equipo afectado y pasos para reproducir el problema..."
-          ></textarea>
+          <div class="input-wrapper">
+            <textarea
+              id="problemDescription"
+              name="problemDescription"
+              required
+              placeholder="Describa detalladamente el problema que está experimentando, incluyendo cualquier mensaje de error, equipo afectado y pasos para reproducir el problema..."
+            ></textarea>
+            <button type="button" class="mic-btn" data-target="problemDescription" aria-label="Dictar">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <button type="submit" class="btn" id="submitBtn">Enviar Solicitud</button>
@@ -469,7 +879,7 @@
   </div>
 
   <div class="footer">
-    <p>Escuela Superior Vocacional Pablo Colon Berdecia © 2026</p>
+    <p>Escuela Superior Vocacional Pablo Colón Berdecia © <span id="year"></span></p>
     <p>Departamento de Tecnología - COMPUTEC</p>
   </div>
 
@@ -486,6 +896,265 @@
     );
 
     emailjs.init("k-RtP_Q9lUDgc_BQZ");
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Guardar visita en Supabase con más información
+    async function registrarVisita() {
+      const today = new Date().toISOString().split('T')[0];
+      
+      // Verificar si ya registró hoy (evitar duplicates)
+      const lastVisit = localStorage.getItem('ultima_visita');
+      if (lastVisit === today) return;
+      
+      // Generar session ID único
+      let sessionId = localStorage.getItem('session_id');
+      if (!sessionId) {
+        sessionId = 's_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('session_id', sessionId);
+      }
+      
+      // Detecter dispositivo
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const dispositivo = isMobile ? 'Móvil' : 'Escritorio';
+      
+      // Detectar navegador
+      let navegador = 'Desconocido';
+      if (navigator.userAgent.includes('Chrome')) navegador = 'Chrome';
+      else if (navigator.userAgent.includes('Firefox')) navegador = 'Firefox';
+      else if (navigator.userAgent.includes('Safari')) navegador = 'Safari';
+      else if (navigator.userAgent.includes('Edge')) navegador = 'Edge';
+      
+      // Sistema operativo
+      let sistema = 'Desconocido';
+      if (navigator.userAgent.includes('Windows')) sistema = 'Windows';
+      else if (navigator.userAgent.includes('Mac')) sistema = 'macOS';
+      else if (navigator.userAgent.includes('Linux')) sistema = 'Linux';
+      else if (navigator.userAgent.includes('Android')) sistema = 'Android';
+      else if (navigator.userAgent.includes('iOS')) sistema = 'iOS';
+      
+      // Resolución de pantalla
+      const resolucion = window.screen.width + 'x' + window.screen.height;
+      
+      // Referrer
+      const referrer = document.referrer || 'Directo';
+      
+      // UTM params
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmSource = urlParams.get('utm_source') || '';
+      const utmMedium = urlParams.get('utm_medium') || '';
+      const utmCampaign = urlParams.get('utm_campaign') || '';
+      
+      const now = new Date();
+      
+      const visitorData = {
+        fecha_visita: now.toISOString(),
+        pagina: 'index',
+        tipo: 'visita',
+        
+        // Info del visitante
+        ip_address: 'NA', // No accesible desde cliente
+        user_agent: navigator.userAgent,
+        dispositivo: dispositivo,
+        navegador: navegador,
+        sistema: sistema,
+        
+        // Info adicional
+        referrer: referrer,
+        lenguaje: navigator.language,
+        pantalla_resolucion: resolucion,
+        hora_local: now.toLocaleTimeString('es-ES'),
+        fecha_local: now.toLocaleDateString('es-ES'),
+        
+        // UTM
+        utm_source: utmSource,
+        utm_medium: utmMedium,
+        utm_campaign: utmCampaign,
+        
+        // Sesión
+        session_id: sessionId,
+        tiempo_sesion: 0
+      };
+      
+      try {
+        await supabase.from('visitas').insert([visitorData]);
+        localStorage.setItem('ultima_visita', today);
+      } catch (e) {
+        console.error('Error registrando visita:', e);
+      }
+    }
+    
+    // Registrar automáticamente al cargar
+    registrarVisita();
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = 'es-ES';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+    }
+
+    document.querySelectorAll('.mic-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!recognition) {
+          alert('Tu navegador no soporta reconocimiento de voz. Usa Chrome o Edge.');
+          return;
+        }
+
+        const targetId = btn.dataset.target;
+        const targetInput = document.getElementById(targetId);
+        const isSelect = targetInput.tagName === 'SELECT';
+
+        btn.classList.add('listening');
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ef4444" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+        </svg>`;
+
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          
+          if (isSelect) {
+            const options = targetInput.options;
+            for (let i = 0; i < options.length; i++) {
+              const optionText = options[i].text.toLowerCase();
+              if (optionText.includes(transcript.toLowerCase()) || transcript.toLowerCase().includes(optionText)) {
+                targetInput.selectedIndex = i;
+                break;
+              }
+            }
+          } else {
+            targetInput.value = targetInput.value ? targetInput.value + ' ' + transcript : transcript;
+            targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          
+          btn.classList.remove('listening');
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+          </svg>`;
+        };
+
+        recognition.onerror = (event) => {
+          console.error('Error:', event.error);
+          btn.classList.remove('listening');
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+          </svg>`;
+        };
+
+        recognition.onend = () => {
+          btn.classList.remove('listening');
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+          </svg>`;
+        };
+
+        recognition.start();
+      });
+    });
+
+    const STORAGE_KEY = 'servicio_tecnico_user';
+    const teacherNameInput = document.getElementById('teacherName');
+    const departmentInput = document.getElementById('department');
+
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      if (data.name) teacherNameInput.value = data.name;
+      if (data.department) departmentInput.value = data.department;
+    }
+
+    function autoSaveUserData() {
+      const data = {
+        name: teacherNameInput.value,
+        department: departmentInput.value
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    teacherNameInput.addEventListener('change', autoSaveUserData);
+    departmentInput.addEventListener('change', autoSaveUserData);
+
+    const dictateAllBtn = document.getElementById('dictateAllBtn');
+    const fieldOrder = ['teacherName', 'department', 'problemType', 'urgency', 'problemDescription'];
+    let currentFieldIndex = 0;
+
+    dictateAllBtn.addEventListener('click', () => {
+      if (!recognition) {
+        alert('Tu navegador no soporta reconocimiento de voz. Usa Chrome o Edge.');
+        return;
+      }
+
+      currentFieldIndex = 0;
+      dictateAllBtn.classList.add('listening');
+      dictateAllBtn.textContent = 'Escuchando...';
+      dictateField();
+    });
+
+    function dictateField() {
+      if (currentFieldIndex >= fieldOrder.length) {
+        dictateAllBtn.classList.remove('listening');
+        dictateAllBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
+        </svg>
+        Dictar todo`;
+        autoSaveUserData();
+        return;
+      }
+
+      const targetId = fieldOrder[currentFieldIndex];
+      const targetInput = document.getElementById(targetId);
+      const fieldNames = {
+        teacherName: 'nombre del maestro',
+        department: 'departamento',
+        problemType: 'tipo de problema',
+        urgency: 'nivel de urgencia',
+        problemDescription: 'descripción del problema'
+      };
+
+      const isSelect = targetInput.tagName === 'SELECT';
+      const fieldPrompt = fieldNames[targetId];
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+
+        if (isSelect) {
+          const options = targetInput.options;
+          for (let i = 0; i < options.length; i++) {
+            const optionText = options[i].text.toLowerCase();
+            if (optionText.includes(transcript.toLowerCase()) || transcript.toLowerCase().includes(optionText.replace(/[^a-zA-ZáéíóúñÁÉÍÓÚÑ]/g, ''))) {
+              targetInput.selectedIndex = i;
+              break;
+            }
+          }
+        } else {
+          targetInput.value = targetInput.value ? targetInput.value + ' ' + transcript : transcript;
+          targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        currentFieldIndex++;
+        setTimeout(dictateField, 500);
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Error:', event.error);
+        currentFieldIndex++;
+        setTimeout(dictateField, 500);
+      };
+
+      const synth = window.speechSynthesis;
+      synth.cancel();
+      const utterance = new SpeechSynthesisUtterance(`Di ${fieldPrompt}`);
+      utterance.lang = 'es-ES';
+      synth.speak(utterance);
+
+      setTimeout(() => {
+        recognition.start();
+      }, 1500);
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
       const form = document.getElementById("techRequestForm");

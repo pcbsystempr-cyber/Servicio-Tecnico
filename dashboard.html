@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Control - Escuela Superior Vocacional Pablo Colon Berdecia</title>
+    <title>Panel de Control - Escuela Superior Vocacional Pablo Colón Berdecia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -349,7 +349,7 @@
                 <div class="hamburger-line"></div>
             </div>
         </button>
-        <div class="school-name">Escuela Superior Vocacional Pablo Colon Berdecia</div>
+        <div class="school-name">Escuela Superior Vocacional Pablo Colón Berdecia</div>
         <div class="department-name">Departamento de Tecnología - COMPUTEC</div>
 
         <div class="menu-dropdown" id="menuDropdown">
@@ -382,16 +382,72 @@
                 </a>
             </div>
 
+            <!-- Estadísticas del Sitio -->
+            <div class="stats-section" id="statsSection" style="margin: 2rem auto; max-width: 900px; padding: 0 1.5rem;">
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                    <h2 style="color: #2c5282; margin-bottom: 1rem; font-weight: 600; text-align: center;">Estadísticas del Sitio</h2>
+                    
+                    <!-- Stats principales -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;" id="totalVisits">0</div>
+                            <div style="color: #6b7280; font-size: 0.85rem;">Visitas Totales</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #06b6d4; margin-bottom: 0.5rem;" id="todayVisits">0</div>
+                            <div style="color: #6b7280; font-size: 0.85rem;">Visitas Hoy</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #f97316; margin-bottom: 0.5rem;" id="mobileVisits">0</div>
+                            <div style="color: #6b7280; font-size: 0.85rem;">Móvil</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #10b981; margin-bottom: 0.5rem;" id="desktopVisits">0</div>
+                            <div style="color: #6b7280; font-size: 0.85rem;">Escritorio</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats de solicitudes -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                        <div style="text-align: center; padding: 1rem; background: #ecfdf5; border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #059669; margin-bottom: 0.5rem;" id="totalRequests">0</div>
+                            <div style="color: #6b7280; font-size: 0.85rem;">Solicitudes Totales</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #fef3c7; border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #d97706; margin-bottom: 0.5rem;" id="pendingRequests">0</div>
+                            <div style="color: #6b7280; font-size: 0.85rem;">Pendientes</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #dbeafe; border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #2563eb; margin-bottom: 0.5rem;" id="inProgressRequests">0</div>
+                            <div style="color: #6b7280; font-size: 0.85rem;">En Proceso</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #f0fdf4; border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #16a34a; margin-bottom: 0.5rem;" id="completedRequests">0</div>
+                            <div style="color: #6b7280; font-size: 0.85rem;">Completadas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
         </div>
     </div>
 
     <div class="footer">
-        <p>Escuela Superior Vocacional Pablo Colon Berdecia © 2026</p>
+        <p>Escuela Superior Vocacional Pablo Colón Berdecia © <span id="year"></span></p>
         <p>Departamento de Tecnología - COMPUTEC</p>
     </div>
 
-    <script>
+    <script type="module">
+        import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+        const supabase = createClient(
+          "https://alqdcxtzwximorkkyecp.supabase.co",
+          "sb_publishable_V6kHfLnjsyODWSgJXJ9igg_gv1QPebb"
+        );
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
         document.addEventListener('DOMContentLoaded', function() {
             // Check authentication
             const adminAuthenticated = localStorage.getItem('admin_authenticated');
@@ -412,7 +468,71 @@
                 const username = localStorage.getItem('tech_username');
                 userInfo.textContent = `Sesión de Técnico - ${username}`;
             }
+
+            // Cargar estadísticas de visitantes
+            loadVisitorStats();
         });
+
+        async function loadVisitorStats() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Total de visitas
+            const { count: totalVisits } = await supabase
+                .from('visitas')
+                .select('*', { count: 'exact', head: true });
+            
+            // Visitas de hoy
+            const { count: todayVisits } = await supabase
+                .from('visitas')
+                .select('*', { count: 'exact', head: true })
+                .gte('fecha_visita', today + 'T00:00:00')
+                .lte('fecha_visita', today + 'T23:59:59');
+            
+            // Visitas desde móvil
+            const { count: mobileVisits } = await supabase
+                .from('visitas')
+                .select('*', { count: 'exact', head: true })
+                .eq('dispositivo', 'Móvil');
+            
+            // Visitas desde escritorio
+            const { count: desktopVisits } = await supabase
+                .from('visitas')
+                .select('*', { count: 'exact', head: true })
+                .eq('dispositivo', 'Escritorio');
+            
+            // Total solicitudes
+            const { count: totalRequests } = await supabase
+                .from('solicitudes_servicio')
+                .select('*', { count: 'exact', head: true });
+            
+            // Solicitudes pendientes
+            const { count: pendingRequests } = await supabase
+                .from('solicitudes_servicio')
+                .select('*', { count: 'exact', head: true })
+                .eq('estado', 'Pendiente');
+            
+            // Solicitudes en proceso
+            const { count: inProgressRequests } = await supabase
+                .from('solicitudes_servicio')
+                .select('*', { count: 'exact', head: true })
+                .eq('estado', 'En Proceso');
+            
+            // Solicitudes completadas
+            const { count: completedRequests } = await supabase
+                .from('solicitudes_servicio')
+                .select('*', { count: 'exact', head: true })
+                .eq('estado', 'Completada');
+            
+            // Actualizar UI
+            document.getElementById('totalVisits').textContent = totalVisits || 0;
+            document.getElementById('todayVisits').textContent = todayVisits || 0;
+            document.getElementById('mobileVisits').textContent = mobileVisits || 0;
+            document.getElementById('desktopVisits').textContent = desktopVisits || 0;
+            document.getElementById('totalRequests').textContent = totalRequests || 0;
+            document.getElementById('pendingRequests').textContent = pendingRequests || 0;
+            document.getElementById('inProgressRequests').textContent = inProgressRequests || 0;
+            document.getElementById('completedRequests').textContent = completedRequests || 0;
+        }
 
         function logout() {
             // Clear authentication

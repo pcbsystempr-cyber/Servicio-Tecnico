@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Escuela Superior Vocacional Pablo Colon Berdecia</title>
+    <title>Panel de Administración - Escuela Superior Vocacional Pablo Colón Berdecia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -82,8 +82,12 @@
             margin: 2rem auto;
         }
 
-        .admin-section {
+        #adminSection {
             display: none;
+        }
+
+        #adminSection.visible {
+            display: block !important;
         }
 
         .form-group {
@@ -224,7 +228,7 @@
 </head>
 <body>
     <div class="header">
-        <div class="school-name">Escuela Superior Vocacional Pablo Colon Berdecia</div>
+        <div class="school-name">Escuela Superior Vocacional Pablo Colón Berdecia</div>
         <div class="department-name">Panel de Administración - COMPUTEC</div>
         <button class="logout-btn" id="logoutBtn" style="display: none;">Cerrar Sesión</button>
     </div>
@@ -266,6 +270,28 @@
                 <div style="background: white; padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
                     <div style="font-size: 2rem; font-weight: 700; color: #10b981; margin-bottom: 0.5rem;" id="completedRequests">0</div>
                     <div style="color: #6b7280; font-size: 0.9rem;">Completadas</div>
+                </div>
+            </div>
+
+            <!-- Estadísticas de Visitantes -->
+            <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                <h3 style="color: #2c5282; margin-bottom: 1rem; font-weight: 600;">Estadísticas del Sitio</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                    <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;" id="totalVisits">0</div>
+                        <div style="color: #6b7280; font-size: 0.85rem;">Visitas Totales</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: 700; color: #06b6d4; margin-bottom: 0.5rem;" id="todayVisits">0</div>
+                        <div style="color: #6b7280; font-size: 0.85rem;">Visitas Hoy</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                        <div style="font-size: 2rem; font-weight: 700; color: #f97316; margin-bottom: 0.5rem;" id="uniqueVisitors">0</div>
+                        <div style="color: #6b7280; font-size: 0.85rem;">Visitantes Únicos</div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; text-align: center;">
+                    <button class="btn" id="refreshStats" style="max-width: 200px; padding: 0.75rem;">Actualizar Estadísticas</button>
                 </div>
             </div>
 
@@ -373,7 +399,28 @@
             if (localStorage.getItem(SESSION_KEY) === 'true') {
                 showAdminSection();
             }
+            loadVisitorStats();
         });
+
+        // Cargar estadísticas de visitantes
+        function loadVisitorStats() {
+            const VISITOR_KEY = 'servicio_stats';
+            const stats = JSON.parse(localStorage.getItem(VISITOR_KEY) || '{"total":0,"today":0,"lastDate":"","unique":0}');
+            const today = new Date().toISOString().split('T')[0];
+            
+            if (stats.lastDate !== today) {
+                stats.today = 0;
+                stats.lastDate = today;
+                localStorage.setItem(VISITOR_KEY, JSON.stringify(stats);
+            }
+            
+            document.getElementById('totalVisits').textContent = stats.total;
+            document.getElementById('todayVisits').textContent = stats.today;
+            document.getElementById('uniqueVisitors').textContent = stats.unique;
+        }
+
+        // Botón actualizar estadísticas
+        document.getElementById('refreshStats').addEventListener('click', loadVisitorStats);
 
         // Login
         loginBtn.addEventListener('click', function() {
@@ -408,9 +455,10 @@
 
         function showAdminSection() {
             loginSection.style.display = 'none';
-            adminSection.style.display = 'block';
+            adminSection.classList.add('visible');
             logoutBtn.style.display = 'block';
             loadRequests();
+            loadVisitorStats();
             setupFilters();
             addViewGradesButtonListener();
         }
