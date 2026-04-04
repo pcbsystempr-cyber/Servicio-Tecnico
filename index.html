@@ -425,103 +425,10 @@
 
     .input-wrapper {
       position: relative;
-      display: flex;
+display: flex;
       align-items: center;
     }
-
-    .input-wrapper input,
-    .input-wrapper select,
-    .input-wrapper textarea {
-      padding-right: 3rem;
-    }
-
-    .mic-btn {
-      position: absolute;
-      right: 0.75rem;
-      background: #6b7280;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 10;
-    }
-
-    .mic-btn:hover {
-      background: #4b5563;
-    }
-
-    .mic-btn.listening {
-      background: #ef4444;
-      animation: pulse 1s infinite;
-    }
-
-    .mic-btn svg {
-      width: 18px;
-      height: 18px;
-      color: white;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-
-    .btn-dictate-all {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      width: 100%;
-      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-      color: white;
-      padding: 0.875rem 1.5rem;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 1.5rem;
-    }
-
-    .btn-dictate-all:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-    }
-
-    .btn-dictate-all:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .btn-dictate-all.listening {
-      background: #ef4444;
-      animation: pulse 1s infinite;
-    }
-
-    .btn-dictate-all svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .saved-indicator {
-      display: none;
-      font-size: 0.85rem;
-      color: #10b981;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .saved-indicator.visible {
-      display: block;
-    }
-
+    
     label {
       display: block;
       margin-bottom: 0.75rem;
@@ -784,91 +691,56 @@
       <form id="techRequestForm">
         <div class="form-group">
           <label for="teacherName">Nombre del Maestro <span class="required">*</span></label>
-          <div class="input-wrapper">
-            <input type="text" id="teacherName" name="teacherName" required placeholder="Ingrese su nombre completo" />
-            <button type="button" class="mic-btn" data-target="teacherName" aria-label="Dictar">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
-              </svg>
-            </button>
-          </div>
+          <input type="text" id="teacherName" name="teacherName" required placeholder="Ingrese su nombre completo" />
         </div>
 
         <div class="form-group">
           <label for="department">Departamento <span class="required">*</span></label>
-          <div class="input-wrapper">
-            <input
-              type="text"
-              id="department"
-              name="department"
-              required
-              placeholder="Escriba el nombre de su departamento (ej: Matemáticas, Ciencias, Español, etc.)"
-              maxlength="50"
-            />
-            <button type="button" class="mic-btn" data-target="department" aria-label="Dictar">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
-              </svg>
-            </button>
-          </div>
+          <input
+            type="text"
+            id="department"
+            name="department"
+            required
+            placeholder="Escriba el nombre de su departamento (ej: Matemáticas, Ciencias, Español, etc.)"
+            maxlength="50"
+          />
           <div class="input-hint">Escriba libremente el nombre de su departamento</div>
           <div id="departmentCounter" class="character-counter">0/50 caracteres</div>
         </div>
 
         <div class="form-group">
           <label for="problemType">Tipo de Problema <span class="required">*</span></label>
-          <div class="input-wrapper">
-            <input
-              type="text"
-              id="problemType"
-              name="problemType"
-              required
-              placeholder="Describa el tipo de problema (ej: computadora, internet, impresora, etc.)"
-              maxlength="100"
-            />
-            <button type="button" class="mic-btn" data-target="problemType" aria-label="Dictar">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
-              </svg>
-            </button>
-          </div>
+          <input
+            type="text"
+            id="problemType"
+            name="problemType"
+            required
+            placeholder="Describa el tipo de problema (ej: computadora, internet, impresora, etc.)"
+            maxlength="100"
+          />
           <div class="input-hint">Escriba libremente el tipo de problema técnico que está experimentando</div>
           <div id="problemTypeCounter" class="character-counter">0/100 caracteres</div>
         </div>
 
         <div class="form-group">
           <label for="urgency">Nivel de Urgencia <span class="required">*</span></label>
-          <div class="input-wrapper">
-            <select id="urgency" name="urgency" required>
-              <option value="">Seleccione el nivel de urgencia</option>
-              <option value="baja">Baja - Puede esperar</option>
-              <option value="media">Media - Necesita atención pronto</option>
-              <option value="alta">Alta - Requiere atención inmediata</option>
-              <option value="critica">Crítica - Clase afectada</option>
-            </select>
-            <button type="button" class="mic-btn" data-target="urgency" aria-label="Dictar">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
-              </svg>
-            </button>
-          </div>
+          <select id="urgency" name="urgency" required>
+            <option value="">Seleccione el nivel de urgencia</option>
+            <option value="baja">Baja - Puede esperar</option>
+            <option value="media">Media - Necesita atención pronto</option>
+            <option value="alta">Alta - Requiere atención inmediata</option>
+            <option value="critica">Crítica - Clase afectada</option>
+          </select>
         </div>
 
         <div class="form-group">
           <label for="problemDescription">Descripción del Problema <span class="required">*</span></label>
-          <div class="input-wrapper">
-            <textarea
-              id="problemDescription"
-              name="problemDescription"
-              required
-              placeholder="Describa detalladamente el problema que está experimentando, incluyendo cualquier mensaje de error, equipo afectado y pasos para reproducir el problema..."
-            ></textarea>
-            <button type="button" class="mic-btn" data-target="problemDescription" aria-label="Dictar">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
-              </svg>
-            </button>
-          </div>
+          <textarea
+            id="problemDescription"
+            name="problemDescription"
+            required
+            placeholder="Describa detalladamente el problema que está experimentando, incluyendo cualquier mensaje de error, equipo afectado y pasos para reproducir el problema..."
+          ></textarea>
         </div>
 
         <button type="submit" class="btn" id="submitBtn">Enviar Solicitud</button>

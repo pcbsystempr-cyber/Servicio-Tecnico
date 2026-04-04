@@ -541,6 +541,15 @@
       let hasSignature = false;
 
       function resizeCanvas() {
+        // IMMEDIATELY save current signature before clearing
+        let imageData = null;
+        try {
+          const dataUrl = canvas.toDataURL();
+          if (dataUrl.length > 5000) {
+            imageData = dataUrl;
+          }
+        } catch(e) {}
+        
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
         const rect = canvas.getBoundingClientRect();
         canvas.width = rect.width * ratio;
@@ -549,6 +558,18 @@
         ctx.lineWidth = 2;
         ctx.lineCap = "round";
         ctx.strokeStyle = "#111827";
+        
+        // Restore signature IMMEDIATELY after resize
+        if (imageData) {
+          try {
+            const img = new Image();
+            img.onload = function() {
+              ctx.drawImage(img, 0, 0);
+              hasSignature = true;
+            };
+            img.src = imageData;
+          } catch(e) {}
+        }
       }
 
       function getPos(e) {
@@ -580,6 +601,15 @@
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
         hasSignature = true;
+        
+        // IMMEDIATELY save signature when drawn
+        try {
+          const dataUrl = canvas.toDataURL("image/png");
+          if (dataUrl.length > 5000) {
+            const padName = canvas.id === 'techSignatureCanvas' ? TECH_SIG_KEY : TEACHER_SIG_KEY;
+            localStorage.setItem(padName, dataUrl);
+          }
+        } catch(e) {}
       }
 
       function stopDrawing() {
@@ -609,6 +639,7 @@
         canvas,
         clear,
         hasSignature: () => hasSignature,
+        setHasSignature: (val) => { hasSignature = val; },
         dataUrl: () => canvas.toDataURL("image/png")
       };
     }
@@ -637,8 +668,35 @@
 
     // Auto-save form data to localStorage
     const SAVE_KEY = 'calificar_draft';
+    const TECH_SIG_KEY = 'calificar_tech_sig';
+    const TEACHER_SIG_KEY = 'calificar_teacher_sig';
     
     function saveDraft() {
+      // Save signatures as data URLs
+      let techSignature = '';
+      let teacherSignature = '';
+      try {
+        // Check both hasSignature flag AND if canvas has actual content
+        if (techPad) {
+          const dataUrl = techPad.dataUrl();
+          const isBlank = dataUrl.length < 5000; // Very short dataURL means blank
+          if (!isBlank) {
+            techSignature = dataUrl;
+            localStorage.setItem(TECH_SIG_KEY, techSignature);
+          }
+        }
+        if (teacherPad) {
+          const dataUrl = teacherPad.dataUrl();
+          const isBlank = dataUrl.length < 5000;
+          if (!isBlank) {
+            teacherSignature = dataUrl;
+            localStorage.setItem(TEACHER_SIG_KEY, teacherSignature);
+          }
+        }
+      } catch(e) {
+        console.warn('Error saving signatures:', e);
+      }
+      
       const data = {
         service_date: document.getElementById('service_date')?.value || '',
         student_name: document.getElementById('student_name')?.value || '',
@@ -656,6 +714,39 @@
         timestamp: Date.now()
       };
       localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+    }
+
+    function loadSignaturesFromStorage() {
+      const techSig = localStorage.getItem(TECH_SIG_KEY);
+      const teacherSig = localStorage.getItem(TEACHER_SIG_KEY);
+      
+      if (techSig && techPad) {
+        try {
+          const img = new Image();
+          img.onload = function() {
+            const ctx = techPad.canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            techPad.setHasSignature(true);
+          };
+          img.src = techSig;
+        } catch(e) {
+          console.warn('Error loading tech signature:', e);
+        }
+      }
+      
+      if (teacherSig && teacherPad) {
+        try {
+          const img = new Image();
+          img.onload = function() {
+            const ctx = teacherPad.canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            teacherPad.setHasSignature(true);
+          };
+          img.src = teacherSig;
+        } catch(e) {
+          console.warn('Error loading teacher signature:', e);
+        }
+      }
     }
 
     function restoreDraft() {
@@ -713,6 +804,7 @@
 
     // Restore on page load
     restoreDraft();
+    loadSignaturesFromStorage();
 
     // Auto-save on input changes (every 5 seconds)
     setInterval(saveDraft, 5000);
@@ -726,6 +818,8 @@
     // Clear save after successful submission
     function clearDraft() {
       localStorage.removeItem(SAVE_KEY);
+      localStorage.removeItem(TECH_SIG_KEY);
+      localStorage.removeItem(TEACHER_SIG_KEY);
     }
 
     function getCheckedValues(name) {
