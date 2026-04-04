@@ -356,7 +356,7 @@
             <a href="calificaciones.html" class="menu-item">📊 Ver Calificaciones</a>
             <a href="solicitudes.html" class="menu-item">🔧 Ver Solicitudes de Servicios</a>
             <a href="inventario.html" class="menu-item">📦 Añadir Inventario</a>
-            <a href="#" class="menu-item" onclick="logout()">🚪 Cerrar Sesión</a>
+            <a href="index.html" class="menu-item" onclick="logout()">🚪 Cerrar Sesión</a>
         </div>
     </div>
 
@@ -429,7 +429,7 @@
                 </div>
             </div>
 
-            <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+            <button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
         </div>
     </div>
 
@@ -534,21 +534,22 @@
             document.getElementById('completedRequests').textContent = completedRequests || 0;
         }
 
-        function logout() {
-            // Clear authentication
-            localStorage.removeItem('admin_authenticated');
-            localStorage.removeItem('admin_username');
-            localStorage.removeItem('tech_authenticated');
-            localStorage.removeItem('tech_username');
-
-            // Redirect to home
-            window.location.href = 'index.html';
-        }
-
         // Hamburger menu functionality
         document.addEventListener('DOMContentLoaded', function() {
             const hamburgerMenu = document.getElementById('hamburgerMenu');
             const menuDropdown = document.getElementById('menuDropdown');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            // Logout button
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    localStorage.removeItem('admin_authenticated');
+                    localStorage.removeItem('admin_username');
+                    localStorage.removeItem('tech_authenticated');
+                    localStorage.removeItem('tech_username');
+                    window.location.href = 'index.html';
+                });
+            }
 
             hamburgerMenu.addEventListener('click', function() {
                 hamburgerMenu.classList.toggle('open');
