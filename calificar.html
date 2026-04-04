@@ -635,6 +635,99 @@
       errorMessage.textContent = "";
     }
 
+    // Auto-save form data to localStorage
+    const SAVE_KEY = 'calificar_draft';
+    
+    function saveDraft() {
+      const data = {
+        service_date: document.getElementById('service_date')?.value || '',
+        student_name: document.getElementById('student_name')?.value || '',
+        student_grade: document.getElementById('student_grade')?.value || '',
+        teacher_name: document.getElementById('teacher_name')?.value || '',
+        area_room: document.getElementById('area_room')?.value || '',
+        problem_description: document.getElementById('problem_description')?.value || '',
+        service_solution: document.getElementById('service_solution')?.value || '',
+        servicios: getCheckedValues('srv'),
+        equipos: getCheckedValues('eq'),
+        service_status: getServiceStatus(),
+        rating: ratingValue.value,
+        srvOtro: document.getElementById('srvOtro')?.value || '',
+        eqOtro: document.getElementById('eqOtro')?.value || '',
+        timestamp: Date.now()
+      };
+      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+    }
+
+    function restoreDraft() {
+      const saved = localStorage.getItem(SAVE_KEY);
+      if (!saved) return;
+      
+      try {
+        const data = JSON.parse(saved);
+        
+        // Only restore if less than 30 minutes old
+        if (Date.now() - data.timestamp > 30 * 60 * 1000) {
+          localStorage.removeItem(SAVE_KEY);
+          return;
+        }
+
+        if (data.service_date) document.getElementById('service_date').value = data.service_date;
+        if (data.student_name) document.getElementById('student_name').value = data.student_name;
+        if (data.student_grade) document.getElementById('student_grade').value = data.student_grade;
+        if (data.teacher_name) document.getElementById('teacher_name').value = data.teacher_name;
+        if (data.area_room) document.getElementById('area_room').value = data.area_room;
+        if (data.problem_description) document.getElementById('problem_description').value = data.problem_description;
+        if (data.service_solution) document.getElementById('service_solution').value = data.service_solution;
+        if (data.srvOtro) document.getElementById('srvOtro').value = data.srvOtro;
+        if (data.eqOtro) document.getElementById('eqOtro').value = data.eqOtro;
+        
+        if (data.rating) {
+          ratingValue.value = data.rating;
+          updateStars(data.rating);
+        }
+
+        if (data.servicios) {
+          data.servicios.forEach(val => {
+            const cb = document.querySelector(`input[name="srv"][value="${val}"]`);
+            if (cb) cb.checked = true;
+          });
+        }
+
+        if (data.equipos) {
+          data.equipos.forEach(val => {
+            const cb = document.querySelector(`input[name="eq"][value="${val}"]`);
+            if (cb) cb.checked = true;
+          });
+        }
+
+        if (data.service_status) {
+          const rb = document.querySelector(`input[name="service_status"][value="${data.service_status}"]`);
+          if (rb) rb.checked = true;
+        }
+
+        showSuccess('Datos restaurados del borrador anterior.');
+      } catch (e) {
+        console.warn('Error restoring draft:', e);
+      }
+    }
+
+    // Restore on page load
+    restoreDraft();
+
+    // Auto-save on input changes (every 5 seconds)
+    setInterval(saveDraft, 5000);
+
+    // Also save on any input change
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+      el.addEventListener('change', saveDraft);
+      el.addEventListener('input', saveDraft);
+    });
+
+    // Clear save after successful submission
+    function clearDraft() {
+      localStorage.removeItem(SAVE_KEY);
+    }
+
     function getCheckedValues(name) {
       return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
     }
@@ -847,9 +940,10 @@
           console.warn("Se guardó en Supabase, pero EmailJS falló:", emailError);
         }
 
-        localStorage.setItem("ultimo_pdf_servicio", pdfInfo.pdfDataUri);
+localStorage.setItem("ultimo_pdf_servicio", pdfInfo.pdfDataUri);
         localStorage.setItem("ultimo_pdf_nombre", pdfInfo.fileName);
-
+        clearDraft();
+        
         showSuccess("Calificación enviada y guardada correctamente.");
         setTimeout(() => {
           window.location.href = "success-calificacion.html";
