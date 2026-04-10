@@ -190,8 +190,31 @@
             }
         }
     </style>
+    <script>
+        if (localStorage.getItem('darkMode') === 'enabled') document.body.classList.add('dark-mode');
+    </script>
+    <style>
+        .dark-mode-toggle { position: fixed; top: 1rem; right: 4rem; z-index: 9999; }
+        .dark-mode-switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .dark-mode-switch input { opacity: 0; width: 0; height: 0; }
+        .dark-mode-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 26px; }
+        .dark-mode-slider:before { position: absolute; content: "🌙"; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; font-size: 14px; text-align:center; }
+        .dark-mode-switch input:checked + .dark-mode-slider { background-color: #1e293b; }
+        .dark-mode-switch input:checked + .dark-mode-slider:before { transform: translateX(24px); }
+        body.dark-mode { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #e2e8f0; }
+        body.dark-mode .login-container { background: #1e293b; }
+        body.dark-mode .login-card { background: #334155; }
+        body.dark-mode input { background: #475569; border-color: #64748b; color: #e2e8f0; }
+        body.dark-mode .role-btn { background: #475569; color: #e2e8f0; }
+    </style>
 </head>
 <body>
+    <div class="dark-mode-toggle">
+        <label class="dark-mode-switch">
+            <input type="checkbox" id="darkModeToggle" ${localStorage.getItem('darkMode') === 'enabled' ? 'checked' : ''}>
+            <span class="dark-mode-slider"></span>
+        </label>
+    </div>
     <div class="login-container">
         <div class="school-name">Escuela Superior Vocacional Pablo Colón Berdecia</div>
         <div class="department-name">Departamento de Tecnología - COMPUTEC</div>
@@ -329,6 +352,19 @@
                     }
                 }, 1000);
             });
+        });
+
+        // Dark mode toggle
+        const dm = document.getElementById('darkModeToggle');
+        dm?.addEventListener('change', function() {
+            const isDark = document.body.classList.toggle('dark-mode', this.checked);
+            localStorage.setItem('darkMode', this.checked ? 'enabled' : 'disabled');
+            window.dispatchEvent(new Event('darkModeSync'));
+        });
+        window.addEventListener('darkModeSync', () => {
+            const isDark = localStorage.getItem('darkMode') === 'enabled';
+            document.body.classList.toggle('dark-mode', isDark);
+            if (dm) dm.checked = isDark;
         });
     </script>
 </body>

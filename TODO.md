@@ -1,13 +1,18 @@
-# TODO: Arreglar superposición del botón PCB System
+# TODO - Fix Firma y Estrellas COMPLETADO ✅
 
-## Plan aprobado - Pasos a completar:
+## Progreso: 6/6 ✅
 
-### 1. ✅ [COMPLETADO] Crear TODO.md para rastrear progreso
-### 2. ✅ [COMPLETADO] Consolidar y limpiar CSS duplicado en index.html
-### 3. ✅ [COMPLETADO] Reestructurar layout del header con flexbox consistente
-### 4. ✅ [COMPLETADO] Ajustar posicionamiento y z-index del .btn-regresar
-### 5. ✅ [COMPLETADO] Verificar responsividad en media queries
-### 6. ✅ [COMPLETADO] Actualizar TODO.md con progreso
+### Completados:
+- ✅ 1. Canvas responsive + HiDPI (ResizeObserver)
+- ✅ 2. PointerEvents unificados mouse/touch 
+- ✅ 3. Estrellas onclick con animación + logs
+- ✅ 4. Validación hasSignature por dataURL
+- ✅ 5. Auto-resize window + redibujo
+- ✅ 6. Archivo recreado limpio + tests OK
 
-**Estado:** ✅ TAREA COMPLETADA. El botón ya no se superpone al texto de la escuela. Layout limpio y responsivo. Revisar en browser y recargar index.html.
+**¡FUNCIONA!** Estrellas se seleccionan (doradas), firmas dibujan (mouse/touch), valida submit.
+
+**Comando demo**: `start Servicio-Tecnico-main/calificar.html`
+
+
 

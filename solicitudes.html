@@ -398,54 +398,164 @@
       font-family: inherit;
     }
 
-    .no-requests {
-      text-align: center;
-      padding: 3rem 1rem;
-      color: #6b7280;
-      font-size: 1.08rem;
+    .btn-view-images {
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
     }
 
-    .no-requests-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      opacity: 0.55;
+.btn-view-images:hover {
+      background: #7c3aed;
     }
 
-    @media (max-width: 768px) {
-      .container {
-        padding: 0 1rem;
-      }
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 4rem;
+      z-index: 9999;
+    }
 
-      .requests-container {
-        padding: 1.2rem;
-      }
+    .dark-mode-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
 
-      .request-card {
-        padding: 1rem;
-      }
+    .dark-mode-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
 
-      .request-header {
-        flex-direction: column;
-      }
+    .dark-mode-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e1;
+      transition: .4s;
+      border-radius: 26px;
+    }
 
-      .tech-input {
-        grid-template-columns: 1fr;
-      }
+    .dark-mode-slider:before {
+      position: absolute;
+      content: "🌙";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
 
-      .actions-row {
-        flex-direction: column;
-      }
+    .dark-mode-switch input:checked + .dark-mode-slider {
+      background-color: #1e293b;
+    }
 
-      .btn-status,
-      .btn-delete,
-      .btn-assign,
-      .btn-action {
-        width: 100%;
-      }
+    .dark-mode-switch input:checked + .dark-mode-slider:before {
+      transform: translateX(24px);
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+    }
+
+    body.dark-mode .container {
+      background: #1e293b;
+    }
+
+    body.dark-mode .back-btn,
+    body.dark-mode .btn-status,
+    body.dark-mode .btn-assign {
+      background: #3b82f6;
+    }
+
+    body.dark-mode .request-card {
+      background: #334155;
+      border-color: #475569;
+    }
+
+    body.dark-mode .detail-label {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .detail-value {
+      color: #e2e8f0;
+    }
+
+    body.dark-mode input {
+      background: #334155;
+      border-color: #475569;
+      color: #e2e8f0;
+    }
+
+    body.dark-mode select {
+      background: #334155;
+      border-color: #475569;
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .search-box input {
+      background: #334155;
+      border-color: #475569;
+    }
+
+    body.dark-mode .stat-card {
+      background: #334155;
+    }
+
+    body.dark-mode .no-requests {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .priority-badge {
+      color: #1e293b;
+    }
+
+    body.dark-mode .request-status {
+      color: #1e293b;
+    }
+
+    body.dark-mode .btn-view-images {
+      background: #7c3aed;
+    }
+
+    body.dark-mode .search-filters {
+      background: #334155;
+    }
+
+    body.dark-mode .filter-group label {
+      color: #94a3b8;
     }
   </style>
 </head>
 <body>
+  <div class="dark-mode-toggle">
+    <label class="dark-mode-switch">
+      <input type="checkbox" id="darkModeToggle">
+      <span class="dark-mode-slider"></span>
+    </label>
+  </div>
   <div class="header">
     <div class="school-name">Escuela Superior Vocacional Pablo Colón Berdecia</div>
     <div class="department-name">Solicitudes de Servicio Técnico - COMPUTEC</div>
@@ -627,11 +737,14 @@
 
         const card = document.createElement("div");
         card.className = "request-card";
+        
+        const codigo = request.codigo_seguimiento || 'ST-----';
+        const hasImages = request.imagenes && request.imagenes.length > 0;
 
         card.innerHTML = `
           <div class="request-header">
             <div class="request-info">
-              <h3 class="request-title">Solicitud #${requests.length - index}</h3>
+              <h3 class="request-title" style="font-weight:700; color:#1d4ed8;">${codigo}</h3>
               <div class="request-meta">
                 <span class="request-date">📅 ${formatDate(request.created_at)}</span>
                 <span class="request-status ${estadoClase}">${estado}</span>
@@ -657,6 +770,12 @@
               <span class="detail-label">📝 Descripción:</span>
               <span class="detail-value">${request.descripcion_problema || ""}</span>
             </div>
+            ${hasImages ? `
+            <div class="detail-item">
+              <span class="detail-label">📷 Evidencia:</span>
+              <button class="btn-view-images" onclick="viewRequestImages(${index})">Ver ${request.imagenes.length} imágenes</button>
+            </div>
+            ` : ''}
             <div class="detail-item">
               <span class="detail-label">🧑‍🔧 Técnico:</span>
               <span class="detail-value">${request.tecnico_asignado || "No asignado"}</span>
@@ -729,8 +848,24 @@
       }
 
       allRequests = data || [];
+      window.allRequests = allRequests; // Store globally for image viewing
       applyFilters();
     }
+
+    window.viewRequestImages = function(index) {
+      const request = window.allRequests[index];
+      if (request && request.imagenes && request.imagenes.length > 0) {
+        const images = request.imagenes;
+        let html = '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem;padding:2rem;overflow:auto;">';
+        html += '<button onclick="this.parentElement.remove()" style="position:absolute;top:1rem;right:1rem;background:#ef4444;color:white;border:none;padding:0.75rem 1.5rem;border-radius:8px;cursor:pointer;font-size:1.2rem;font-weight:700;">Cerrar</button>';
+        html += '<h2 style="position:absolute;top:1rem;left:1rem;color:white;font-size:1.5rem;">Evidencia - Solicitud ' + (request.codigo_seguimiento || 'ST-----') + '</h2>';
+        images.forEach((img, i) => {
+          html += `<img src="${img}" style="max-width:350px;max-height:350px;border-radius:8px;border:3px solid white;margin:0.5rem;">`;
+        });
+        html += '</div>';
+        document.body.insertAdjacentHTML('beforeend', html);
+      }
+    };
 
     async function updateRequestStatus(id, nuevoEstado) {
   const confirmed = confirm(`¿Seguro que deseas cambiar el estado a "${nuevoEstado}"?`);
@@ -814,6 +949,22 @@
           }
         )
         .subscribe();
+    });
+
+// Dark mode toggle
+    const dm = document.getElementById('darkModeToggle');
+    if (dm) {
+      if (localStorage.getItem('darkMode') === 'enabled') document.body.classList.add('dark-mode');
+      dm.addEventListener('change', () => {
+        const isDark = document.body.classList.toggle('dark-mode', dm.checked);
+        localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+        window.dispatchEvent(new Event('darkModeSync'));
+      });
+    }
+    window.addEventListener('darkModeSync', () => {
+      const isDark = localStorage.getItem('darkMode') === 'enabled';
+      document.body.classList.toggle('dark-mode', isDark);
+      if (dm) dm.checked = isDark;
     });
   </script>
 </body>

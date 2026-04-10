@@ -99,45 +99,61 @@
 }
 
 .hamburger-menu {
-  background: rgba(255,255,255,0.12);
-  border: none;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
   cursor: pointer;
-  padding: 0.75rem;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
+  padding: 0.6rem;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 20;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hamburger-menu:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.05);
+}
+
+.hamburger-menu:active {
+  transform: scale(0.95);
 }
 
 .hamburger-icon {
-  width: 24px;
-  height: 18px;
+  width: 22px;
+  height: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 }
 
 .hamburger-line {
   width: 100%;
   height: 2px;
   background-color: white;
-  transition: all 0.3s ease;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.hamburger-menu.open {
+  background: rgba(255,255,255,0.25);
 }
 
 .hamburger-menu.open .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
+  transform: translateY(7px) rotate(45deg);
 }
 
 .hamburger-menu.open .hamburger-line:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
 
 .hamburger-menu.open .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 .menu-dropdown {
@@ -145,21 +161,22 @@
   top: calc(100% + 0.5rem);
   right: 0;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.05);
   min-width: 220px;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
   padding: 0.5rem 0;
-  transform: translateY(-10px);
+  transform: translateY(-10px) scale(0.95);
+  transform-origin: top right;
 }
 
 .menu-dropdown.open {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .menu-item {
@@ -297,21 +314,33 @@
       }
     }
 
-    .hamburger-menu {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: rgba(255,255,255,0.12);
-      border: none;
-      cursor: pointer;
-      padding: 0.6rem;
-      border-radius: 8px;
-      transition: background-color 0.3s ease;
-      z-index: 20;
+    #hamburgerMenu {
+      position: absolute !important;
+      top: 1rem !important;
+      right: 1rem !important;
+      left: auto !important;
+      background: rgba(255,255,255,0.2) !important;
+      border: 2px solid rgba(255,255,255,0.3) !important;
+      cursor: pointer !important;
+      padding: 0.6rem 0.8rem !important;
+      border-radius: 8px !important;
+      z-index: 99999 !important;
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
 
-    .hamburger-menu:hover {
-      background: rgba(255,255,255,0.2);
+    #hamburgerMenu:hover {
+      background: rgba(255,255,255,0.35) !important;
+    }
+
+    #hamburgerMenu:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+    
+    body.dark-mode #hamburgerMenu {
+      background: rgba(255,255,255,0.3) !important;
     }
 
     .hamburger-icon {
@@ -456,6 +485,30 @@ display: flex;
       transform: translateY(-1px);
     }
 
+    input:invalid:not(:placeholder-shown):not(:focus), 
+    select:invalid:not(:focus), 
+    textarea:invalid:not(:placeholder-shown):not(:focus) {
+      border-color: #ef4444;
+    }
+
+    input:valid:not(:placeholder-shown), 
+    select:valid, 
+    textarea:valid:not(:placeholder-shown) {
+      border-color: #10b981;
+    }
+
+    body.dark-mode input:valid:not(:placeholder-shown), 
+    body.dark-mode select:valid, 
+    body.dark-mode textarea:valid:not(:placeholder-shown) {
+      border-color: #10b981;
+    }
+
+    body.dark-mode input:invalid:not(:placeholder-shown):not(:focus), 
+    body.dark-mode select:invalid:not(:focus), 
+    body.dark-mode textarea:invalid:not(:placeholder-shown):not(:focus) {
+      border-color: #ef4444;
+    }
+
     textarea {
       min-height: 140px;
       resize: vertical;
@@ -485,6 +538,942 @@ display: flex;
       pointer-events: none;
     }
 
+    .btn-dictate-all {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-dictate-all:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(29, 78, 216, 0.4);
+    }
+
+    .btn-dictate-all.listening {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      animation: pulse 1.5s infinite;
+    }
+
+    .btn-dictate-all svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .btn-clear-form {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: #6b7280;
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1.5rem;
+      margin-left: 0.5rem;
+    }
+
+    .btn-clear-form:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+      background: #fef2f2;
+    }
+
+    .btn-clear-form svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    body.dark-mode .btn-clear-form {
+      border-color: #4b5563;
+      color: #9ca3af;
+    }
+
+    body.dark-mode .btn-clear-form:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    /* Confirmation Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 5000;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1.5rem;
+      background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-icon svg {
+      width: 30px;
+      height: 30px;
+      color: #d97706;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-text {
+      color: #64748b;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .modal-btn-cancel {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .modal-btn-cancel:hover {
+      background: #e2e8f0;
+    }
+
+    .modal-btn-confirm {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color: white;
+    }
+
+    .modal-btn-confirm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+    }
+
+    body.dark-mode .modal-content {
+      background: #1e293b;
+    }
+
+    body.dark-mode .modal-title {
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .modal-text {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .modal-btn-cancel {
+      background: #334155;
+      color: #94a3b8;
+    }
+
+    body.dark-mode .modal-btn-cancel:hover {
+      background: #475569;
+    }
+
+    /* Auto-save indicator */
+    .autosave-indicator {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #1e293b;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+
+    .autosave-indicator.show {
+      opacity: 1;
+    }
+
+    .autosave-indicator.saved {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .autosave-indicator svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .progress-bar-container {
+      margin-bottom: 2rem;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1d4ed8, #2563eb);
+      border-radius: 4px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+    }
+
+    .progress-step {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      text-align: center;
+      flex: 1;
+      transition: color 0.3s ease;
+    }
+
+    .progress-step.active {
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .progress-step.completed {
+      color: #10b981;
+    }
+
+    .upload-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .upload-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 1rem 1.5rem;
+      border: 2px solid #1d4ed8;
+      border-radius: 12px;
+      background: white;
+      color: #1d4ed8;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .upload-btn:hover {
+      background: #eff6ff;
+      transform: translateY(-2px);
+    }
+
+    .upload-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .camera-btn {
+      border-color: #059669;
+      color: #059669;
+    }
+
+    .camera-btn:hover {
+      background: #ecfdf5;
+    }
+
+    .image-upload {
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #f8fafc;
+      margin-bottom: 1.5rem;
+    }
+
+    .image-upload:hover {
+      border-color: #1d4ed8;
+      background: #eff6ff;
+    }
+
+    .image-upload.dragover {
+      border-color: #1d4ed8;
+      background: #dbeafe;
+    }
+
+    .image-upload-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 0.75rem;
+      color: #64748b;
+    }
+
+    .image-upload-text {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    .image-upload-hint {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .image-preview-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .image-preview {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-preview-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(239, 68, 68, 0.9);
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+    }
+
+    .chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 2000;
+    }
+
+    .chat-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(29, 78, 216, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .chat-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .chat-toggle svg {
+      width: 28px;
+      height: 28px;
+      color: white;
+    }
+
+    .chat-window {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      width: 350px;
+      height: 450px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-window.open {
+      display: flex;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .chat-close {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .chat-message {
+      max-width: 80%;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+    }
+
+    .chat-message.bot {
+      background: #f1f5f9;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-message.user {
+      background: #1d4ed8;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-input-container {
+      padding: 1rem;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      resize: none;
+    }
+
+    .chat-send {
+      background: #1d4ed8;
+      border: none;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-send svg {
+      width: 20px;
+      height: 20px;
+      color: white;
+    }
+
+    .notification-toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      color: white;
+      font-weight: 500;
+      z-index: 3000;
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+    }
+
+    .notification-toast.show {
+      transform: translateX(0);
+    }
+
+    .notification-toast.success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .notification-toast.error {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+
+    /* Welcome Popup */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 5000;
+      backdrop-filter: blur(4px);
+    }
+
+    .popup-overlay.show {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .popup-content {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .popup-overlay.show .popup-content {
+      transform: scale(1);
+      animation: popIn 0.4s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .popup-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .popup-icon svg {
+      width: 40px;
+      height: 40px;
+      color: white;
+    }
+
+    .popup-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1rem;
+    }
+
+    .popup-text {
+      color: #64748b;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .popup-btn {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .popup-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(29, 78, 216, 0.3);
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 5px;
+      line-height: 1;
+    }
+
+    .popup-close:hover {
+      color: #64748b;
+    }
+
+    body.dark-mode .popup-content {
+      background: #1e293b;
+    }
+
+    body.dark-mode .popup-title {
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .popup-text {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .popup-close {
+      color: #64748b;
+    }
+
+    body.dark-mode .popup-close:hover {
+      color: #94a3b8;
+    }
+
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      background: rgba(255,255,255,0.12);
+      border: none;
+      cursor: pointer;
+      padding: 0.75rem;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .dark-mode-toggle:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .dark-mode-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .card {
+      background: #1e293b;
+      border-color: #334155;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    body.dark-mode .form-title {
+      color: #60a5fa;
+    }
+
+    body.dark-mode label {
+      color: #e2e8f0;
+    }
+
+    body.dark-mode input, 
+    body.dark-mode select, 
+    body.dark-mode textarea {
+      background: #0f172a;
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+
+    body.dark-mode input::placeholder,
+    body.dark-mode textarea::placeholder {
+      color: #64748b;
+    }
+
+    body.dark-mode input:focus, 
+    body.dark-mode select:focus, 
+    body.dark-mode textarea:focus {
+      border-color: #3b82f6;
+      background: #1e293b;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    }
+
+    body.dark-mode .input-hint {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .character-counter {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .footer {
+      color: #64748b;
+    }
+
+    body.dark-mode .progress-bar {
+      background: #334155;
+    }
+
+    body.dark-mode .progress-step {
+      color: #64748b;
+    }
+
+    body.dark-mode .progress-step.active {
+      color: #3b82f6;
+    }
+
+    body.dark-mode .progress-step.completed {
+      color: #10b981;
+    }
+
+    body.dark-mode .image-upload {
+      background: #0f172a;
+      border-color: #334155;
+    }
+
+    body.dark-mode .image-upload:hover {
+      background: #1e293b;
+      border-color: #3b82f6;
+    }
+
+    body.dark-mode .image-upload-icon {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .image-upload-text {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .upload-btn {
+      background: #1e293b;
+      border-color: #3b82f6;
+      color: #60a5fa;
+    }
+
+    body.dark-mode .upload-btn:hover {
+      background: #334155;
+    }
+
+    body.dark-mode .camera-btn {
+      border-color: #10b981;
+      color: #34d399;
+    }
+
+    body.dark-mode .image-upload-hint {
+      color: #64748b;
+    }
+
+    body.dark-mode .chat-window {
+      background: #1e293b;
+      border: 1px solid #334155;
+    }
+
+    body.dark-mode .chat-messages {
+      background: #0f172a;
+    }
+
+    body.dark-mode .chat-message.bot {
+      background: #334155;
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .chat-header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+    }
+
+    body.dark-mode .chat-input {
+      background: #0f172a;
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .menu-dropdown {
+      background: #1e293b;
+      border: 1px solid #334155;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark-mode .menu-item {
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .menu-item:hover {
+      background: #334155;
+    }
+
+    body.dark-mode .hamburger-menu {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    body.dark-mode .hamburger-menu:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    body.dark-mode .hamburger-menu.open {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .menu-divider {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 0.5rem 0;
+    }
+
+    .menu-item-dark-mode {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.25rem;
+      color: #374151;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .dark-mode-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .dark-mode-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .dark-mode-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e1;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+
+    .dark-mode-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .dark-mode-switch input:checked + .dark-mode-slider {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    }
+
+    .dark-mode-switch input:checked + .dark-mode-slider:before {
+      transform: translateX(20px);
+    }
+
+    body.dark-mode .menu-item-dark-mode {
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .menu-divider {
+      background: #334155;
+    }
+
+    /* Autocomplete Datalist Styles */
+    datalist {
+      display: none;
+    }
+
+    input[list]::-webkit-calendar-picker-indicator {
+      opacity: 0.5;
+      cursor: pointer;
+    }
+
     .error-message {
       background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
       color: white;
@@ -506,6 +1495,92 @@ display: flex;
       color: #6b7280;
       margin-top: 4rem;
       font-size: 0.9rem;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .faq-title {
+      color: #2c5282;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    body.dark-mode .faq-title {
+      color: #60a5fa;
+    }
+
+    .faq-item {
+      background: #f8fafc;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    body.dark-mode .faq-item {
+      background: #1e293b;
+      border-color: #334155;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      background: none;
+      border: none;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.2s ease;
+    }
+
+    body.dark-mode .faq-question {
+      color: #e2e8f0;
+    }
+
+    .faq-question:hover {
+      background: #f1f5f9;
+    }
+
+    body.dark-mode .faq-question:hover {
+      background: #334155;
+    }
+
+    .faq-icon {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+      color: #6b7280;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 1.25rem;
+      color: #6b7280;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding: 0 1.25rem 1rem;
     }
 
     .priority-badge {
@@ -551,6 +1626,209 @@ display: flex;
 
     .character-counter.error {
       color: #ef4444;
+    }
+
+    /* Tracking Section */
+    .tracking-section {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border: 2px solid #86efac;
+      text-align: center;
+    }
+
+    .tracking-title {
+      color: #166534;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .tracking-subtitle {
+      color: #64748b;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tracking-form {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .tracking-input {
+      flex: 1;
+      padding: 0.875rem 1rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+
+    .tracking-input:focus {
+      outline: none;
+      border-color: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+    }
+
+    .tracking-btn {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: white;
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tracking-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(22, 197, 94, 0.3);
+    }
+
+    .tracking-result {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 12px;
+      display: none;
+    }
+
+    .tracking-result.show {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .tracking-result.success {
+      background: #ffffff;
+      border: 2px solid #22c55e;
+    }
+
+    .tracking-result.not-found {
+      background: #fef2f2;
+      border: 2px solid #ef4444;
+    }
+
+    .tracking-result-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .tracking-result.success .tracking-result-title {
+      color: #166534;
+    }
+
+    .tracking-result.not-found .tracking-result-title {
+      color: #dc2626;
+    }
+
+    .tracking-detail {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+    }
+
+    .tracking-detail:last-child {
+      border-bottom: none;
+    }
+
+    .tracking-label {
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .tracking-value {
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    .tracking-status {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .tracking-status.pendiente {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .tracking-status.en-proceso {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .tracking-status.resuelto {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .tracking-copied {
+      color: #22c55e;
+      font-weight: 600;
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .tracking-copied.show {
+      opacity: 1;
+    }
+
+    body.dark-mode .tracking-section {
+      background: linear-gradient(135deg, #052e16 0%, #14532d 100%);
+      border-color: #22c55e;
+    }
+
+    body.dark-mode .tracking-title {
+      color: #86efac;
+    }
+
+    body.dark-mode .tracking-subtitle {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .tracking-input {
+      background: #0f172a;
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .tracking-detail {
+      border-color: #334155;
+    }
+
+    body.dark-mode .tracking-label {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .tracking-value {
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .tracking-solicitud-item {
+      background: #1e293b;
+    }
+
+    body.dark-mode .tracking-solicitud-item:hover {
+      background: #334155;
     }
 
     .input-hint {
@@ -648,13 +1926,34 @@ display: flex;
   </style>
 </head>
 <body>
+  <div class="popup-overlay" id="welcomePopup">
+    <div class="popup-content">
+      <button class="popup-close" id="popupClose">&times;</button>
+      <div class="popup-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </div>
+      <h2 class="popup-title">Bienvenido al Servicio Técnico</h2>
+      <p class="popup-text">
+        ¿Tienes algún problema con tu equipo? Describes y nuestro equipo te ayudará a resolverlo rápidamente. 
+        <br><br>
+        🎯 <strong>Instrucciones:</strong><br>
+        • Completa el formulario con los detalles del problema<br>
+        • Selecciona el nivel de urgencia<br>
+        • Opcional: Sube imágenes del problema<br>
+        • ¡Envía y nosotros te contactaremos!
+      </p>
+      <button class="popup-btn" id="popupBtn">Entendido</button>
+    </div>
+  </div>
   <div class="header">
     <div class="header-top">
       <a href="https://pcbsystempr-cyber.github.io/pcbsystem/index.html#inicio" class="btn-regresar" target="_blank" title="Ir a PCB System">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        PCB System
+        Regresar al PCB System
       </a>
 
       <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menú de navegación">
@@ -681,11 +1980,31 @@ display: flex;
     <div class="card">
       <h2 class="form-title">Solicitud de Servicio Técnico</h2>
       
+      <div class="progress-bar-container">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-steps">
+          <span class="progress-step active" id="step1">1. Datos</span>
+          <span class="progress-step" id="step2">2. Problema</span>
+          <span class="progress-step" id="step3">3. Urgencia</span>
+          <span class="progress-step" id="step4">4. Descripción</span>
+          <span class="progress-step" id="step5">5. Enviar</span>
+        </div>
+      </div>
+      
       <button type="button" class="btn-dictate-all" id="dictateAllBtn">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11.5A5.5 5.5 0 0112 5c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5" />
         </svg>
         Dictar todo
+      </button>
+
+      <button type="button" class="btn-clear-form" id="clearFormBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+        Limpiar
       </button>
 
       <form id="techRequestForm">
@@ -701,10 +2020,9 @@ display: flex;
             id="department"
             name="department"
             required
-            placeholder="Escriba el nombre de su departamento (ej: Matemáticas, Ciencias, Español, etc.)"
+            placeholder="Escriba su departamento"
             maxlength="50"
           />
-          <div class="input-hint">Escriba libremente el nombre de su departamento</div>
           <div id="departmentCounter" class="character-counter">0/50 caracteres</div>
         </div>
 
@@ -715,10 +2033,9 @@ display: flex;
             id="problemType"
             name="problemType"
             required
-            placeholder="Describa el tipo de problema (ej: computadora, internet, impresora, etc.)"
+            placeholder="Escriba el tipo de problema"
             maxlength="100"
           />
-          <div class="input-hint">Escriba libremente el tipo de problema técnico que está experimentando</div>
           <div id="problemTypeCounter" class="character-counter">0/100 caracteres</div>
         </div>
 
@@ -743,10 +2060,109 @@ display: flex;
           ></textarea>
         </div>
 
+        <div class="form-group">
+          <label>Evidencia del Problema <span style="color: #6b7280; font-weight: 400;">(Opcional)</span></label>
+          <div class="upload-buttons">
+            <button type="button" class="upload-btn" onclick="document.getElementById('imageInput').click()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Elegir archivo
+            </button>
+            <button type="button" class="upload-btn camera-btn" onclick="document.getElementById('cameraInput').click()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.76-.9l.82-1.48A2 2 0 0111.93 3H14a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Cámara
+            </button>
+          </div>
+          <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+          <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
+          <div class="image-preview-container" id="imagePreviewContainer"></div>
+          <div class="image-upload-hint">Máx 5MB cada uno. Arrastra archivos aquí también.</div>
+        </div>
+
         <button type="submit" class="btn" id="submitBtn">Enviar Solicitud</button>
       </form>
 
       <div id="errorMessage" class="error-message"></div>
+
+      <div class="tracking-section">
+        <h2 class="tracking-title">📋 Seguimiento de Solicitud</h2>
+        <p class="tracking-subtitle">Ingresa tu código de seguimiento para ver el estado de tu solicitud</p>
+        
+        <div class="tracking-form">
+          <input type="text" id="trackingCode" class="tracking-input" placeholder="Ej: ST-8A2B" maxlength="8" />
+          <button type="button" class="tracking-btn" id="trackingBtn">Buscar</button>
+        </div>
+        
+        <div class="tracking-result" id="trackingResult"></div>
+      </div>
+
+      <div class="faq-section">
+        <h2 class="faq-title">Preguntas Frecuentes</h2>
+        
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Cuánto tiempo tardan en atender mi solicitud?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>El tiempo de atención depende del nivel de urgencia: Crítica (inmediato), Alta (24-48 horas), Media (2-3 días), Baja (según disponibilidad). Las solicitudes críticas que afectan clases tienen prioridad absoluta.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Puedo subir imágenes del problema?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Sí, es opcional. Debajo del campo de descripción hay una opción para subir imágenes (JPG, PNG, GIF) de hasta 5MB cada una. Las imágenes ayudan a los técnicos a diagnosticar el problema más rápido.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Qué hago si mi equipo no enciende?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Primero verifica que el cable de energía esté conectado correctamente y que el tomacorriente funcione. Si el equipo tiene luces LED, observa cuáles se encienden. Incluye esta información en la descripción de tu solicitud.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿El servicio técnico tiene costo?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>El servicio de soporte técnico para equipos de la institución es gratuito para personal docente y administrativo. El departamento de tecnología está para apoyar las actividades educativas.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Qué información debo incluir en la descripción?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Incluye: descripción clara del problema, cuándo comenzó, si apareció algún mensaje de error, qué equipo específico está afectado (número de serie si lo conoces), y si otros equipos tienen el mismo problema.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -759,6 +2175,31 @@ display: flex;
     <div class="loading-spinner"></div>
   </div>
 
+  <div class="autosave-indicator" id="autosaveIndicator">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+    </svg>
+    <span id="autosaveText">Guardando...</span>
+  </div>
+
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-content">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <h3 class="modal-title">¿Confirmar envío?</h3>
+      <p class="modal-text">¿Estás seguro de que deseas enviar esta solicitud de servicio técnico?</p>
+      <div class="modal-buttons">
+        <button type="button" class="modal-btn modal-btn-cancel" id="modalCancel">Cancelar</button>
+        <button type="button" class="modal-btn modal-btn-confirm" id="modalConfirm">Sí, enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="notification-toast" id="notificationToast"></div>
+
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -770,6 +2211,55 @@ display: flex;
     emailjs.init("k-RtP_Q9lUDgc_BQZ");
 
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    function generateTrackingCode() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let code = 'ST-';
+      for (let i = 0; i < 4; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+    }
+
+    function saveSolicitudHistorial(codigo, nombre, departamento, tipoProblema, urgencia, descripcion, estado) {
+      const historial = JSON.parse(localStorage.getItem('solicitudes_historial') || '[]');
+      historial.unshift({
+        codigo: codigo,
+        nombre: nombre,
+        departamento: departamento,
+        tipoProblema: tipoProblema,
+        urgencia: urgencia,
+        descripcion: descripcion,
+        estado: estado,
+        fecha: new Date().toLocaleDateString('es-ES'),
+        fechaISO: new Date().toISOString()
+      });
+      localStorage.setItem('solicitudes_historial', JSON.stringify(historial));
+    }
+
+    async function buscarSolicitud(codigo) {
+      const searchCode = codigo.toUpperCase().trim();
+      
+      // Try Supabase first - use ilike for case-insensitive
+      try {
+        const { data, error } = await supabase
+          .from('solicitudes_servicio')
+          .select('*')
+          .ilike('codigo_seguimiento', searchCode)
+          .single();
+        
+        if (data) {
+          console.log('Found in Supabase:', data);
+          return data;
+        }
+      } catch (e) {
+        console.error('Error searching in Supabase:', e);
+      }
+      
+      // Fallback to localStorage
+      const historial = JSON.parse(localStorage.getItem('solicitudes_historial') || '[]');
+      return historial.find(s => s.codigo.toUpperCase() === searchCode);
+    }
 
     // Guardar visita en Supabase con más información
     async function registrarVisita() {
@@ -859,6 +2349,32 @@ display: flex;
     // Registrar automáticamente al cargar
     registrarVisita();
 
+    // Uploaded images array - declaration at top
+    let uploadedImages = [];
+
+    // Image preview container - declare early
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+
+    // Render image previews function (callable from anywhere)
+    function renderImagePreviews() {
+      if (!imagePreviewContainer) return;
+      imagePreviewContainer.innerHTML = '';
+      uploadedImages.forEach((img, index) => {
+        const div = document.createElement('div');
+        div.className = 'image-preview';
+        div.innerHTML = `
+          <img src="${img}" alt="Imagen ${index + 1}">
+          <button type="button" class="image-preview-remove" onclick="removeImage(${index})">&times;</button>
+        `;
+        imagePreviewContainer.appendChild(div);
+      });
+    }
+
+    window.removeImage = function(index) {
+      uploadedImages.splice(index, 1);
+      renderImagePreviews();
+    };
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = null;
 
@@ -929,14 +2445,65 @@ display: flex;
     });
 
     const STORAGE_KEY = 'servicio_tecnico_user';
+    const DRAFT_KEY = 'servicio_tecnico_draft';
     const teacherNameInput = document.getElementById('teacherName');
     const departmentInput = document.getElementById('department');
+    const problemTypeInput = document.getElementById('problemType');
+    const urgencySelect = document.getElementById('urgency');
+    const problemDescriptionInput = document.getElementById('problemDescription');
+    const autosaveIndicator = document.getElementById('autosaveIndicator');
+    const autosaveText = document.getElementById('autosaveText');
 
+    // Load saved user data (name and department persist)
     const savedData = localStorage.getItem(STORAGE_KEY);
     if (savedData) {
       const data = JSON.parse(savedData);
       if (data.name) teacherNameInput.value = data.name;
       if (data.department) departmentInput.value = data.department;
+    }
+
+    // Load draft if exists
+    const savedDraft = localStorage.getItem(DRAFT_KEY);
+    if (savedDraft) {
+      const draft = JSON.parse(savedDraft);
+      if (draft.teacherName) teacherNameInput.value = draft.teacherName;
+      if (draft.department) departmentInput.value = draft.department;
+      if (draft.problemType) problemTypeInput.value = draft.problemType;
+      if (draft.urgency) urgencySelect.value = draft.urgency;
+      if (draft.problemDescription) problemDescriptionInput.value = draft.problemDescription;
+      // Restore uploaded images if any
+      if (draft.images && draft.images.length > 0) {
+        uploadedImages = draft.images;
+        renderImagePreviews();
+      }
+    }
+
+    function showAutosave(status) {
+      autosaveIndicator.classList.add('show');
+      if (status === 'saving') {
+        autosaveIndicator.classList.remove('saved');
+        autosaveText.textContent = 'Guardando...';
+      } else if (status === 'saved') {
+        autosaveIndicator.classList.add('saved');
+        autosaveText.textContent = 'Guardado';
+        setTimeout(() => {
+          autosaveIndicator.classList.remove('show');
+        }, 2000);
+      }
+    }
+
+    function autoSaveDraft() {
+      showAutosave('saving');
+      const draft = {
+        teacherName: teacherNameInput.value,
+        department: departmentInput.value,
+        problemType: problemTypeInput.value,
+        urgency: urgencySelect.value,
+        problemDescription: problemDescriptionInput.value,
+        images: uploadedImages
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      setTimeout(() => showAutosave('saved'), 500);
     }
 
     function autoSaveUserData() {
@@ -946,6 +2513,20 @@ display: flex;
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
+
+    // Auto-save on input with debounce
+    let autosaveTimeout;
+    const formInputs = [teacherNameInput, departmentInput, problemTypeInput, urgencySelect, problemDescriptionInput];
+    formInputs.forEach(input => {
+      input.addEventListener('input', () => {
+        clearTimeout(autosaveTimeout);
+        autosaveTimeout = setTimeout(autoSaveDraft, 1000);
+      });
+      input.addEventListener('change', () => {
+        clearTimeout(autosaveTimeout);
+        autosaveTimeout = setTimeout(autoSaveDraft, 1000);
+      });
+    });
 
     teacherNameInput.addEventListener('change', autoSaveUserData);
     departmentInput.addEventListener('change', autoSaveUserData);
@@ -1140,18 +2721,48 @@ display: flex;
         }
       });
 
+      // Enhanced real-time validation
       form.querySelectorAll("input, textarea, select").forEach((input) => {
-        input.addEventListener("input", function () {
-          if (this.checkValidity()) {
-            this.style.borderColor = "#10b981";
+        const validateField = () => {
+          const value = input.value.trim();
+          const isRequired = input.hasAttribute('required');
+          
+          if (value === '' && isRequired) {
+            input.style.borderColor = "#e2e8f0";
+            input.style.boxShadow = "none";
+          } else if (input.checkValidity()) {
+            input.style.borderColor = "#10b981";
+            input.style.boxShadow = "0 0 0 3px rgba(16, 185, 129, 0.2)";
           } else {
-            this.style.borderColor = "#e2e8f0";
+            input.style.borderColor = "#ef4444";
+            input.style.boxShadow = "0 0 0 3px rgba(239, 68, 68, 0.2)";
           }
-        });
+        };
+
+        input.addEventListener("input", validateField);
+        input.addEventListener("blur", validateField);
+        input.addEventListener("change", validateField);
       });
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        
+        // Show confirmation modal instead of submitting directly
+        const confirmModal = document.getElementById('confirmModal');
+        confirmModal.classList.add('show');
+      });
+
+      // Modal functionality
+      const confirmModal = document.getElementById('confirmModal');
+      const modalCancel = document.getElementById('modalCancel');
+      const modalConfirm = document.getElementById('modalConfirm');
+
+      modalCancel.addEventListener('click', () => {
+        confirmModal.classList.remove('show');
+      });
+
+      modalConfirm.addEventListener('click', async () => {
+        confirmModal.classList.remove('show');
         clearError();
 
         if (!form.checkValidity()) {
@@ -1168,14 +2779,20 @@ display: flex;
           fecha: new Date().toLocaleString("es-ES")
         };
 
+        const trackingCode = generateTrackingCode();
+        
         const requestData = {
           nombre_maestro: templateParams.maestro,
           departamento: templateParams.departamento,
           tipo_problema: templateParams.problema,
           urgencia: templateParams.prioridad,
           descripcion_problema: templateParams.descripcion,
-          estado: "Pendiente"
+          imagenes: uploadedImages.length > 0 ? uploadedImages : null,
+          estado: "Pendiente",
+          codigo_seguimiento: trackingCode
         };
+
+        localStorage.setItem('ultimo_codigo', trackingCode);
 
         const originalText = submitBtn.textContent;
         submitBtn.textContent = "Enviando...";
@@ -1197,6 +2814,26 @@ display: flex;
             console.warn("La solicitud se guardó, pero falló el email:", emailError);
           }
 
+          // Guardar en localStorage para el panel de admin (sin imágenes para evitar cuota llena)
+          const localRequests = JSON.parse(localStorage.getItem('tech_requests') || '[]');
+          const requestNoImages = { ...requestData, imagenes: null };
+          localRequests.unshift(requestNoImages);
+          
+          // Limitar a las últimas 50 solicitudes
+          if (localRequests.length > 50) localRequests.splice(50);
+          localStorage.setItem('tech_requests', JSON.stringify(localRequests));
+
+          // Guardar en historial para seguimiento
+          saveSolicitudHistorial(
+            trackingCode,
+            templateParams.maestro,
+            templateParams.departamento,
+            templateParams.problema,
+            templateParams.prioridad,
+            templateParams.descripcion,
+            'Pendiente'
+          );
+
           window.location.href = "success.html";
         } catch (error) {
           console.error(error);
@@ -1211,6 +2848,265 @@ display: flex;
         }
       });
     });
+
+    // Progress bar functionality
+    const progressFill = document.getElementById('progressFill');
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    const step4 = document.getElementById('step4');
+    const step5 = document.getElementById('step5');
+
+    function updateProgress() {
+      const teacherName = document.getElementById('teacherName').value.trim();
+      const department = document.getElementById('department').value.trim();
+      const problemType = document.getElementById('problemType').value.trim();
+      const urgency = document.getElementById('urgency').value;
+      const problemDescription = document.getElementById('problemDescription').value.trim();
+
+      const step1Complete = teacherName && department;
+      const step2Complete = problemType;
+      const step3Complete = urgency;
+      const step4Complete = problemDescription;
+
+      const completedSteps = [step1Complete, step2Complete, step3Complete, step4Complete].filter(Boolean).length;
+      const percentage = (completedSteps / 4) * 100;
+      progressFill.style.width = percentage + '%';
+
+      step1.classList.remove('active', 'completed');
+      step2.classList.remove('active', 'completed');
+      step3.classList.remove('active', 'completed');
+      step4.classList.remove('active', 'completed');
+      step5.classList.remove('active', 'completed');
+
+      if (step1Complete) step1.classList.add('completed');
+      if (step2Complete) step2.classList.add('completed');
+      if (step3Complete) step3.classList.add('completed');
+      if (step4Complete) step4.classList.add('completed');
+
+      if (completedSteps === 0) step1.classList.add('active');
+      else if (completedSteps === 1) step2.classList.add('active');
+      else if (completedSteps === 2) step3.classList.add('active');
+      else if (completedSteps === 3) step4.classList.add('active');
+      else if (completedSteps === 4) step5.classList.add('active');
+    }
+
+    ['teacherName', 'department', 'problemType', 'urgency', 'problemDescription'].forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.addEventListener('input', updateProgress);
+        field.addEventListener('change', updateProgress);
+      }
+    });
+
+    // Image upload functionality
+    const imageUpload = document.getElementById('imageUpload');
+    const imageInput = document.getElementById('imageInput');
+    const cameraInput = document.getElementById('cameraInput');
+
+    if (imageUpload) {
+      imageUpload.addEventListener('click', () => imageInput.click());
+      imageUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        imageUpload.classList.add('dragover');
+      });
+      imageUpload.addEventListener('dragleave', () => {
+        imageUpload.classList.remove('dragover');
+      });
+      imageUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        imageUpload.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+      });
+    }
+
+    if (imageInput) {
+      imageInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+      });
+    }
+
+    if (cameraInput) {
+      cameraInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+      });
+    }
+
+function handleFiles(files) {
+      Array.from(files).forEach(file => {
+        if (file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            uploadedImages.push(e.target.result);
+            renderImagePreviews();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    // FAQ Accordion functionality
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const faqItem = button.parentElement;
+        const isOpen = faqItem.classList.contains('open');
+        
+        document.querySelectorAll('.faq-item').forEach(item => {
+          item.classList.remove('open');
+        });
+        
+if (!isOpen) {
+          faqItem.classList.add('open');
+        }
+      });
+    });
+
+    // Welcome Popup functionality
+    const welcomePopup = document.getElementById('welcomePopup');
+    const popupClose = document.getElementById('popupClose');
+    const popupBtn = document.getElementById('popupBtn');
+
+    // Check if popup was already shown
+    const popupShown = localStorage.getItem('welcomePopupShown');
+
+    if (!popupShown) {
+      setTimeout(() => {
+        welcomePopup.classList.add('show');
+      }, 500);
+    }
+
+    function closePopup() {
+      welcomePopup.classList.remove('show');
+      localStorage.setItem('welcomePopupShown', 'true');
+    }
+
+    popupClose.addEventListener('click', closePopup);
+    popupBtn.addEventListener('click', closePopup);
+
+    // Close on outside click
+    welcomePopup.addEventListener('click', (e) => {
+      if (e.target === welcomePopup) {
+        closePopup();
+      }
+    });
+
+    // Clear form button functionality
+    const clearFormBtn = document.getElementById('clearFormBtn');
+    clearFormBtn.addEventListener('click', () => {
+      const form = document.getElementById('techRequestForm');
+      if (confirm('¿Estás seguro de que deseas limpiar el formulario?')) {
+        form.reset();
+        uploadedImages = [];
+        renderImagePreviews();
+        localStorage.removeItem(DRAFT_KEY);
+        
+        // Reset validation styles
+        form.querySelectorAll('input, textarea, select').forEach(input => {
+          input.style.borderColor = '#e2e8f0';
+          input.style.boxShadow = 'none';
+        });
+        
+        // Reset progress bar
+        const progressFill = document.getElementById('progressFill');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const step4 = document.getElementById('step4');
+        const step5 = document.getElementById('step5');
+        
+        if (progressFill) progressFill.style.width = '0%';
+        if (step1) {
+          step1.classList.add('active');
+          step1.classList.remove('completed');
+        }
+        if (step2) step2.classList.remove('active', 'completed');
+        if (step3) step3.classList.remove('active', 'completed');
+        if (step4) step4.classList.remove('active', 'completed');
+        if (step5) step5.classList.remove('active', 'completed');
+        
+        showNotification('Formulario limpiado', 'success');
+      }
+    });
+
+    // Tracking functionality
+    const trackingCodeInput = document.getElementById('trackingCode');
+    const trackingBtn = document.getElementById('trackingBtn');
+    const trackingResult = document.getElementById('trackingResult');
+
+    trackingBtn.addEventListener('click', async () => {
+      const code = trackingCodeInput.value.trim().toUpperCase();
+      if (!code || code.length < 5) {
+        trackingResult.className = 'tracking-result show not-found';
+        trackingResult.innerHTML = '<div class="tracking-result-title">⚠️ Ingresa un código válido</div>';
+        return;
+      }
+
+      const found = await buscarSolicitud(code);
+      trackingResult.classList.add('show');
+
+      if (found) {
+        const codigo = found.codigo_seguimiento || found.codigo || '';
+        const estado = found.estado || 'Pendiente';
+        const problema = found.tipo_problema || found.tipoProblema || found.problema || '';
+        const urgencia = found.urgencia || found.prioridad || '';
+        const descripcion = found.descripcion_problema || found.descripcion || '';
+        const maestro = found.nombre_maestro || found.maestro || '';
+        const departamento = found.departamento || '';
+        
+        const estadoClass = estado === 'Resuelto' ? 'resuelto' : estado === 'En Proceso' ? 'en-proceso' : 'pendiente';
+        trackingResult.className = 'tracking-result show success';
+        trackingResult.innerHTML = `
+          <div class="tracking-result-title">✅ Solicitud encontrada</div>
+          <div class="tracking-detail">
+            <span class="tracking-label">Código</span>
+            <span class="tracking-value">${codigo}</span>
+          </div>
+          <div class="tracking-detail">
+            <span class="tracking-label">Estado</span>
+            <span class="tracking-status ${estadoClass}">${estado}</span>
+          </div>
+          ${maestro ? `<div class="tracking-detail"><span class="tracking-label">Maestro</span><span class="tracking-value">${maestro}</span></div>` : ''}
+          ${departamento ? `<div class="tracking-detail"><span class="tracking-label">Departamento</span><span class="tracking-value">${departamento}</span></div>` : ''}
+          <div class="tracking-detail">
+            <span class="tracking-label">Problema</span>
+            <span class="tracking-value">${problema}</span>
+          </div>
+          <div class="tracking-detail">
+            <span class="tracking-label">Urgencia</span>
+            <span class="tracking-value">${urgencia}</span>
+          </div>
+          <div class="tracking-detail">
+            <span class="tracking-label">Descripción</span>
+            <span class="tracking-value" style="font-weight:400;font-size:0.9rem;">${descripcion.substring(0, 80)}${descripcion.length > 80 ? '...' : ''}</span>
+          </div>
+        `;
+      } else {
+        trackingResult.className = 'tracking-result show not-found';
+        trackingResult.innerHTML = '<div class="tracking-result-title">❌ Código no encontrado</div><p style="margin-top:0.5rem;">Verifica que el código sea correcto o verifica en la página de success.</p>';
+      }
+    });
+
+    trackingCodeInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') trackingBtn.click();
+    });
+
+    // Mostrar últimas solicitudes guardadas
+    function mostrarMisSolicitudes() {
+      const historial = JSON.parse(localStorage.getItem('solicitudes_historial') || '[]');
+      const container = document.getElementById('misSolicitudesList');
+      if (!container || historial.length === 0) return;
+
+      container.innerHTML = historial.slice(0, 5).map(s => `
+        <div class="tracking-solicitud-item" onclick="document.getElementById('trackingCode').value='${s.codigo}';document.getElementById('trackingBtn').click();">
+          <span class="tracking-solicitud-codigo">${s.codigo}</span>
+          <span class="tracking-solicitud-fecha">${s.fecha}</span>
+        </div>
+      `).join('');
+    }
+
+    if (document.getElementById('misSolicitudesList')) {
+      mostrarMisSolicitudes();
+    }
   </script>
 </body>
 </html>
