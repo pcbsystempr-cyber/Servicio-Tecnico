@@ -543,6 +543,14 @@
         </div>
 
         <div class="section">
+          <h2>Observaciones</h2>
+          <div class="field">
+            <span class="label">Comentarios adicionales (opcional)</span>
+            <textarea name="observations" id="observations" rows="4" placeholder="Escribe cualquier observación adicional sobre el servicio..."></textarea>
+          </div>
+        </div>
+
+        <div class="section">
           <h2>Firma del técnico</h2>
           <div class="signature-box">
     <div class="signature-toolbar">
@@ -687,9 +695,135 @@
     submitBtn.onclick = async () => {
       if (!validateForm()) return;
 
-      alert('✅ ¡Formulario enviado! Estrellas y firmas funcionando correctamente.');
-      
-      // Tu código Supabase/EmailJS aquí...
+      loadingOverlay.style.display = 'flex';
+      submitBtn.disabled = true;
+
+      try {
+        // Recolectar checkboxes de tipo de servicio
+        const serviceCheckboxes = document.querySelectorAll('input[name="srv"]:checked');
+        const serviceTypes = Array.from(serviceCheckboxes).map(cb => cb.value);
+        const srvOtroCheck = document.getElementById('srvOtroCheck');
+        const srvOtroText = document.getElementById('srvOtroText');
+        const serviceOther = (srvOtroCheck && srvOtroCheck.checked) ? (srvOtroText ? srvOtroText.value.trim() : '') : null;
+        if (serviceOther) serviceTypes.push('Otro: ' + serviceOther);
+
+        // Recolectar checkboxes de equipo
+        const equipmentCheckboxes = document.querySelectorAll('input[name="eq"]:checked');
+        const equipmentTypes = Array.from(equipmentCheckboxes).map(cb => cb.value);
+        const eqOtroCheck = document.getElementById('eqOtroCheck');
+        const eqOtroText = document.getElementById('eqOtroText');
+        const equipmentOther = (eqOtroCheck && eqOtroCheck.checked) ? (eqOtroText ? eqOtroText.value.trim() : '') : null;
+        if (equipmentOther) equipmentTypes.push('Otro: ' + equipmentOther);
+
+        // Firmas como base64
+        const techSignatureCanvas = document.getElementById('techSignatureCanvas');
+        const teacherSignatureCanvas = document.getElementById('teacherSignatureCanvas');
+        const technicianSignature = techSignatureCanvas.toDataURL('image/png');
+        const teacherSignature = teacherSignatureCanvas.toDataURL('image/png');
+
+        // Generar código de seguimiento
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let trackingCode = 'EV-';
+        for (let i = 0; i < 4; i++) {
+          trackingCode += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        const formData = {
+          service_date: document.getElementById('service_date').value || null,
+          technician: document.getElementById('student_name').value.trim(),
+          student_grade: document.getElementById('student_grade').value.trim(),
+          teacher: document.getElementById('teacher_name').value.trim(),
+          area_room: document.getElementById('area_room').value.trim(),
+          service_types: serviceTypes.length > 0 ? serviceTypes : null,
+          service_other: serviceOther || null,
+          equipment_types: equipmentTypes.length > 0 ? equipmentTypes : null,
+          equipment_other: equipmentOther || null,
+          problem_description: document.getElementById('problem_description').value.trim(),
+          service_solution: document.getElementById('service_solution').value.trim(),
+          service_status: document.querySelector('input[name="service_status"]:checked')?.value || 'Pendiente',
+          rating: parseInt(ratingValue.value, 10),
+          observations: document.getElementById('observations')?.value.trim() || null,
+          technician_signature: technicianSignature,
+          teacher_signature: teacherSignature,
+          codigo_seguimiento: trackingCode,
+          submitted_by: 'formulario_web',
+          user_agent: navigator.userAgent
+        };
+
+        // Insertar en Supabase (tabla separada para reportes técnicos)
+        const { data, error } = await supabase
+          .from('reportes_tecnicos')
+          .insert([formData])
+          .select();
+
+        if (error) {
+          console.error('Error Supabase:', error);
+          throw new Error('No se pudo guardar en la base de datos: ' + error.message);
+        }
+
+        // Generar PDF
+        try {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+
+          doc.setFontSize(18);
+          doc.text('Evaluación de Servicio Técnico - COMPUTEC', 14, 20);
+          doc.setFontSize(12);
+
+          let y = 35;
+          const addLine = (label, value) => {
+            doc.setFont(undefined, 'bold');
+            doc.text(label + ':', 14, y);
+            doc.setFont(undefined, 'normal');
+            const text = value ? String(value) : 'N/A';
+            const split = doc.splitTextToSize(text, 170);
+            doc.text(split, 50, y);
+            y += 7 * split.length;
+            if (y > 270) { doc.addPage(); y = 20; }
+          };
+
+          addLine('Código', trackingCode);
+          addLine('Fecha', formData.service_date);
+          addLine('Técnico', formData.technician);
+          addLine('Grado', formData.student_grade);
+          addLine('Maestro', formData.teacher);
+          addLine('Área/Salón', formData.area_room);
+          addLine('Servicios', formData.service_types?.join(', '));
+          addLine('Equipos', formData.equipment_types?.join(', '));
+          addLine('Problema', formData.problem_description);
+          addLine('Solución', formData.service_solution);
+          addLine('Estado', formData.service_status);
+          addLine('Calificación', '★'.repeat(formData.rating) + '☆'.repeat(5 - formData.rating));
+
+          const pdfBase64 = doc.output('datauristring');
+          localStorage.setItem('ultimo_pdf_servicio', pdfBase64);
+          localStorage.setItem('ultimo_pdf_nombre', `Evaluacion_${trackingCode}.pdf`);
+        } catch (pdfErr) {
+          console.warn('Error generando PDF:', pdfErr);
+        }
+
+        // NOTA: Ya no se guarda en localStorage para evitar error de quota.
+        // Los datos se almacenan ÚNICAMENTE en Supabase.
+
+        // Éxito
+        successMessage.textContent = '✅ ¡Evaluación enviada exitosamente! Código: ' + trackingCode;
+        successMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
+
+        // Redirigir después de 1.5 segundos
+        setTimeout(() => {
+          window.location.href = 'success-calificacion.html';
+        }, 1500);
+
+      } catch (err) {
+        console.error('Error:', err);
+        errorMessage.textContent = '❌ ' + err.message;
+        errorMessage.style.display = 'block';
+        successMessage.style.display = 'none';
+      } finally {
+        loadingOverlay.style.display = 'none';
+        submitBtn.disabled = false;
+      }
     };
 
     console.log('✅ calificar.html reparado: Estrellas y firmas listas');

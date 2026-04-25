@@ -1792,6 +1792,235 @@ display: flex;
       opacity: 1;
     }
 
+    /* Evaluation Section Styles */
+    .evaluation-section {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 2rem;
+      border: 2px solid #93c5fd;
+    }
+
+    .evaluation-title {
+      color: #1e40af;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .evaluation-subtitle {
+      color: #64748b;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .evaluation-form {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .evaluation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .evaluation-field {
+      margin-bottom: 0;
+    }
+
+    .evaluation-field.full-width {
+      grid-column: span 2;
+    }
+
+    .evaluation-field label {
+      display: block;
+      font-weight: 600;
+      color: #1e3a8a;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .evaluation-field input,
+    .evaluation-field select,
+    .evaluation-field textarea {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid #bfdbfe;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .evaluation-field input:focus,
+    .evaluation-field select:focus,
+    .evaluation-field textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    }
+
+    .rating-container {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+
+    .rating-star {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 2.5rem;
+      color: #d1d5db;
+      transition: all 0.2s ease;
+      padding: 0.25rem;
+    }
+
+    .rating-star:hover,
+    .rating-star.active {
+      color: #fbbf24;
+      transform: scale(1.15);
+    }
+
+    .rating-star.selected {
+      color: #f59e0b;
+    }
+
+    .evaluation-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .evaluation-submit {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .evaluation-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.3);
+    }
+
+    .evaluation-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .evaluation-clear {
+      background: transparent;
+      color: #64748b;
+      padding: 1rem 1.5rem;
+      border: 2px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .evaluation-clear:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    .character-count {
+      font-size: 0.8rem;
+      color: #6b7280;
+      text-align: right;
+      margin-top: 0.25rem;
+    }
+
+    .evaluation-result {
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .evaluation-result.show {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .evaluation-result.success {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      color: #065f46;
+    }
+
+    .evaluation-result.error {
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      color: #991b1b;
+    }
+
+    @media (max-width: 640px) {
+      .evaluation-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .evaluation-field.full-width {
+        grid-column: span 1;
+      }
+
+      .rating-star {
+        font-size: 2rem;
+      }
+    }
+
+    body.dark-mode .evaluation-section {
+      background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+      border-color: #3b82f6;
+    }
+
+    body.dark-mode .evaluation-title {
+      color: #93c5fd;
+    }
+
+    body.dark-mode .evaluation-subtitle {
+      color: #94a3b8;
+    }
+
+    body.dark-mode .evaluation-field label {
+      color: #93c5fd;
+    }
+
+    body.dark-mode .evaluation-field input,
+    body.dark-mode .evaluation-field select,
+    body.dark-mode .evaluation-field textarea {
+      background: #0f172a;
+      border-color: #334155;
+      color: #e2e8f0;
+    }
+
+    body.dark-mode .evaluation-field input:focus,
+    body.dark-mode .evaluation-field select:focus,
+    body.dark-mode .evaluation-field textarea:focus {
+      border-color: #3b82f6;
+      background: #1e293b;
+    }
+
+    body.dark-mode .evaluation-clear {
+      border-color: #4b5563;
+      color: #9ca3af;
+    }
+
+    body.dark-mode .evaluation-clear:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
     body.dark-mode .tracking-section {
       background: linear-gradient(135deg, #052e16 0%, #14532d 100%);
       border-color: #22c55e;
@@ -2102,6 +2331,61 @@ display: flex;
         </div>
         
         <div class="tracking-result" id="trackingResult"></div>
+      </div>
+
+      <div class="evaluation-section">
+        <h2 class="evaluation-title">⭐ Evaluar Servicio Técnico</h2>
+        <p class="evaluation-subtitle">Cuéntanos cómo fue la atención del técnico que te atendió</p>
+        
+        <form class="evaluation-form" id="evaluationForm">
+          <div class="evaluation-grid">
+            <div class="evaluation-field">
+              <label for="evalTeacherName">Tu Nombre <span class="required">*</span></label>
+              <input type="text" id="evalTeacherName" placeholder="Nombre del maestro" required />
+            </div>
+            
+            <div class="evaluation-field">
+              <label for="evalTechnician">Técnico que atendió <span class="required">*</span></label>
+              <input type="text" id="evalTechnician" placeholder="Nombre del técnico" required list="techniciansList" />
+              <datalist id="techniciansList"></datalist>
+            </div>
+            
+            <div class="evaluation-field full-width">
+              <label for="evalCode">Código de Solicitud (opcional)</label>
+              <input type="text" id="evalCode" placeholder="Ej: ST-8A2B" maxlength="8" />
+            </div>
+          </div>
+          
+          <div class="evaluation-field">
+            <label>Calificación del Servicio <span class="required">*</span></label>
+            <div class="rating-container">
+              <button type="button" class="rating-star" data-value="1">★</button>
+              <button type="button" class="rating-star" data-value="2">★</button>
+              <button type="button" class="rating-star" data-value="3">★</button>
+              <button type="button" class="rating-star" data-value="4">★</button>
+              <button type="button" class="rating-star" data-value="5">★</button>
+            </div>
+          </div>
+          
+          <div class="evaluation-field">
+            <label for="evalComments">Comentarios adicionales</label>
+            <textarea id="evalComments" rows="3" placeholder="Describe tu experiencia con el servicio recibido..."></textarea>
+            <div class="character-count"><span id="commentsCount">0</span>/500</div>
+          </div>
+          
+          <div class="evaluation-field">
+            <label for="evalSuggestions">Sugerencias de mejora</label>
+            <textarea id="evalSuggestions" rows="3" placeholder="¿Cómo podemos mejorar nuestro servicio?"></textarea>
+            <div class="character-count"><span id="suggestionsCount">0</span>/500</div>
+          </div>
+          
+          <div class="evaluation-buttons">
+            <button type="button" class="evaluation-clear" id="evalClearBtn">Limpiar</button>
+            <button type="submit" class="evaluation-submit" id="evalSubmitBtn">Enviar Evaluación</button>
+          </div>
+          
+          <div class="evaluation-result" id="evalResult"></div>
+        </form>
       </div>
 
       <div class="faq-section">
@@ -3111,6 +3395,174 @@ if (!isOpen) {
     if (document.getElementById('misSolicitudesList')) {
       mostrarMisSolicitudes();
     }
+
+    // ========== Evaluation Form Functionality ==========
+    const evalForm = document.getElementById('evaluationForm');
+    const evalResult = document.getElementById('evalResult');
+    const ratingStars = document.querySelectorAll('.rating-star');
+    const evalTeacherName = document.getElementById('evalTeacherName');
+    const evalTechnician = document.getElementById('evalTechnician');
+    const evalCode = document.getElementById('evalCode');
+    const evalComments = document.getElementById('evalComments');
+    const evalSuggestions = document.getElementById('evalSuggestions');
+    const evalSubmitBtn = document.getElementById('evalSubmitBtn');
+    const evalClearBtn = document.getElementById('evalClearBtn');
+
+    let selectedRating = 0;
+
+    // Load technicians from database for the datalist
+    async function loadTechniciansForEvaluation() {
+      try {
+        const { data: solicitudes } = await supabase
+          .from('solicitudes_servicio')
+          .select('tecnico_asignado')
+          .not('tecnico_asignado', 'is', null);
+
+        if (solicitudes && solicitudes.length > 0) {
+          const tecnicosUnicos = [...new Set(solicitudes.map(s => s.tecnico_asignado).filter(Boolean))];
+          const datalist = document.getElementById('techniciansList');
+          datalist.innerHTML = tecnicosUnicos.map(t => `<option value="${t}">`).join('');
+        }
+      } catch (error) {
+        console.warn('Error cargando técnicos:', error);
+      }
+    }
+
+    // Rellenar con última solicitud si existe
+    function populateFromLastRequest() {
+      const historial = JSON.parse(localStorage.getItem('solicitudes_historial') || '[]');
+      if (historial.length > 0) {
+        const lastRequest = historial[0];
+        evalTeacherName.value = lastRequest.maestro || '';
+        evalCode.value = lastRequest.codigo || '';
+      }
+    }
+
+    // Star rating functionality
+    ratingStars.forEach(star => {
+      star.addEventListener('click', () => {
+        selectedRating = parseInt(star.dataset.value);
+        updateStarDisplay();
+      });
+
+      star.addEventListener('mouseenter', () => {
+        const hoverValue = parseInt(star.dataset.value);
+        ratingStars.forEach((s, index) => {
+          s.classList.toggle('selected', index < hoverValue);
+        });
+      });
+
+      star.addEventListener('mouseleave', () => {
+        updateStarDisplay();
+      });
+    });
+
+    function updateStarDisplay() {
+      ratingStars.forEach((star, index) => {
+        star.classList.remove('selected');
+        if (index < selectedRating) {
+          star.classList.add('selected');
+        }
+      });
+    }
+
+    // Character counter
+    evalComments.addEventListener('input', () => {
+      document.getElementById('commentsCount').textContent = evalComments.value.length;
+    });
+
+    evalSuggestions.addEventListener('input', () => {
+      document.getElementById('suggestionsCount').textContent = evalSuggestions.value.length;
+    });
+
+    // Clear form
+    evalClearBtn.addEventListener('click', () => {
+      if (confirm('¿Limpiar el formulario de evaluación?')) {
+        evalForm.reset();
+        selectedRating = 0;
+        updateStarDisplay();
+        document.getElementById('commentsCount').textContent = '0';
+        document.getElementById('suggestionsCount').textContent = '0';
+        evalResult.className = 'evaluation-result';
+        evalResult.innerHTML = '';
+      }
+    });
+
+    // Submit evaluation
+    let isSubmittingEval = false;
+
+    evalForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // PROTECCIÓN CONTRA DOBLE ENVÍO
+      if (isSubmittingEval) {
+        console.log('Envío en progreso, ignorando clic adicional');
+        return;
+      }
+
+      const teacher = evalTeacherName.value.trim();
+      const technician = evalTechnician.value.trim();
+
+      if (!teacher || !technician || selectedRating === 0) {
+        evalResult.className = 'evaluation-result show error';
+        evalResult.innerHTML = 'Por favor completa los campos obligatorio: nombre, técnico y calificación.';
+        return;
+      }
+
+      isSubmittingEval = true;
+      evalSubmitBtn.disabled = true;
+      evalSubmitBtn.textContent = 'Enviando...';
+
+      const evaluacionData = {
+        teacher: teacher,
+        technician: technician,
+        codigo_seguimiento: evalCode.value.trim() || null,
+        rating: selectedRating,
+        observations: evalComments.value.trim() || null,
+        comentarios_adicionales: evalSuggestions.value.trim() || null,
+        submitted_by: 'index_html'
+      };
+
+      try {
+        // Guardar en base de datos usando Supabase
+        const { error } = await supabase
+          .from('calificaciones_servicio')
+          .insert([evaluacionData]);
+
+        if (error) {
+          // Si la tabla no existe, guardar en localStorage
+          if (error.message.includes('does not exist') || error.code === 'PGRST116') {
+        // NOTA: Ya no se guarda en localStorage para evitar error de quota.
+        // Los datos se almacenan ÚNICAMENTE en Supabase.
+          } else {
+            throw error;
+          }
+        }
+
+        evalResult.className = 'evaluation-result show success';
+        evalResult.innerHTML = '✅ ¡Gracias por tu evaluación!<br>Tu opinión nos ayuda a mejorar el servicio técnico.';
+
+        // Limpiar formulario
+        evalForm.reset();
+        selectedRating = 0;
+        updateStarDisplay();
+        document.getElementById('commentsCount').textContent = '0';
+        document.getElementById('suggestionsCount').textContent = '0';
+
+      } catch (error) {
+        console.error('Error enviando evaluación:', error);
+        evalResult.className = 'evaluation-result show error';
+        evalResult.innerHTML = '❌ ' + (error.message || 'Error al enviar evaluación. Por favor intenta de nuevo.');
+      } finally {
+        isSubmittingEval = false;
+        evalSubmitBtn.disabled = false;
+        evalSubmitBtn.textContent = 'Enviar Evaluación';
+      }
+    });
+
+    // Initialize evaluation section
+    loadTechniciansForEvaluation();
+    populateFromLastRequest();
   </script>
 </body>
 </html>

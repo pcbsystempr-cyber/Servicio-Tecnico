@@ -7,7 +7,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
+        :root {
+            --primary: #2c5282;
+            --primary-dark: #1a365d;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --info: #2563eb;
+            --purple: #7c3aed;
+            --bg-light: #f8fafc;
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --card-border: #e2e8f0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,14 +31,14 @@
 
         body {
             font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            background: var(--bg-gradient);
             min-height: 100vh;
             color: #1e293b;
             line-height: 1.6;
         }
 
         .header {
-            background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
             padding: 2.5rem 0;
             text-align: center;
@@ -31,23 +46,24 @@
             position: relative;
             overflow: hidden;
         }
-        .header > * {
-    position: relative;
-    z-index: 2;
-}
 
-       .hamburger-menu {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(255, 255, 255, 0.12);
-    border: none;
-    cursor: pointer;
-    padding: 0.6rem;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-    z-index: 1001;
-}
+        .header > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hamburger-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            cursor: pointer;
+            padding: 0.6rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            z-index: 1001;
+        }
 
         .hamburger-menu:hover {
             background-color: rgba(255, 255, 255, 0.1);
@@ -81,20 +97,20 @@
             transform: rotate(-45deg) translate(7px, -6px);
         }
 
-       .menu-dropdown {
-    position: absolute;
-    top: 4.2rem;
-    right: 1rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    min-width: 220px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    z-index: 1002;
-}
+        .menu-dropdown {
+            position: absolute;
+            top: 4.2rem;
+            right: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1002;
+        }
 
         .menu-dropdown.open {
             opacity: 1;
@@ -118,7 +134,7 @@
 
         .menu-item:last-child {
             border-bottom: none;
-            color: #dc2626;
+            color: var(--danger);
         }
 
         .menu-item:last-child:hover {
@@ -135,7 +151,6 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
             pointer-events: none;
         }
-        
 
         .school-name {
             font-size: 2.2rem;
@@ -153,48 +168,35 @@
         }
 
         .container {
-            max-width: 800px;
-            margin: 4rem auto;
-            padding: 0 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
         }
 
-        .dashboard-card {
-            background: white;
-            border-radius: 16px;
-            padding: 3rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
+        .user-welcome {
             text-align: center;
+            margin-bottom: 2rem;
         }
 
-        .welcome-message {
-            color: #2c5282;
-            font-size: 2rem;
-            margin-bottom: 1rem;
+        .welcome-title {
+            color: var(--primary);
+            font-size: 1.8rem;
             font-weight: 600;
-            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
         }
 
         .user-info {
             color: #6b7280;
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-        }
-
-        .dashboard-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
+            font-size: 1rem;
         }
 
         .dashboard-btn {
             background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
             color: white;
-            padding: 2rem;
+            padding: 1.5rem;
             border: none;
             border-radius: 12px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -224,18 +226,8 @@
             left: 100%;
         }
 
-        .dashboard-btn:active {
-            transform: translateY(-1px);
-        }
-
-        .btn-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
         .btn-grades {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            background: linear-gradient(135deg, var(--success) 0%, #047857 100%);
         }
 
         .btn-grades:hover {
@@ -243,7 +235,7 @@
         }
 
         .btn-requests {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            background: linear-gradient(135deg, var(--warning) 0%, #b45309 100%);
         }
 
         .btn-requests:hover {
@@ -251,15 +243,195 @@
         }
 
         .btn-inventory {
-            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, var(--purple) 0%, #8b5cf6 100%);
         }
 
         .btn-inventory:hover {
             box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
         }
 
+        .btn-suggestions {
+            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+            color: white;
+            padding: 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-suggestions::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-suggestions:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        }
+
+        .btn-suggestions:hover::before {
+            left: 100%;
+        }
+
+        /* Suggestions Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(4px);
+            padding: 1rem;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .suggestion-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--success);
+        }
+
+        .suggestion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .suggestion-tech {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .suggestion-rating {
+            color: #f59e0b;
+            font-size: 1.25rem;
+        }
+
+        .suggestion-meta {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+        }
+
+        .suggestion-text {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .suggestion-label {
+            font-weight: 600;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .suggestion-section {
+            margin-top: 0.75rem;
+        }
+
+        .no-suggestions {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6b7280;
+        }
+
+        .no-suggestions-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-loading {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .logout-btn {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            background: linear-gradient(135deg, var(--danger) 0%, #b91c1c 100%);
             color: white;
             padding: 0.75rem 1.5rem;
             border: none;
@@ -268,7 +440,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 2rem;
         }
 
         .logout-btn:hover {
@@ -276,66 +447,308 @@
             box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
         }
 
+        .btn-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--info) 100%);
+            border-radius: 2px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .kpi-card:nth-child(1)::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .kpi-card:nth-child(2)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .kpi-card:nth-child(3)::before { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+        .kpi-card:nth-child(4)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .kpi-card:nth-child(5)::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .kpi-card:nth-child(6)::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+        .kpi-card:nth-child(7)::before { background: linear-gradient(90deg, #8b5cf6, #c084fc); }
+        .kpi-card:nth-child(8)::before { background: linear-gradient(90deg, #14b8a6, #2dd4bf); }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .kpi-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .kpi-card:nth-child(1) .kpi-icon { background: #f3e8ff; }
+        .kpi-card:nth-child(2) .kpi-icon { background: #fef3c7; }
+        .kpi-card:nth-child(3) .kpi-icon { background: #cffafe; }
+        .kpi-card:nth-child(4) .kpi-icon { background: #d1fae5; }
+        .kpi-card:nth-child(5) .kpi-icon { background: #dbeafe; }
+        .kpi-card:nth-child(6) .kpi-icon { background: #fee2e2; }
+        .kpi-card:nth-child(7) .kpi-icon { background: #ede9fe; }
+        .kpi-card:nth-child(8) .kpi-icon { background: #ccfbf1; }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.2;
+        }
+
+        .kpi-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        .kpi-trend {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .kpi-trend.up { color: var(--success); }
+        .kpi-trend.down { color: var(--danger); }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--card-border);
+        }
+
+        .chart-card.full-width {
+            grid-column: span 2;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .chart-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 280px;
+        }
+
+        .chart-container.small {
+            height: 220px;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            z-index: 10;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 2rem;
+            color: var(--danger);
+            background: #fef2f2;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .stats-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--card-border);
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: var(--bg-light);
+        }
+
+        .stat-card.purple { background: #f3e8ff; }
+        .stat-card.cyan { background: #cffafe; }
+        .stat-card.orange { background: #fef3c7; }
+        .stat-card.green { background: #d1fae5; }
+        .stat-card.blue { background: #dbeafe; }
+        .stat-card.yellow { background: #fef9c3; }
+        .stat-card.red { background: #fee2e2; }
+        .stat-card.teal { background: #ccfbf1; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
         .footer {
             text-align: center;
-            padding: 3rem 0 2rem;
+            padding: 2rem 0;
             color: #6b7280;
-            margin-top: 4rem;
             font-size: 0.9rem;
+        }
+
+        @media (max-width: 1200px) {
+            .kpi-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .chart-card.full-width {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
             .school-name {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
-
             .department-name {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
-
-            .container {
-                margin: 2rem auto;
-                padding: 0 1rem;
-            }
-
-            .dashboard-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .welcome-message {
-                font-size: 1.7rem;
-            }
-
-            .dashboard-buttons {
+            .kpi-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
             }
-
-            .dashboard-btn {
-                padding: 1.5rem;
-                font-size: 1.1rem;
+            .container {
+                padding: 1rem;
+            }
+            .welcome-title {
+                font-size: 1.5rem;
             }
         }
 
         @media (max-width: 480px) {
             .header {
-                padding: 2rem 0;
+                padding: 1.5rem 0;
             }
-
             .school-name {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
-
-            .department-name {
-                font-size: 1rem;
-            }
-
-            .dashboard-card {
-                padding: 1.5rem 1rem;
-            }
-
-            .welcome-message {
-                font-size: 1.5rem;
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -353,7 +766,7 @@
         <div class="department-name">Departamento de Tecnología - COMPUTEC</div>
 
         <div class="menu-dropdown" id="menuDropdown">
-            <a href="calificaciones.html" class="menu-item">📊 Ver Calificaciones</a>
+            <a href="calificaciones.html" class="menu-item">📋 Reporte Técnico</a>
             <a href="solicitudes.html" class="menu-item">🔧 Ver Solicitudes de Servicios</a>
             <a href="inventario.html" class="menu-item">📦 Añadir Inventario</a>
             <a href="index.html" class="menu-item" onclick="logout()">🚪 Cerrar Sesión</a>
@@ -361,81 +774,217 @@
     </div>
 
     <div class="container">
-        <div class="dashboard-card">
-            <h1 class="welcome-message">¡Bienvenido al Panel de Control!</h1>
-            <p class="user-info" id="userInfo">Usuario autenticado</p>
+        <div class="user-welcome">
+            <h1 class="welcome-title">Panel de Control</h1>
+            <p class="user-info" id="userInfo">Cargando...</p>
+        </div>
 
-            <div class="dashboard-buttons">
-                <a href="calificaciones.html" class="dashboard-btn btn-grades">
-                    <span class="btn-icon">📊</span>
-                    Ver Calificaciones
-                </a>
+        <div class="action-buttons">
+            <a href="calificaciones.html" class="dashboard-btn btn-grades">
+                <span class="btn-icon">📋</span>
+                Reporte Técnico
+            </a>
+            <a href="solicitudes.html" class="dashboard-btn btn-requests">
+                <span class="btn-icon">🔧</span>
+                Ver Solicitudes de Servicios
+            </a>
+            <a href="inventario.html" class="dashboard-btn btn-inventory">
+                <span class="btn-icon">📦</span>
+                Añadir Inventario
+            </a>
+            <button class="dashboard-btn btn-suggestions" id="openSuggestionsBtn">
+                <span class="btn-icon">⭐</span>
+                Calificaciones de los maestros
+            </button>
+        </div>
 
-                <a href="solicitudes.html" class="dashboard-btn btn-requests">
-                    <span class="btn-icon">🔧</span>
-                    Ver Solicitudes de Servicios
-                </a>
-
-                <a href="inventario.html" class="dashboard-btn btn-inventory">
-                    <span class="btn-icon">📦</span>
-                    Añadir Inventario
-                </a>
+        <h2 class="section-title">Métricas Principales</h2>
+        <div class="kpi-grid" id="kpiGrid">
+            <div class="kpi-card">
+                <div class="kpi-icon">📋</div>
+                <div class="kpi-value" id="kpiTotalSolicitudes">-</div>
+                <div class="kpi-label">Total de Solicitudes</div>
             </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">⏳</div>
+                <div class="kpi-value" id="kpiPendientes">-</div>
+                <div class="kpi-label">Solicitudes Pendientes</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">🔄</div>
+                <div class="kpi-value" id="kpiEnProceso">-</div>
+                <div class="kpi-label">En Proceso</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">✅</div>
+                <div class="kpi-value" id="kpiCompletadas">-</div>
+                <div class="kpi-label">Realizadas</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">👨‍💻</div>
+                <div class="kpi-value" id="kpiTecnicosActivos">-</div>
+                <div class="kpi-label">Técnicos Activos</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">⭐</div>
+                <div class="kpi-value" id="kpiPromedioCalificacion">-</div>
+                <div class="kpi-label">Promedio de Calificación</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">⏱️</div>
+                <div class="kpi-value" id="kpiTiempoPromedio">-</div>
+                <div class="kpi-label">Tiempo Promedio (días)</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">📦</div>
+                <div class="kpi-value" id="kpiTotalInventario">-</div>
+                <div class="kpi-label">Artículos en Inventario</div>
+            </div>
+        </div>
 
-            <!-- Estadísticas del Sitio -->
-            <div class="stats-section" id="statsSection" style="margin: 2rem auto; max-width: 900px; padding: 0 1.5rem;">
-                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
-                    <h2 style="color: #2c5282; margin-bottom: 1rem; font-weight: 600; text-align: center;">Estadísticas del Sitio</h2>
-                    
-                    <!-- Stats principales -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-                        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
-                            <div style="font-size: 2rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;" id="totalVisits">0</div>
-                            <div style="color: #6b7280; font-size: 0.85rem;">Visitas Totales</div>
-                        </div>
-                        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
-                            <div style="font-size: 2rem; font-weight: 700; color: #06b6d4; margin-bottom: 0.5rem;" id="todayVisits">0</div>
-                            <div style="color: #6b7280; font-size: 0.85rem;">Visitas Hoy</div>
-                        </div>
-                        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
-                            <div style="font-size: 2rem; font-weight: 700; color: #f97316; margin-bottom: 0.5rem;" id="mobileVisits">0</div>
-                            <div style="color: #6b7280; font-size: 0.85rem;">Móvil</div>
-                        </div>
-                        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
-                            <div style="font-size: 2rem; font-weight: 700; color: #10b981; margin-bottom: 0.5rem;" id="desktopVisits">0</div>
-                            <div style="color: #6b7280; font-size: 0.85rem;">Escritorio</div>
-                        </div>
+        <h2 class="section-title">Análisis de Solicitudes</h2>
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Solicitudes por Día</div>
+                        <div class="chart-subtitle">Últimos 30 días</div>
                     </div>
-                    
-                    <!-- Stats de solicitudes -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
-                        <div style="text-align: center; padding: 1rem; background: #ecfdf5; border-radius: 8px;">
-                            <div style="font-size: 2rem; font-weight: 700; color: #059669; margin-bottom: 0.5rem;" id="totalRequests">0</div>
-                            <div style="color: #6b7280; font-size: 0.85rem;">Solicitudes Totales</div>
-                        </div>
-                        <div style="text-align: center; padding: 1rem; background: #fef3c7; border-radius: 8px;">
-                            <div style="font-size: 2rem; font-weight: 700; color: #d97706; margin-bottom: 0.5rem;" id="pendingRequests">0</div>
-                            <div style="color: #6b7280; font-size: 0.85rem;">Pendientes</div>
-                        </div>
-                        <div style="text-align: center; padding: 1rem; background: #dbeafe; border-radius: 8px;">
-                            <div style="font-size: 2rem; font-weight: 700; color: #2563eb; margin-bottom: 0.5rem;" id="inProgressRequests">0</div>
-                            <div style="color: #6b7280; font-size: 0.85rem;">En Proceso</div>
-                        </div>
-                        <div style="text-align: center; padding: 1rem; background: #f0fdf4; border-radius: 8px;">
-                            <div style="font-size: 2rem; font-weight: 700; color: #16a34a; margin-bottom: 0.5rem;" id="completedRequests">0</div>
-                            <div style="color: #6b7280; font-size: 0.85rem;">Completadas</div>
-                        </div>
-                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartSolicitudesDia"></canvas>
                 </div>
             </div>
 
-            <button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Estado de Solicitudes</div>
+                        <div class="chart-subtitle">Distribución actual</div>
+                    </div>
+                </div>
+                <div class="chart-container small">
+                    <canvas id="chartEstado"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Técnicos Más Activos</div>
+                        <div class="chart-subtitle">Servicios completados</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartTecnicosActivos"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Tipos de Problemas</div>
+                        <div class="chart-subtitle">Categorías más comunes</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartProblemas"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Inventario Más Usado</div>
+                        <div class="chart-subtitle">Artículos frecuentemente utilizados</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartInventario"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Calificaciones por Técnico</div>
+                        <div class="chart-subtitle">Promedio de satisfacción</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartCalificaciones"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Tiempo de Resolución por Técnico</div>
+                        <div class="chart-subtitle">Días promedio</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartTiempoResolucion"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Actividad por Día de la Semana</div>
+                        <div class="chart-subtitle">Solicitudes generadas</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartActividadSemana"></canvas>
+                </div>
+            </div>
         </div>
+
+        <div class="stats-section">
+            <h2 class="section-title" style="margin-bottom: 1.5rem;">Estadísticas del Sitio</h2>
+            <div class="stats-grid">
+                <div class="stat-card purple">
+                    <div class="stat-value" id="totalVisits" style="color: #8b5cf6;">0</div>
+                    <div class="stat-label">Visitas Totales</div>
+                </div>
+                <div class="stat-card cyan">
+                    <div class="stat-value" id="todayVisits" style="color: #06b6d4;">0</div>
+                    <div class="stat-label">Visitas Hoy</div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-value" id="mobileVisits" style="color: #f97316;">0</div>
+                    <div class="stat-label">Visitas Móvil</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-value" id="desktopVisits" style="color: #10b981;">0</div>
+                    <div class="stat-label">Visitas Escritorio</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
     </div>
 
     <div class="footer">
         <p>Escuela Superior Vocacional Pablo Colón Berdecia © <span id="year"></span></p>
         <p>Departamento de Tecnología - COMPUTEC</p>
+    </div>
+
+    <!-- Suggestions Modal -->
+    <div class="modal-overlay" id="suggestionsModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">⭐ Calificaciones de los maestros</h2>
+                <button class="modal-close" id="closeSuggestionsModal">&times;</button>
+            </div>
+            <div class="modal-body" id="suggestionsList">
+                <div class="modal-loading">
+                    <div class="spinner"></div>
+                    <p>Cargando sugerencias...</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="module">
@@ -446,20 +995,38 @@
           "sb_publishable_V6kHfLnjsyODWSgJXJ9igg_gv1QPebb"
         );
 
+        const CHART_COLORS = {
+            primary: '#2c5282',
+            success: '#059669',
+            warning: '#d97706',
+            danger: '#dc2626',
+            info: '#2563eb',
+            purple: '#7c3aed',
+            cyan: '#06b6d4',
+            orange: '#f97316',
+            pink: '#ec4899',
+            teal: '#14b8a6'
+        };
+
+        const CHART_PALETTE = [
+            CHART_COLORS.primary, CHART_COLORS.success, CHART_COLORS.warning,
+            CHART_COLORS.danger, CHART_COLORS.info, CHART_COLORS.purple,
+            CHART_COLORS.cyan, CHART_COLORS.orange, CHART_COLORS.pink, CHART_COLORS.teal
+        ];
+
+        let charts = {};
+
         document.getElementById("year").textContent = new Date().getFullYear();
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Check authentication
             const adminAuthenticated = localStorage.getItem('admin_authenticated');
             const techAuthenticated = localStorage.getItem('tech_authenticated');
 
             if (!adminAuthenticated && !techAuthenticated) {
-                // Not authenticated, redirect to home
                 window.location.href = 'index.html';
                 return;
             }
 
-            // Display user info
             const userInfo = document.getElementById('userInfo');
             if (adminAuthenticated) {
                 const username = localStorage.getItem('admin_username');
@@ -469,78 +1036,537 @@
                 userInfo.textContent = `Sesión de Técnico - ${username}`;
             }
 
-            // Cargar estadísticas de visitantes
-            loadVisitorStats();
+            initDashboard();
         });
+
+        async function initDashboard() {
+            try {
+                await Promise.all([
+                    loadKPIData(),
+                    loadVisitorStats(),
+                    loadChartData()
+                ]);
+            } catch (error) {
+                console.error('Error cargando datos del dashboard:', error);
+            }
+        }
+
+        async function loadKPIData() {
+            try {
+                const [
+                    { count: totalSolicitudes },
+                    { count: pendientes },
+                    { count: enProceso },
+                    { count: completadas },
+                    { data: solicitudesData },
+                    { data: calificaciones },
+                    { count: totalInventario }
+                ] = await Promise.all([
+                    supabase.from('solicitudes_servicio').select('*', { count: 'exact', head: true }),
+                    supabase.from('solicitudes_servicio').select('*', { count: 'exact', head: true }).eq('estado', 'Pendiente'),
+                    supabase.from('solicitudes_servicio').select('*', { count: 'exact', head: true }).eq('estado', 'En Proceso'),
+                    supabase.from('solicitudes_servicio').select('*', { count: 'exact', head: true }).eq('estado', 'Realizado'),
+                    supabase.from('solicitudes_servicio').select('tecnico_asignado, created_at'),
+                    supabase.from('calificaciones_servicio').select('rating'),
+                    supabase.from('inventario_taller').select('*', { count: 'exact', head: true })
+                ]);
+
+                document.getElementById('kpiTotalSolicitudes').textContent = totalSolicitudes || 0;
+                document.getElementById('kpiPendientes').textContent = pendientes || 0;
+                document.getElementById('kpiEnProceso').textContent = enProceso || 0;
+                document.getElementById('kpiCompletadas').textContent = completadas || 0;
+
+                const tecnicosUnicos = new Set();
+                if (solicitudesData) {
+                    solicitudesData.forEach(s => {
+                        if (s.tecnico_asignado) tecnicosUnicos.add(s.tecnico_asignado);
+                    });
+                }
+                document.getElementById('kpiTecnicosActivos').textContent = tecnicosUnicos.size;
+                document.getElementById('kpiTotalInventario').textContent = totalInventario || 0;
+
+                if (calificaciones && calificaciones.length > 0) {
+                    const avgCalif = calificaciones.reduce((sum, c) => sum + (c.rating || 0), 0) / calificaciones.length;
+                    document.getElementById('kpiPromedioCalificacion').textContent = avgCalif.toFixed(1);
+                }
+
+                document.getElementById('kpiTiempoPromedio').textContent = '-';
+            } catch (error) {
+                console.error('Error cargando KPIs:', error);
+                document.getElementById('kpiTotalSolicitudes').textContent = '0';
+                document.getElementById('kpiPendientes').textContent = '0';
+                document.getElementById('kpiEnProceso').textContent = '0';
+                document.getElementById('kpiCompletadas').textContent = '0';
+                document.getElementById('kpiTecnicosActivos').textContent = '0';
+                document.getElementById('kpiPromedioCalificacion').textContent = '-';
+                document.getElementById('kpiTiempoPromedio').textContent = '-';
+                document.getElementById('kpiTotalInventario').textContent = '0';
+            }
+        }
 
         async function loadVisitorStats() {
             const today = new Date().toISOString().split('T')[0];
             
-            // Total de visitas
-            const { count: totalVisits } = await supabase
-                .from('visitas')
-                .select('*', { count: 'exact', head: true });
-            
-            // Visitas de hoy
-            const { count: todayVisits } = await supabase
-                .from('visitas')
-                .select('*', { count: 'exact', head: true })
-                .gte('fecha_visita', today + 'T00:00:00')
-                .lte('fecha_visita', today + 'T23:59:59');
-            
-            // Visitas desde móvil
-            const { count: mobileVisits } = await supabase
-                .from('visitas')
-                .select('*', { count: 'exact', head: true })
-                .eq('dispositivo', 'Móvil');
-            
-            // Visitas desde escritorio
-            const { count: desktopVisits } = await supabase
-                .from('visitas')
-                .select('*', { count: 'exact', head: true })
-                .eq('dispositivo', 'Escritorio');
-            
-            // Total solicitudes
-            const { count: totalRequests } = await supabase
-                .from('solicitudes_servicio')
-                .select('*', { count: 'exact', head: true });
-            
-            // Solicitudes pendientes
-            const { count: pendingRequests } = await supabase
-                .from('solicitudes_servicio')
-                .select('*', { count: 'exact', head: true })
-                .eq('estado', 'Pendiente');
-            
-            // Solicitudes en proceso
-            const { count: inProgressRequests } = await supabase
-                .from('solicitudes_servicio')
-                .select('*', { count: 'exact', head: true })
-                .eq('estado', 'En Proceso');
-            
-            // Solicitudes completadas
-            const { count: completedRequests } = await supabase
-                .from('solicitudes_servicio')
-                .select('*', { count: 'exact', head: true })
-                .eq('estado', 'Completada');
-            
-            // Actualizar UI
-            document.getElementById('totalVisits').textContent = totalVisits || 0;
-            document.getElementById('todayVisits').textContent = todayVisits || 0;
-            document.getElementById('mobileVisits').textContent = mobileVisits || 0;
-            document.getElementById('desktopVisits').textContent = desktopVisits || 0;
-            document.getElementById('totalRequests').textContent = totalRequests || 0;
-            document.getElementById('pendingRequests').textContent = pendingRequests || 0;
-            document.getElementById('inProgressRequests').textContent = inProgressRequests || 0;
-            document.getElementById('completedRequests').textContent = completedRequests || 0;
+            try {
+                const [
+                    { count: totalVisits },
+                    { count: todayVisits },
+                    { count: mobileVisits },
+                    { count: desktopVisits }
+                ] = await Promise.all([
+                    supabase.from('visitas').select('*', { count: 'exact', head: true }),
+                    supabase.from('visitas').select('*', { count: 'exact', head: true })
+                        .gte('fecha_visita', today + 'T00:00:00').lte('fecha_visita', today + 'T23:59:59'),
+                    supabase.from('visitas').select('*', { count: 'exact', head: true }).eq('dispositivo', 'Móvil'),
+                    supabase.from('visitas').select('*', { count: 'exact', head: true }).eq('dispositivo', 'Escritorio')
+                ]);
+
+                document.getElementById('totalVisits').textContent = totalVisits || 0;
+                document.getElementById('todayVisits').textContent = todayVisits || 0;
+                document.getElementById('mobileVisits').textContent = mobileVisits || 0;
+                document.getElementById('desktopVisits').textContent = desktopVisits || 0;
+            } catch (error) {
+                console.error('Error cargando estadísticas de visitantes:', error);
+            }
         }
 
-        // Hamburger menu functionality
+        async function loadChartData() {
+            await Promise.all([
+                loadSolicitudesPorDia(),
+                loadEstadoSolicitudes(),
+                loadTecnicosActivos(),
+                loadProblemasComunes(),
+                loadInventarioUsado(),
+                loadCalificacionesTecnicos(),
+                loadTiempoResolucion(),
+                loadActividadSemana()
+            ]);
+        }
+
+        async function loadSolicitudesPorDia() {
+            try {
+                const { data: solicitudes } = await supabase
+                    .from('solicitudes_servicio')
+                    .select('created_at')
+                    .order('created_at', { ascending: false })
+                    .limit(1000);
+
+                if (!solicitudes || solicitudes.length === 0) {
+                    renderEmptyChart('chartSolicitudesDia', 'Sin datos');
+                    return;
+                }
+
+                const diasUltimos30 = {};
+                const fechaActual = new Date();
+                for (let i = 29; i >= 0; i--) {
+                    const fecha = new Date(fechaActual);
+                    fecha.setDate(fecha.getDate() - i);
+                    const key = fecha.toISOString().split('T')[0];
+                    diasUltimos30[key] = 0;
+                }
+
+                solicitudes.forEach(s => {
+                    if (s.created_at) {
+                        const key = s.created_at.split('T')[0];
+                        if (diasUltimos30.hasOwnProperty(key)) {
+                            diasUltimos30[key]++;
+                        }
+                    }
+                });
+
+                const labels = Object.keys(diasUltimos30).map(d => {
+                    const date = new Date(d);
+                    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+                });
+                const data = Object.values(diasUltimos30);
+
+                renderLineChart('chartSolicitudesDia', labels, data, 'Solicitudes');
+            } catch (error) {
+                console.error('Error cargando solicitudes por día:', error);
+                renderEmptyChart('chartSolicitudesDia', 'Error');
+            }
+        }
+
+        async function loadEstadoSolicitudes() {
+            try {
+                const [
+                    { count: pendiente },
+                    { count: enProceso },
+                    { count: completada }
+                ] = await Promise.all([
+                    supabase.from('solicitudes_servicio').select('*', { count: 'exact', head: true }).eq('estado', 'Pendiente'),
+                    supabase.from('solicitudes_servicio').select('*', { count: 'exact', head: true }).eq('estado', 'En Proceso'),
+                    supabase.from('solicitudes_servicio').select('*', { count: 'exact', head: true }).eq('estado', 'Realizado')
+                ]);
+
+                renderDoughnutChart('chartEstado', 
+                    ['Pendiente', 'En Proceso', 'Realizado'],
+                    [pendiente || 0, enProceso || 0, completada || 0],
+                    ['#f59e0b', '#2563eb', '#059669']
+                );
+            } catch (error) {
+                console.error('Error cargando estado de solicitudes:', error);
+                renderEmptyChart('chartEstado', 'Error', true);
+            }
+        }
+
+        async function loadTecnicosActivos() {
+            try {
+                const { data: solicitudes } = await supabase
+                    .from('solicitudes_servicio')
+                    .select('tecnico_asignado, estado')
+                    .eq('estado', 'Realizado');
+
+                if (!solicitudes || solicitudes.length === 0) {
+                    renderEmptyChart('chartTecnicosActivos', 'Sin datos');
+                    return;
+                }
+
+                const tecnicoCount = {};
+                solicitudes.forEach(s => {
+                    if (s.tecnico_asignado) {
+                        tecnicoCount[s.tecnico_asignado] = (tecnicoCount[s.tecnico_asignado] || 0) + 1;
+                    }
+                });
+
+                const sorted = Object.entries(tecnicoCount)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 8);
+
+                renderBarChart('chartTecnicosActivos', 
+                    sorted.map(([name]) => name),
+                    sorted.map(([, count]) => count),
+                    CHART_COLORS.info
+                );
+            } catch (error) {
+                console.error('Error cargando técnicos activos:', error);
+                renderEmptyChart('chartTecnicosActivos', 'Error');
+            }
+        }
+
+        async function loadProblemasComunes() {
+            try {
+                const { data: solicitudes } = await supabase
+                    .from('solicitudes_servicio')
+                    .select('tipo_problema');
+
+                if (!solicitudes || solicitudes.length === 0) {
+                    renderEmptyChart('chartProblemas', 'Sin datos');
+                    return;
+                }
+
+                const categorias = {};
+                solicitudes.forEach(s => {
+                    const cat = s.tipo_problema || 'Otros';
+                    categorias[cat] = (categorias[cat] || 0) + 1;
+                });
+
+                const sorted = Object.entries(categorias)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 6);
+
+                renderBarChart('chartProblemas',
+                    sorted.map(([cat]) => cat),
+                    sorted.map(([, count]) => count),
+                    CHART_COLORS.purple
+                );
+            } catch (error) {
+                console.error('Error cargando problemas comunes:', error);
+                renderEmptyChart('chartProblemas', 'Error');
+            }
+        }
+
+        async function loadInventarioUsado() {
+            try {
+                const { data: inventario, error } = await supabase
+                    .from('inventario_taller')
+                    .select('tipo_equipo, cantidad')
+                    .order('cantidad', { ascending: false })
+                    .limit(8);
+
+                if (error || !inventario || inventario.length === 0) {
+                    renderEmptyChart('chartInventario', 'Sin datos');
+                    return;
+                }
+
+                renderBarChart('chartInventario',
+                    inventario.map(i => i.tipo_equipo || 'Sin tipo'),
+                    inventario.map(i => i.cantidad || 0),
+                    CHART_COLORS.teal
+                );
+            } catch (error) {
+                console.error('Error cargando inventario usado:', error);
+                renderEmptyChart('chartInventario', 'Error');
+            }
+        }
+
+        async function loadCalificacionesTecnicos() {
+            try {
+                const { data: calificaciones } = await supabase
+                    .from('calificaciones_servicio')
+                    .select('technician, rating');
+
+                if (!calificaciones || calificaciones.length === 0) {
+                    renderEmptyChart('chartCalificaciones', 'Sin datos');
+                    return;
+                }
+
+                const tecnicoCalif = {};
+                calificaciones.forEach(c => {
+                    const tech = c.technician || 'Sin asignar';
+                    if (!tecnicoCalif[tech]) {
+                        tecnicoCalif[tech] = { total: 0, count: 0 };
+                    }
+                    tecnicoCalif[tech].total += c.rating || 0;
+                    tecnicoCalif[tech].count++;
+                });
+
+                const result = Object.entries(tecnicoCalif)
+                    .map(([tech, data]) => ({
+                        tech,
+                        avg: data.count > 0 ? data.total / data.count : 0
+                    }))
+                    .sort((a, b) => b.avg - a.avg)
+                    .slice(0, 8);
+
+                if (result.length === 0) {
+                    renderEmptyChart('chartCalificaciones', 'Sin calificaciones');
+                    return;
+                }
+
+                renderBarChart('chartCalificaciones',
+                    result.map(r => r.tech),
+                    result.map(r => r.avg.toFixed(1)),
+                    CHART_COLORS.warning
+                );
+            } catch (error) {
+                console.error('Error cargando calificaciones:', error);
+                renderEmptyChart('chartCalificaciones', 'Error');
+            }
+        }
+
+async function loadTiempoResolucion() {
+            try {
+                const { data: solicitudes } = await supabase
+                    .from('solicitudes_servicio')
+                    .select('tecnico_asignado, created_at')
+                    .eq('estado', 'Realizado')
+                    .not('tecnico_asignado', 'is', null);
+
+                if (!solicitudes || solicitudes.length === 0) {
+                    renderEmptyChart('chartTiempoResolucion', 'Sin datos');
+                    return;
+                }
+
+                const tecnicoCount = {};
+                solicitudes.forEach(s => {
+                    if (s.tecnico_asignado) {
+                        tecnicoCount[s.tecnico_asignado] = (tecnicoCount[s.tecnico_asignado] || 0) + 1;
+                    }
+                });
+
+                const result = Object.entries(tecnicoCount)
+                    .map(([tech, count]) => ({
+                        tech,
+                        count
+                    }))
+                    .sort((a, b) => b.count - a.count)
+                    .slice(0, 8);
+
+                renderBarChart('chartTiempoResolucion',
+                    result.map(r => r.tech),
+                    result.map(r => r.count),
+                    CHART_COLORS.danger
+                );
+            } catch (error) {
+                console.error('Error cargando tiempo de resolución:', error);
+                renderEmptyChart('chartTiempoResolucion', 'Error');
+            }
+        }
+
+        async function loadActividadSemana() {
+            try {
+                const { data: solicitudes } = await supabase
+                    .from('solicitudes_servicio')
+                    .select('created_at');
+
+                if (!solicitudes || solicitudes.length === 0) {
+                    renderEmptyChart('chartActividadSemana', 'Sin datos');
+                    return;
+                }
+
+                const diasSemana = { '0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0 };
+                const diasNombres = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+                solicitudes.forEach(s => {
+                    if (s.created_at) {
+                        const fecha = new Date(s.created_at);
+                        const diaSemana = fecha.getDay().toString();
+                        diasSemana[diaSemana]++;
+                    }
+                });
+
+                renderBarChart('chartActividadSemana',
+                    diasNombres,
+                    Object.values(diasSemana),
+                    CHART_COLORS.cyan
+                );
+            } catch (error) {
+                console.error('Error cargando actividad por semana:', error);
+                renderEmptyChart('chartActividadSemana', 'Error');
+            }
+        }
+
+        function renderLineChart(canvasId, labels, data, label) {
+            const ctx = document.getElementById(canvasId)?.getContext('2d');
+            if (!ctx) return;
+
+            if (charts[canvasId]) charts[canvasId].destroy();
+
+            charts[canvasId] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        borderColor: CHART_COLORS.primary,
+                        backgroundColor: 'rgba(44, 82, 130, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: CHART_COLORS.primary,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderBarChart(canvasId, labels, data, color) {
+            const ctx = document.getElementById(canvasId)?.getContext('2d');
+            if (!ctx) return;
+
+            if (charts[canvasId]) charts[canvasId].destroy();
+
+            charts[canvasId] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Cantidad',
+                        data: data,
+                        backgroundColor: color,
+                        borderRadius: 6,
+                        maxBarThickness: 50
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderDoughnutChart(canvasId, labels, data, colors) {
+            const ctx = document.getElementById(canvasId)?.getContext('2d');
+            if (!ctx) return;
+
+            if (charts[canvasId]) charts[canvasId].destroy();
+
+            charts[canvasId] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+        }
+
+        function renderEmptyChart(canvasId, message, isDonut = false) {
+            const ctx = document.getElementById(canvasId)?.getContext('2d');
+            if (!ctx) return;
+
+            if (charts[canvasId]) charts[canvasId].destroy();
+
+            if (isDonut) {
+                charts[canvasId] = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Sin datos'],
+                        datasets: [{ data: [1], backgroundColor: ['#e5e7eb'], borderWidth: 0 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { enabled: false }
+                        }
+                    }
+                });
+            } else {
+                charts[canvasId] = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [message],
+                        datasets: [{ data: [0], backgroundColor: '#e5e7eb', borderRadius: 6 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const hamburgerMenu = document.getElementById('hamburgerMenu');
             const menuDropdown = document.getElementById('menuDropdown');
             const logoutBtn = document.getElementById('logoutBtn');
 
-            // Logout button
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
                     localStorage.removeItem('admin_authenticated');
@@ -556,7 +1582,6 @@
                 menuDropdown.classList.toggle('open');
             });
 
-            // Close menu when clicking outside
             document.addEventListener('click', function(event) {
                 if (!hamburgerMenu.contains(event.target) && !menuDropdown.contains(event.target)) {
                     hamburgerMenu.classList.remove('open');
@@ -564,6 +1589,197 @@
                 }
             });
         });
+
+        // ========== Suggestions Modal Functionality ==========
+        const openSuggestionsBtn = document.getElementById('openSuggestionsBtn');
+        const suggestionsModal = document.getElementById('suggestionsModal');
+        const closeSuggestionsModal = document.getElementById('closeSuggestionsModal');
+        const suggestionsList = document.getElementById('suggestionsList');
+
+        openSuggestionsBtn.addEventListener('click', () => {
+            suggestionsModal.classList.add('show');
+            loadSuggestions();
+        });
+
+        closeSuggestionsModal.addEventListener('click', () => {
+            suggestionsModal.classList.remove('show');
+        });
+
+        suggestionsModal.addEventListener('click', (e) => {
+            if (e.target === suggestionsModal) {
+                suggestionsModal.classList.remove('show');
+            }
+        });
+
+        async function loadSuggestions() {
+            suggestionsList.innerHTML = `
+                <div class="modal-loading">
+                    <div class="spinner"></div>
+                    <p>Cargando calificaciones...</p>
+                </div>
+            `;
+
+            try {
+                // Cargar SOLO evaluaciones de maestros (index.html)
+                const { data: evaluaciones, error } = await supabase
+                    .from('calificaciones_servicio')
+                    .select('*')
+                    .eq('submitted_by', 'index_html')
+                    .order('created_at', { ascending: false })
+                    .limit(50);
+
+                if (error && !error.message.includes('does not exist')) {
+                    throw error;
+                }
+
+                const evaluacionesData = evaluaciones && evaluaciones.length > 0 ? evaluaciones : [];
+
+                // Sort by date descending
+                evaluacionesData.sort((a, b) => new Date(b.created_at || b.date) - new Date(a.created_at || a.date));
+
+                renderSuggestions(evaluacionesData);
+
+            } catch (error) {
+                console.error('Error cargando calificaciones:', error);
+                renderSuggestions([]);
+            }
+        }
+
+        function renderSuggestions(evaluaciones) {
+            if (!evaluaciones || evaluaciones.length === 0) {
+                suggestionsList.innerHTML = `
+                    <div class="no-suggestions">
+                        <div class="no-suggestions-icon">⭐</div>
+                        <p>No hay calificaciones registradas todavía.</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Las evaluaciones aparecerán aquí.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            suggestionsList.innerHTML = evaluaciones.map(evalItem => {
+                const rawDate = evalItem.created_at || evalItem.date;
+                const date = rawDate ? new Date(rawDate) : new Date();
+                const fechaFormateada = isNaN(date.getTime()) ? 'Fecha desconocida' : date.toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const estrellas = '★'.repeat(evalItem.rating || 0) + '☆'.repeat(5 - (evalItem.rating || 0));
+                
+                // Formatear arrays
+                const servicios = Array.isArray(evalItem.service_types) 
+                    ? evalItem.service_types.join(', ') 
+                    : (evalItem.service_types || '');
+                const equipos = Array.isArray(evalItem.equipment_types) 
+                    ? evalItem.equipment_types.join(', ') 
+                    : (evalItem.equipment_types || '');
+                
+                return `
+                    <div class="suggestion-card">
+                        <div class="suggestion-header">
+                            <div>
+                                <span class="suggestion-tech">${evalItem.technician || 'Técnico'}</span>
+                                ${evalItem.codigo_seguimiento ? `<span class="suggestion-code" style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:6px;font-size:0.8rem;margin-left:0.5rem;">📋 ${evalItem.codigo_seguimiento}</span>` : ''}
+                            </div>
+                            <span class="suggestion-rating">${estrellas}</span>
+                        </div>
+                        <div class="suggestion-meta">
+                            👤 Maestro: ${evalItem.teacher || 'N/A'} • 📅 ${fechaFormateada}
+                            ${evalItem.service_date ? ` • 📆 Servicio: ${evalItem.service_date}` : ''}
+                        </div>
+                        
+                        ${evalItem.student_grade ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Grado y Grupo:</span>
+                            <p class="suggestion-text">${evalItem.student_grade}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${evalItem.area_room ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Área / Salón:</span>
+                            <p class="suggestion-text">${evalItem.area_room}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${servicios ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Tipo de Servicio:</span>
+                            <p class="suggestion-text">${servicios}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${equipos ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Equipo Atendido:</span>
+                            <p class="suggestion-text">${equipos}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${evalItem.problem_description ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Descripción del Problema:</span>
+                            <p class="suggestion-text">${evalItem.problem_description}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${evalItem.service_solution ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Solución Implementada:</span>
+                            <p class="suggestion-text">${evalItem.service_solution}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${evalItem.service_status ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Estado del Servicio:</span>
+                            <p class="suggestion-text"><span style="display:inline-block;padding:2px 10px;border-radius:20px;background:${evalItem.service_status === 'Realizado' ? '#d1fae5;color:#065f46' : evalItem.service_status === 'En Proceso' ? '#dbeafe;color:#1e40af' : '#fef3c7;color:#92400e'};font-weight:600;font-size:0.85rem;">${evalItem.service_status}</span></p>
+                        </div>
+                        ` : ''}
+                        
+                        ${evalItem.observations ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Observaciones:</span>
+                            <p class="suggestion-text">${evalItem.observations}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${evalItem.comentarios_adicionales ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Comentarios Adicionales:</span>
+                            <p class="suggestion-text">${evalItem.comentarios_adicionales}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${evalItem.suggestion ? `
+                        <div class="suggestion-section">
+                            <span class="suggestion-label">Sugerencia:</span>
+                            <p class="suggestion-text">${evalItem.suggestion}</p>
+                        </div>
+                        ` : ''}
+                        
+                        <div class="suggestion-signatures" style="margin-top:1rem; display:flex; gap:1rem; flex-wrap:wrap;">
+                            ${evalItem.technician_signature ? `
+                            <div style="flex:1; min-width:120px;">
+                                <span class="suggestion-label" style="font-size:0.8rem;">Firma del Técnico:</span>
+                                <img src="${evalItem.technician_signature}" style="max-width:100%; height:auto; border:1px solid #e2e8f0; border-radius:6px; margin-top:0.25rem;" alt="Firma técnico" />
+                            </div>
+                            ` : ''}
+                            ${evalItem.teacher_signature ? `
+                            <div style="flex:1; min-width:120px;">
+                                <span class="suggestion-label" style="font-size:0.8rem;">Firma del Maestro:</span>
+                                <img src="${evalItem.teacher_signature}" style="max-width:100%; height:auto; border:1px solid #e2e8f0; border-radius:6px; margin-top:0.25rem;" alt="Firma maestro" />
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
     </script>
 </body>
 </html>
