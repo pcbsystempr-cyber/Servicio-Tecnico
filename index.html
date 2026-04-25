@@ -3491,6 +3491,15 @@ if (!isOpen) {
     // Submit evaluation
     let isSubmittingEval = false;
 
+    // Fallback para móviles donde el tap puede no disparar submit de forma
+    // consistente dentro del botón.
+    evalSubmitBtn.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      if (typeof evalForm.requestSubmit === 'function') {
+        evalForm.requestSubmit();
+      }
+    }, { passive: false });
+
     evalForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
